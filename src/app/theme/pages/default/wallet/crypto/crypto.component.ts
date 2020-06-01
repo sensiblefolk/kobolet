@@ -24,7 +24,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-crypto',
   templateUrl: './crypto.component.html',
-  styleUrls: ['./crypto.component.scss'],
+  styleUrls: ['./crypto.component.css'],
 })
 export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
   loading = true;

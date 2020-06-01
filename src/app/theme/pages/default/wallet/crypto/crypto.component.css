@@ -1,0 +1,26 @@
+td, th {
+  width: 40%;
+  /* text-align: center; */
+}
+
+.m-portlet .m-portlet__body {
+  padding: 0.6rem 0.5rem;
+}
+.row.m-row--no-padding > div {
+    padding-left: 40;
+    padding-right: 0;
+}
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: 0 0px 0px 0px rgba(0,0,0,.2), 0 0px 0px 0 rgba(0,0,0,.14), 0 0px 0px 0 rgba(0,0,0,.12);
+}
+
+.m-portlet {
+  border-radius: 20px 15px
+}
+
+.m-portlet.m-portlet--creative .m-portlet__head .m-portlet__head-caption .m-portlet__head-label {
+  -webkit-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.25);
+  -moz-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.25);
+  box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.25);
+  border-radius: 10px 10px;
+}
