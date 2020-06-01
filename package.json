@@ -8,7 +8,7 @@
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "deploy-staging": "firebase deploy -P staging",
-    "deploy-production": "firebase deploy -P production",
+    "deploy-production": "firebase deploy",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "lint": "ng lint",
