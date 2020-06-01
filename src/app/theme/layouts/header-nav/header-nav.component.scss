@@ -1,0 +1,27 @@
+@media only screen and (min-width: 800px) {
+  .m-dropdown.m-dropdown--align-center.m-dropdown--large .m-dropdown__wrapper {
+    width: 380px;
+    margin-left: -300px;
+  }
+
+  .m-dropdown.m-dropdown--arrow.m-dropdown--up .m-dropdown__arrow, .m-dropdown.m-dropdown--arrow .m-dropdown__arrow {
+    position: absolute;
+    line-height: 0;
+    display: inline-block;
+    overflow: hidden;
+    height: 11px;
+    width: 40px;
+    position: relative;
+    left: 78%;
+    margin-left: -20px;
+    top: 0;
+    position: absolute;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .m-dropdown.m-dropdown--align-center.m-dropdown--large .m-dropdown__wrapper {
+    width: 380px;
+    margin-left: -10px;
+  }
+}

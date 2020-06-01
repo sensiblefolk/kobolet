@@ -1,0 +1,186 @@
+<div [hidden]="loading">
+		<app-tooltips></app-tooltips>
+	<div class="m-content">
+		<div class="row">
+      <div class="col-md-6">
+        <!--Begin::Section-->
+      <div class="m-portlet">
+          <div class="m-portlet__body  m-portlet__body--no-padding">
+                <!--begin:: Widgets/Stats2-1 -->
+                <div class="m-widget1" [ngStyle]="{'padding':totalLoanBorrowed === 0 ? '3.1rem 1.5rem' : '1.1rem 1.5rem' }">
+                  <div class="m-widget1__item">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col">
+                        <h4 class="m-widget1__title">
+                          Total Amount Borrowed
+                        </h4>
+                        <!-- <span class="m-widget1__desc">
+                          Amount Borrowed
+                        </span>-->
+                      </div>
+                      <div class="col m--align-right">
+                        <div class="m--font-boldest m--regular-font-size-lg4">
+                          &#36;{{totalLoanBorrowed | number: '1.0-0'}}
+                        </div>
+                        <div class="m--font-bolder m--regular-font-size-sm1" *ngIf="totalLoanBorrowed > 0">
+                            ({{(totalLoanBorrowed) * rates | currency:countDoc?.currency:'symbol': '1.0-0'}})
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="m-widget1__item">
+                    <div class="row m-row--no-padding align-items-center">
+                      <div class="col">
+                        <h3 class="m-widget1__title">
+                          Total Amount Paid
+                        </h3>
+                      </div>
+                      <div class="col m--align-right m--font-success">
+                        <div class="m--font-boldest m--regular-font-size-lg4">
+                            &#36;{{(totalLoanAmountPaid) | number: '1.0-0'}}
+                        </div>
+                        <div class="m--font-bolder m--regular-font-size-sm1" *ngIf="totalLoanAmountPaid > 0">
+                            ({{(totalLoanAmountPaid) * rates | currency:countDoc?.currency:'symbol': '1.0-0'}})
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="m-widget1__item">
+                      <div class="row m-row--no-padding align-items-center">
+                        <div class="col">
+                          <h3 class="m-widget1__title">
+                            Total Amount Outstanding
+                          </h3>
+
+                        </div>
+                        <div class="col m--align-right m--font-danger">
+                          <div class="m--font-boldest m--regular-font-size-lg4">
+                              &#36;{{(unpaidTotal) / rates | number: '1.0-0'}}
+                          </div>
+                          <div class="m--font-bolder m--regular-font-size-sm1" *ngIf="unpaidTotal > 0">
+                            ({{unpaidTotal | currency: userCurrency: 'symbol': '1.0-0'}})
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <!--end:: Widgets/Stats2-1 -->
+              </div>
+        </div>
+        <!--End::Section-->
+      </div>
+
+      <div class="col-md-6">
+        <div class="m-portlet">
+          <div class="m-portlet__body m-portlet__body--no-padding">
+            <!--begin:: Widgets/Profit Share-->
+            <div class="m-widget14">
+                <div class="m-widget14__header">
+                  <h3 class="m-widget14__title">
+                    Total Asset Value
+                  </h3>
+                </div>
+                <div class="row">
+                  <div class="col-5 m--align-center">
+                    <div id="m_chart_profit_share" class="m-widget14__chart" style="height: 160px" >
+                      <div class="m-widget14__stat m--font-bold">
+                        &#36;{{walletSum | number:'1.0-1'}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-7 m--align-left asset_value_padding">
+                    <div class="m-widget14__legends m--padding-top-10" *ngFor="let wallet of walletCollection">
+                      <div class="m-widget14__legend">
+                        <div class="m-widget14__legend-bullet m--bg-warning" [ngClass]="{
+                          'm--bg-warning':wallet.type === 'bitcoin',
+                          'm--bg-info':wallet.type === 'ethereum'
+                        }"></div>
+                        <div class="m-widget14__legend-text">
+                          <span>
+                              {{wallet.type | titlecase}}:&nbsp;
+                          </span>
+                          <span class="m--font-bolder m--regular-font-size-lg1">
+                              &#36;{{wallet?.marketRate | number: '1.0-2'}}
+                          </span>
+                          <span class="m--font-secondary m--font-bold m--regular-font-size-sm1">
+                            ({{(wallet.marketRate * rates | currency: userCurrency: 'symbol': '1.0-0')}})
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--end:: Widgets/Profit Share-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+		<!--Begin::Section-->
+		<div class="row">
+			<div class=col-md-12>
+				 <!--begin::Portlet-->
+				 <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+						<div class="m-portlet__head">
+						  <div class="m-portlet__head-caption">
+							<div class="m-portlet__head-title">
+							  <h2 class="m-portlet__head-label m-portlet__head-label--info">
+								<span>
+								  Assets
+								</span>
+							  </h2>
+							</div>
+						  </div>
+						</div>
+						<div class="m-portlet__body">
+                <table class="table m-table- m-table  m-table--head-separator-secondary m-table--border-secondary">
+                    <thead>
+                      <tr>
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                          Balance
+                        </th>
+                        <th>
+                          Held Balance
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let data of walletCollection">
+                      <tr>
+                        <td scope="row">
+                            <span class="m--font-warning" *ngIf="data.type === 'bitcoin'; else ethereum">
+                                <i class="fab fa-bitcoin" style="font-size: 1rem"></i>
+                            </span>
+                            <ng-template #ethereum>
+                                <span>
+                                    <i class="fab fa-ethereum" style="font-size: 1rem"></i>
+                                </span>
+                            </ng-template>
+                            &nbsp;
+                          {{data?.type | titlecase}}
+                        </td>
+                        <td>
+                          {{data?.balance | number: '1.0-6'}}
+                        </td>
+                        <td>
+                         <span class="m--font-danger">
+                            {{data?.heldBalance | number: '1.0-6'}}
+                         </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+						</div>
+					</div>
+					<!--end::Portlet-->
+			</div>
+		</div>
+		<!--End::Section-->
+	</div>
+</div>
+<div class="loaded" [hidden]="!loading">
+    <div class="m-spinner m-spinner--info m-spinner--lg"></div>
+</div>

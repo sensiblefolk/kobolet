@@ -1,0 +1,224 @@
+<div>
+		<!-- BEGIN: Header -->
+	<header class="m-grid__item    m-header"  data-minimize-offset="200" data-minimize-mobile-offset="200" appunwraptag="" >
+		<div class="m-container m-container--fluid m-container--full-height">
+			<div class="m-stack m-stack--ver m-stack--desktop">
+				<!-- BEGIN: Brand -->
+				<div class="m-stack__item m-brand  m-brand--skin-light">
+					<div class="m-stack m-stack--ver m-stack--general">
+						<div class="m-stack__item m-stack__item--middle m-brand__logo">
+							<a routerLink="/index" class="m-brand__logo-wrapper">
+								<img alt="" src="./assets/demo/demo6/media/img/logo/logo.png"/>
+							</a>
+							<h4 class="m-header__title">
+								Kobolet
+							</h4>
+						</div>
+						<div class="m-stack__item m-stack__item--middle m-brand__tools">
+							<!-- BEGIN: Responsive Aside Left Menu Toggler -->
+							<a href="javascript:;" id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
+								<span></span>
+							</a>
+							<!-- END --> 			 						  							<!-- BEGIN: Responsive Header Menu Toggler -->
+						<!--	<a id="m_aside_header_menu_mobile_toggle" href="javascript:;" class="m-brand__icon m-brand__toggler m--visible-tablet-and-mobile-inline-block">
+								<span></span>
+							</a>  -->
+							<!-- END --> 						  			<!-- BEGIN: Topbar Toggler -->
+							<a id="m_aside_header_topbar_mobile_toggle" href="javascript:;" class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
+								<i class="flaticon-more"></i>
+							</a>
+							<!-- BEGIN: Topbar Toggler -->
+						</div>
+					</div>
+				</div>
+				<!-- END: Brand -->
+				<div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
+					<div class="m-header__title">
+						<h3 class="m-header__title-text">
+							Kobolet
+            </h3>
+          </div>
+					<div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
+						<div class="m-stack__item m-topbar__nav-wrapper">
+                <div class="m--pull-left m--margin-20" aria-expanded="true" *ngIf="!isMobileView">
+                    <a routerLink="/loans/new" class="btn btn-outline-accent m-btn--outline-2x  m-btn--hover-accent m-btn">
+                      New Loan
+                    </a>
+                </div>
+                <ul class="m-topbar__nav m-nav m-nav--inline" *ngIf="!loading">
+
+                    <li class="m-nav__item m-topbar__notifications m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width" data-dropdown-toggle="click" data-dropdown-persistent="true" style="padding-right: 1rem">
+                        <a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
+                          <span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--info" *ngIf="notificationArray?.length > 0"></span>
+                          <span class="m-nav__link-icon">
+                            <span class="m-nav__link-icon-wrapper">
+                              <i class="flaticon-music-2"></i>
+                            </span>
+                          </span>
+                        </a>
+                        <div class="m-dropdown__wrapper">
+                          <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
+                          <div class="m-dropdown__inner">
+                            <div class="m-dropdown__header m--align-center">
+                              <span class="m-dropdown__header-subtitle" *ngIf="notificationArray?.length > 0; else noShow">
+                                {{notificationArray?.length}} Unread Notifications
+                              </span>
+                              <ng-template #noShow>
+                                <span class="m-dropdown__header-subtitle">
+                                  You have no Notification
+                                </span>
+                              </ng-template>
+                            </div>
+                            <div class="m-dropdown__body" *ngIf="notificationArray?.length > 0">
+                              <div class="m-dropdown__content">
+                                <div class="m-scrollable" data-scrollable="true" data-max-height="250" data-mobile-max-height="200">
+                                  <div class="m-list-timeline m-list-timeline--skin-light">
+                                    <div class="m-list-timeline__items" style="cursor: pointer;">
+                                      <div *ngFor="let item of notificationArray">
+                                        <div class="m-list-timeline__item m--padding-bottom-20" (click)="toggleReadStatus(item?.id)">
+                                          <span class="m-list-timeline__badge"></span>
+                                          <span class="m-list-timeline__text">
+                                            {{item?.message}}
+                                            <!-- <span class="m-badge m-badge--dot m-badge--success"></span> -->
+                                          </span>
+                                          <span class="m-list-timeline__time">
+                                            {{item?.time}}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </li>
+                  <!--  <li class="m-nav__item" data-toggle="m-tooltip" title="bitcoin wallet" data-placement="bottom">
+                        <div class="m-nav__link" style="cursor: pointer;" (click)="navigateToWallet('bitcoin')">
+                            <span class="m-nav__link-icon m--font-warning">
+                              <span class="">
+                                <i class="fa fa-btc"></i>
+                              </span>
+                            </span>
+                            <span class="m-topbar__username m--font-bold">
+                              {{bitcoin | number:'1.0-6'}}
+                            </span>
+                            <span class="m-nav__link-icon m--font-danger m--padding-left-10" *ngIf='bitcoinHeld > 0.00'>
+                              <span class="">
+                                <i class="flaticon-lock-1 m--icon-font-size-sm2"></i>
+                              </span>
+                            </span>
+                            <span class="m-topbar__username m--font-danger m--padding-left-5" *ngIf='bitcoinHeld > 0.00'>
+                              {{bitcoinHeld | number:'1.0-6'}}
+                            </span>
+
+                        </div>
+                    </li> -->
+                  <!--  <li class="m-nav__item" data-toggle="m-tooltip" title="ethereum wallet" data-placement="bottom">
+                        <div class="m-nav__link" style="cursor: pointer;" (click)="navigateToWallet('ethereum')">
+                          <span class="m-nav__link-icon m--font-brand m--padding-left-10">
+                            <span class="">
+                              <i class="fab fa-ethereum"></i>
+                            </span>
+                          </span>
+                          <span class="m-topbar__username m--font-bold m--padding-left-5">
+                            {{ethereum | number: '1.0-2'}}
+                          </span>
+                          <span class="m-nav__link-icon m--font-danger m--padding-left-10" *ngIf='ethereumHeld > 0.00'>
+                            <span class="">
+                              <i class="flaticon-lock-1 m--icon-font-size-sm2"></i>
+                            </span>
+                          </span>
+                          <span class="m-topbar__username m--padding-left-5 m--font-danger" *ngIf='ethereumHeld > 0.00'>
+                            {{ethereumHeld | number:'1.0-2'}}
+                          </span>
+                        </div>
+                      </li> -->
+                    <li class="m-nav__item m-topbar__user-profile  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" data-dropdown-toggle="click">
+
+                        <a class="m-nav__link m-dropdown__toggle" style="cursor: pointer;">
+                          <span class="m-topbar__userpic">
+                            <img [src]="profilePhotoUrl" class="m--img-rounded m--marginless m--img-centered" alt=""/>
+                          </span>
+                          <span class="m-topbar__username m--hide">
+                            Nick
+                          </span>
+                        </a>
+                        <div class="m-dropdown__wrapper">
+                          <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                          <div class="m-dropdown__inner">
+                            <div class="m-dropdown__header m--align-center">
+                              <div class="m-card-user m-card-user--skin-light">
+                                <div class="m-card-user__pic">
+                                  <img [src]="profilePhotoUrl" class="m--img-rounded m--marginless" alt=""/>
+                                </div>
+                                <div class="m-card-user__details">
+                                  <span class="m-card-user__name m--font-weight-400">
+                                    {{profileName}}
+                                  </span>
+                                  <a href="" class="m-card-user__email m--font-weight-300 m-link">
+                                    {{profileEmail}}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="m-dropdown__body">
+                              <div class="m-dropdown__content">
+                                <ul class="m-nav m-nav--skin-light">
+                                  <li class="m-nav__section m--hide">
+                                    <span class="m-nav__section-text">
+                                      Section
+                                    </span>
+                                  </li>
+                                  <li class="m-nav__item">
+                                    <a routerLink="/user/profile" class="m-nav__link">
+                                      <i class="m-nav__link-icon flaticon-settings-1"></i>
+                                      <span class="m-nav__link-title">
+                                        <span class="m-nav__link-wrap">
+                                          <span class="m-nav__link-text">
+                                            Settings
+                                          </span>
+                                          <!-- <span class="m-nav__link-badge">
+                                            <span class="m-badge m-badge--success">
+                                              2
+                                            </span>
+                                          </span>  -->
+                                        </span>
+                                      </span>
+                                    </a>
+                                  </li>
+                                <!--	<li class="m-nav__separator m-nav__separator--fit"></li>
+                                  <li class="m-nav__item">
+                                    <a routerLink="/profile" class="m-nav__link">
+                                      <i class="m-nav__link-icon flaticon-info"></i>
+                                      <span class="m-nav__link-text">
+                                        FAQ
+                                      </span>
+                                    </a>
+                                  </li> -->
+                                  <li class="m-nav__separator m-nav__separator--fit"></li>
+                                  <li class="m-nav__item">
+                                    <a class="btn btn-secondary m-btn m-btn--air m-btn--pill m-btn--bolder" (click)="logout()">
+                                      Logout
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                </ul>
+							<div *ngIf="loading">
+								<div class="m-loader m-loader--info" style="width: 30px; display: inline-block;"></div>
+							</div>
+						</div>
+					</div>
+					<!-- END: Topbar -->
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- END: Header -->
+</div>

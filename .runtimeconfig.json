@@ -1,0 +1,38 @@
+{
+  "moneywavewallet": {
+    "ghs": "93yaEAPBx$",
+    "ngn": "2zF6^tv6N",
+    "kes": "uez3Be18&a3p"
+  },
+  "raveprod": {
+    "key": "FLWPUBK-f10237f0a39a9d189a4d09ca4ae693d7-X",
+    "secret": "FLWSECK-1380e166cdafcee43b4040c190af337d-X"
+  },
+  "bitfinex": {
+    "key": "cHVPVQKK7LhtYo6tsrwExDlOEHE2sL74gG0WSgY0sgZ",
+    "secret": "upEyJeDQ7nagcHiekgVND4Dr028dOdwyJ7DFyyfNng6"
+  },
+  "moneywavecrypxeldev": {
+    "api_key": "ts_ZHTLSHACDVFB0QOWMDUB",
+    "api_secret": "ts_4RE74KDP4IGFB21LVX6WSHBMQMR0RH"
+  },
+  "sendgrid_api": {
+    "key": "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"
+  },
+  "moneywavecrypxelprod": {
+    "api_key": "lv_2KHRK8R27LT2IW41EYJB",
+    "password": "2zF6^tv6N",
+    "api_secret": "lv_A0AOSGBA27RIEHLOJ7VZIJML98H265"
+  },
+  "cron": {
+    "key": "b5e7aab1063e515980d1224b7614cb323f3d5cae"
+  },
+  "coinbase": {
+    "secret": "4d1e18e5-783f-4ca0-9046-66fb2b780e63",
+    "api_key": "ae39a4ff-2db3-4773-9501-75ddee08f30b"
+  },
+  "ravedev": {
+    "key": "FLWPUBK_TEST-8b163a4b375a47e6f34d3ac8398b5d26-X",
+    "secret": "FLWSECK_TEST-2a12700449b7a55929bc96b71a3d76a6-X"
+  }
+}

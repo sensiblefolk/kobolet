@@ -1,0 +1,24 @@
+@media only screen and (max-width: 800px) {
+   .icon-padded {
+       padding-top: 0.1rem;
+       padding-bottom: 0.6rem;
+   }
+   .m-form.m-form--fit .m-form__content, .m-form.m-form--fit .m-form__heading, .m-form.m-form--fit .m-form__group {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+}
+
+@media only screen and (min-width: 800px) {
+    .icon-padded {
+        padding-top: 2.8rem;
+    }
+    mat-slider {
+        width: 400px;
+      }
+ }
+
+ .m-portlet .m-portlet__body {
+  padding: 0.2rem 0.4rem;
+}

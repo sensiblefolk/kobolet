@@ -1,0 +1,33 @@
+<div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-grid--tablet-and-mobile m-grid--hor-tablet-and-mobile m-login m-login--1 m-login--signin" id="m_login">
+	<div class="m-grid__item m-grid__item--order-tablet-and-mobile-2 m-login__aside">
+		<div class="m-stack m-stack--hor m-stack--desktop">
+			<div class="m-stack__item m-stack__item--fluid">
+				<div class="m-login__wrapper">
+					<div class="m-login__logo">
+						<a href="#">
+							<img src="./assets/app/media/img/logos/logo-1.png">
+						</a>
+					</div>
+					<div class="m-login__signin">
+						<div class="m-login__head">
+							<h3 class="m-login__title" style="padding-bottom: 20px">
+								Sign In To Kobolet
+							</h3>
+						</div>
+					</div>
+					<firebase-ui (signInSuccessWithAuthResult)="successCallback($event)"></firebase-ui>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="m-grid__item m-grid__item--fluid m-grid m-grid--center m-grid--hor m-grid__item--order-tablet-and-mobile-1	m-login__content" style="background-image: url(./assets/app/media/img/bg/bg-5.jpg)">
+		<div class="m-grid__item m-grid__item--middle">
+			<h3 class="m-login__welcome">
+				Join Our Community
+			</h3>
+			<p class="m-login__msg">
+				Let us help you access instant liquidity, while retaining your crypto
+			</p>
+		</div>
+	</div>
+</div>

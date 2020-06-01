@@ -1,0 +1,30 @@
+.m-nav-sticky {
+    width: 60px;
+    position: fixed;
+    top: 82%;
+    right: 4%;
+    list-style: none;
+    padding: 12px 0;
+    margin: 0;
+    z-index: 110;
+    -webkit-border-radius: 8px 0 0 8px;
+    -moz-border-radius: 8px 0 0 8px;
+    -ms-border-radius: 8px 0 0 8px;
+    -o-border-radius: 8px 0 0 8px;
+    border-radius: 40px;
+}
+
+.m-nav-sticky .m-nav-sticky__item > a > i {
+    color: #fff;
+}
+
+.m-nav-sticky {
+    background: #0098ff;
+    -webkit-box-shadow: 1px 2px 16px 6px rgba(69, 65, 78, 0.2);
+    -moz-box-shadow: 1px 2px 16px 6px rgba(69, 65, 78, 0.2);
+    box-shadow: 1px 2px 16px 6px rgba(69, 65, 78, 0.2);
+}
+
+.m-nav-sticky .m-nav-sticky__item > a > i {
+    font-size: 1.8rem;
+}

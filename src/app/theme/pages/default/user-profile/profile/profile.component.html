@@ -1,0 +1,558 @@
+<!-- BEGIN: Subheader -->
+<div *ngIf="loading; else loaded">
+<div class="m-subheader" appunwraptag="">
+	<div class="d-flex align-items-center">
+		<div class="mr-auto">
+			<h3 class="m-subheader__title">
+				Settings
+			</h3>
+		</div>
+	</div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+	<div class="row">
+		<div class="col-xl-3 col-lg-4">
+			<div class="m-portlet m-portlet--full-height">
+				<div class="m-portlet__body">
+					<div class="m-card-profile">
+						<div class="m-card-profile__title m--hide">
+							Your Profile
+						</div>
+						<div class="m-card-profile__pic">
+							<div class="m-card-profile__pic-wrapper">
+								<img [src]="userPhotoUrl" alt=""/>
+							</div>
+						</div>
+						<div class="m-card-profile__details">
+							<span class="m-card-profile__name">
+								{{userName}}
+							</span>
+							<a href="" class="m-card-profile__email m-link">
+								{{userEmail}}
+							</a>
+						</div>
+					</div>
+					<ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
+						<li class="m-nav__separator m-nav__separator--fit"></li>
+						<li class="m-nav__section m--hide">
+							<span class="m-nav__section-text">
+								Section
+							</span>
+						</li>
+						<li class="m-nav__item">
+							<a href="#" class="m-nav__link">
+								<i class="m-nav__link-icon flaticon-profile-1"></i>
+								<span class="m-nav__link-title">
+									<span class="m-nav__link-wrap">
+										<span class="m-nav__link-text">
+											KYC
+										</span>
+										<span class="m-nav__link-badge">
+											<span class="m-badge m-badge--success m-badge--wide" *ngIf="verified">
+												verified
+											</span>
+											<span class="m-badge m-badge--danger m-badge--wide" *ngIf="!verified">
+												unverified
+											</span>
+										</span>
+									</span>
+								</span>
+							</a>
+						</li>
+					</ul>
+					<div class="m-portlet__body-separator"></div>
+					<div class="m-widget1 m-widget1--paddingless">
+						<div class="m-widget1__item">
+							<div class="row m-row--no-padding align-items-center">
+								<div class="col">
+									<h3 class="m-widget1__title">
+										Accruable Interest
+									</h3>
+									<span class="m-widget1__desc">
+										Awerage monthly Interest
+									</span>
+								</div>
+								<div class="col m--align-right">
+									<span class="m-widget1__number m--font-brand">
+										3%
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="m-widget1__item">
+							<div class="row m-row--no-padding align-items-center">
+								<div class="col">
+									<h3 class="m-widget1__title">
+										Total Amount Borrowed
+									</h3>
+									<span class="m-widget1__desc">
+										Amount Borrowed
+									</span>
+								</div>
+								<div class="col m--align-right">
+									<span class="m-widget1__number m--font-danger">
+                      {{countDoc?.amount | currency:countDoc?.currency:'symbol': '1.0-0'}}
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="m-widget1__item">
+							<div class="row m-row--no-padding align-items-center">
+								<div class="col">
+									<h3 class="m-widget1__title">
+										Total Amount Paid
+									</h3>
+									<span class="m-widget1__desc">
+										Amount Paid
+									</span>
+								</div>
+								<div class="col m--align-right">
+									<span class="m-widget1__number m--font-success">
+                      {{countDoc?.loanPaid | currency:countDoc?.currency:'symbol': '1.0-0'}}
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-9 col-lg-8">
+			<div class="m-portlet m-portlet--full-height m-portlet--tabs">
+				<div class="m-portlet__head">
+					<div class="m-portlet__head-tools">
+						<ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--info" role="tablist">
+							<li class="nav-item m-tabs__item">
+								<a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
+									<i class="flaticon-share m--hide"></i>
+									Profile
+								</a>
+							</li>
+							<li class="nav-item m-tabs__item" *ngIf="!showKyc">
+								<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
+									KYC
+								</a>
+							</li>
+							<li class="nav-item m-tabs__item">
+								<a class="nav-link m-tabs__link m--hide" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
+									Settings
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="tab-content">
+					<div class="tab-pane active" id="m_user_profile_tab_1">
+						<form (ngSubmit)="onSubmitProfile(kobolet)" class="m-form m-form--fit m-form--label-align-right" #kobolet="ngForm">
+							<div class="m-portlet__body">
+								<div class="form-group m-form__group m--margin-top-10 m--hide">
+									<div class="alert m-alert m-alert--default" role="alert">
+										The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<div class="col-10 ml-auto">
+										<h3 class="m-form__section">
+											Personal Details
+										</h3>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-4 col-form-label">
+										Full Name
+									</label>
+									<div class="col-8">
+										<input class="form-control m-input" type="text" [(ngModel)]="userName" #fullname="ngModel" name="fullName" required [disabled]="disableToggle">
+										<span class="form-control-feedback m--font-warning" [hidden]="fullname.valid || fullname.pristine">
+											Name is required
+										</span>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-4 col-form-label">
+										Occupation
+									</label>
+									<div class="col-8">
+										<input class="form-control m-input" type="text" [(ngModel)]="userOccupation" #occupation="ngModel" name="occupation" required>
+										<span class="form-control-feedback m--font-warning" [hidden]="occupation.valid || occupation.pristine">
+											Occupation is required
+										</span>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-4 col-form-label">
+										Email
+									</label>
+									<div class="col-8">
+										<input class="form-control m-input" type="text" [(ngModel)]="userEmail" #email="ngModel" name="email" required [disabled]="disableToggle">
+										<span class="form-control-feedback m--font-warning" [hidden]="email.valid || email.pristine">
+											email is required
+										</span>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-4 col-form-label">
+										Phone No.
+									</label>
+									<div class="col-8">
+										<input class="form-control m-input" type="string" [(ngModel)]="userPhone" #phone="ngModel" name="phone" [disabled]="disableToggle">
+										<span class="form-control-feedback m--font-warning" [hidden]="phone.valid || phone.pristine">
+											Please enter a valid phone number
+										</span>
+									</div>
+								</div>
+								<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
+								<div class="form-group m-form__group row">
+									<div class="col-10 ml-auto">
+										<h3 class="m-form__section">
+											Address
+										</h3>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-4 col-form-label">
+										Address
+									</label>
+									<div class="col-8">
+										<input class="form-control m-input" type="text" [(ngModel)]="userAddress" #address="ngModel" name="address" required>
+										<span class="form-control-feedback m--font-warning" [hidden]="address.valid || address.pristine">
+											Please enter a valid Address
+										</span>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-4 col-form-label">
+										City
+									</label>
+									<div class="col-8">
+										<input class="form-control m-input" type="text" [(ngModel)]="userCity" #city="ngModel" name="city" required>
+										<span class="form-control-feedback m--font-warning" [hidden]="city.valid || city.pristine">
+											city is required
+										</span>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-4 col-form-label">
+										State
+									</label>
+									<div class="col-8">
+										<input class="form-control m-input" type="text" [(ngModel)]="userState" #state="ngModel" name="state" required>
+										<span class="form-control-feedback m--font-warning" [hidden]="state.valid || state.pristine">
+											State is required
+										</span>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-4 col-form-label">
+										Country
+									</label>
+									<div class="col-8">
+										<input class="form-control m-input" type="text" [(ngModel)]="userCountry" #country="ngModel" name="country" [disabled]="disableToggle">
+										<span class="form-control-feedback m--font-warning" [hidden]="country.valid || country.pristine">
+											Country is required
+										</span>
+									</div>
+								</div>
+							<!--	<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
+								<div class="form-group m-form__group row">
+									<div class="col-10 ml-auto">
+										<h3 class="m-form__section">
+											3. Bank Account Details
+										</h3>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-2 col-form-label">
+										Account Name
+									</label>
+									<div class="col-7">
+										<input class="form-control m-input" type="text" [(ngModel)]="userBankAccountName" #acctname="ngModel" name="acctname" disabled>
+										<span class="form-control-feedback m--font-warning" [hidden]="acctname.valid || acctname.pristine">
+											Please enter your bank account name
+										</span>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-2 col-form-label">
+										Account Number
+									</label>
+									<div class="col-7">
+										<input class="form-control m-input" type="text" [(ngModel)]="userBankAccountNumber" #acctnumber="ngModel" name="acctnumber" disabled>
+										<span class="form-control-feedback m--font-warning" [hidden]="acctnumber.valid || acctnumber.pristine">
+											Please enter your bank account number
+										</span>
+									</div>
+								</div>
+								<div class="form-group m-form__group row">
+									<label for="example-text-input" class="col-2 col-form-label">
+										Bank Name
+									</label>
+									<div class="col-7">
+										<input class="form-control m-input" type="text" [(ngModel)]="userBankName" #bankname="ngModel" name="bankname" disabled>
+										<span class="form-control-feedback m--font-warning" [hidden]="bankname.valid || bankname.pristine">
+											Please enter your bank name
+										</span>
+									</div>
+								</div>
+								<div class="form-group m-form__group row" *ngIf="userCountry === 'Nigeria'">
+									<label for="example-text-input" class="col-2 col-form-label">
+										BVN
+									</label>
+									<div class="col-7">
+										<input class="form-control m-input" type="text" [(ngModel)]="bankBvn" #bvn="ngModel" name="bvn" required disabled="disabled">
+										<span class="form-control-feedback m--font-warning" [hidden]="bvn.valid || bvn.pristine">
+											Please enter your bank BVN number
+										</span>
+									</div>
+								</div> -->
+							</div>
+							<div class="m-portlet__foot m-portlet__foot--fit">
+								<div class="m-form__actions">
+									<div class="row">
+										<div class="col-4"></div>
+										<div class="col-8">
+											<button type="submit" class="btn btn-accent m-btn m-btn--air" [disabled]="!kobolet.form.valid">
+												Save changes
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="tab-pane" id="m_user_profile_tab_2">
+						<div class="m-portlet__body">
+							<div class="row">
+								<div class="col-lg-12">
+									<!--begin::Portlet-->
+									<div class="m-portlet m-portlet--accent m-portlet--head-solid-bg m-portlet--head-sm m--font-normal" data-portlet="true" id="m_portlet_tools_1">
+										<div class="m-portlet__head">
+											<div class="m-portlet__head-caption">
+												<div class="m-portlet__head-title">
+													<span class="m-portlet__head-icon">
+														<i class="flaticon-user-ok"></i>
+													</span>
+													<h3 class="m-portlet__head-text">
+														User Verification
+													</h3>
+												</div>
+											</div>
+										</div>
+										<div class="m-portlet__body">
+											<div class="m-scrollable" data-scrollbar-shown="true" data-scrollable="true" data-max-height="500" style="overflow:hidden; height: 700px">
+												One form of identification with photo is required (passport preferred).
+
+												Identity Cards must have photo with both sides copied. Please provide official English translation for Non-Roman Letters.
+												<div class="m-separator m-separator--space m-separator--dashed"></div>
+												<strong>REQUIRED</strong>
+												<span class="m--font-success">
+													<ul>
+														<li>The document must be valid: please double check expiration date</li>
+														<li>The document must be issued from a government</li>
+														<li>The document must show a photo of your face
+														</li>
+														<li>The document must have a high resolution</li>
+														<li>You need to upload both sides (front and back) for ID cards.</li>
+													</ul>
+												</span>
+												<div class="m-separator m-separator--space m-separator--dashed"></div>
+												<div class="m-form__group form-group">
+													<label >
+														Choose one section to complete
+													</label>
+													<div class="m-checkbox-list">
+														<label class="m-checkbox m-checkbox--state-accent">
+															<input type="checkbox"  [(ngModel)]="passport" #passportId="ngModel" name="passportId" required={{kycSelectState}}>
+															Passport
+															<span></span>
+														</label>
+														<label class="m-checkbox m-checkbox--state-accent">
+															<input type="checkbox" [(ngModel)]="national" #nationalId="ngModel" name="nationalId" required={{kycSelectState}}>
+															National ID Card
+															<span></span>
+														</label>
+														<label class="m-checkbox m-checkbox--state-accent">
+															<input type="checkbox" [(ngModel)]="license" #licenseId="ngModel"name="licenseId" required={{kycSelectState}}>
+															Driver License
+															<span></span>
+														</label>
+													</div>
+													<div class="m--space-20 m--padding-20">
+														<button type="button" [disabled]="inputStatus()"  (click)="getFileStack()" class="btn btn-accent" [ngClass]="{'m-loader ,m-loader--light, m-loader--right': kycValidationState}">
+															choose files
+														</button>
+														<span class="m--font-danger m--font-normal m--pull-right m--align-right" [hidden]='!kycpending'>
+															KYC verification pending
+														</span>
+													</div>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<!--end::Portlet-->
+								</div>
+								<div class="col-lg-12">
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="m_user_profile_tab_3">
+						<div class="m-portlet__body">
+							<div class="m-list-settings">
+								<div class="m-list-settings__group">
+									<div class="m-list-settings__heading">
+										General Settings
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											Email Notifications
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" checked="checked" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											Site Tracking
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											SMS Alerts
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											Backup Storage
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											Audit Logs
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" checked="checked" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+								</div>
+								<div class="m-list-settings__group">
+									<div class="m-list-settings__heading">
+										System Settings
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											System Logs
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											Error Reporting
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											Applications Logs
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											Backup Servers
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" checked="checked" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+									<div class="m-list-settings__item">
+										<span class="m-list-settings__item-label">
+											Audit Logs
+										</span>
+										<span class="m-list-settings__item-control">
+											<span class="m-switch m-switch--outline m-switch--icon-check m-switch--brand">
+												<label>
+													<input type="checkbox" name="">
+													<span></span>
+												</label>
+											</span>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<ng-template #loaded>
+	<div class="loaded">
+		<div class="m-spinner m-spinner--info m-spinner--lg"></div>
+	</div>
+</ng-template>
