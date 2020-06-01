@@ -38,6 +38,7 @@ jobs:
             - package.json
             - firebase.json
             - .firebaserc
+            - node_modules
   deploy:
     docker:
       - image: circleci/node:dubnium
