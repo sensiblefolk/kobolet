@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 jobs:
   build:
     working_directory: ~/project
@@ -54,7 +54,7 @@ jobs:
           command: npm install --save-dev firebase-tools
       - run:
           name: Deploy Master to Firebase
-          command: npm run deploy-production
+          command: npm run deploy-production --token "$FIREBASE_TOKEN"
 
 workflows:
   version: 2
