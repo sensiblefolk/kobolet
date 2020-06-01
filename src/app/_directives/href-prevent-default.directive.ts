@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[appHref]',
+  // tslint:disable-next-line: directive-selector
+  selector: '[Href]',
 })
 export class HrefPreventDefaultDirective implements AfterViewInit {
   @Input() href: string;

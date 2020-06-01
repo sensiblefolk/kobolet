@@ -2,7 +2,8 @@ import { AfterViewInit, Directive, ElementRef } from '@angular/core';
 import { Helpers } from '../helpers';
 
 @Directive({
-  selector: '[appUnwraptag]',
+  // tslint:disable-next-line: directive-selector
+  selector: '[unwraptag]',
 })
 export class UnwrapTagDirective implements AfterViewInit {
   constructor(private el: ElementRef) {}

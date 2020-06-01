@@ -10,11 +10,19 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
-      - run: npm install
+      - run:
+          name: Install dependencies
+          command: npm install
       - run: npm install --save-dev firebase-tools
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Linting
+          command: npm run lint
+      # - run:
+      #     name: Testing
+      #     command: npm run test-prod
       - run: npm run build:prod
       - run: './node_modules/.bin/firebase deploy --only hosting --token=$FIREBASE_TOKEN'
