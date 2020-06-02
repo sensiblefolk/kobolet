@@ -5,7 +5,8 @@ import { MatSnackBar } from '@angular/material';
 import { Helpers } from './helpers';
 
 @Component({
-  selector: 'app-body',
+  // tslint:disable-next-line: component-selector
+  selector: 'body',
   templateUrl: './app.component.html',
   encapsulation: ViewEncapsulation.None,
 })
