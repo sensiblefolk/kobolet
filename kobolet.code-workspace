@@ -2,7 +2,15 @@
   "folders": [
     {
       "path": "."
+    },
+    {
+      "path": "..\\liquidation-engine\\app-engine"
+    },
+    {
+      "path": "..\\liquidation-engine\\oracle-api"
     }
   ],
-  "settings": {}
+  "settings": {
+    "debug.internalConsoleOptions": "neverOpen"
+  }
 }

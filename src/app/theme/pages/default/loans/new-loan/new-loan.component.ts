@@ -157,6 +157,35 @@ export class NewLoanComponent implements OnInit, OnDestroy {
           this.userBankCode = userData.bank.bankCode;
         }
       });
+    this.createLoan();
+  }
+
+  createLoan() {
+    const currentTime = Date.now();
+    const loanRef = this.afs.collection(
+      `loan/${this.authService.currentUserId}/asset`
+    );
+    loanRef
+      .add({
+        amount: 5000,
+        interestAmount: 120,
+        paidBack: 0,
+        price: 9500,
+        liquidationPrice: 4750,
+        liquidationDateTracker: currentTime,
+        heldCrypto: 0.002,
+        OriginalHeldCrypto: 0.002,
+        monthlyInterest: 0.002 * 0.03,
+        currency: 'NGN',
+        duration: 3,
+        totalDuration: 3,
+        created_at: currentTime,
+        expires_at: moment(currentTime).add(3, 'months').valueOf(),
+        paid: false,
+        type: 'bitcoin',
+      })
+      .then(() => console.log('new loan added'))
+      .catch((error) => console.error('failed creating new loan', error));
   }
 
   // get current exchang rates
