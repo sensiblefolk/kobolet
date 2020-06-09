@@ -18,6 +18,9 @@ steps:
 - script: npm install
   displayName: 'Install Dependencies'
 
+- script: npx ng lint
+  displayName: 'Code Analysis'
+
 # - script: npx ng test --watch=false --codeCoverage=true
 #   displayName: 'Tests'
 
