@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<testsuite name="HeadlessChrome 0.0.0 (Windows 10 0.0.0)" package="" timestamp="2020-06-09T22:19:31" id="0" hostname="DESKTOP-QG365FG" tests="0" errors="1" failures="0" time="0">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/83.0.4103.0 Safari/537.36"/>
+  </properties>
+  <system-out>
+    <![CDATA[
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
