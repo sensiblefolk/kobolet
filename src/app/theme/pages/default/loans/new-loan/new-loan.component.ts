@@ -145,16 +145,18 @@ export class NewLoanComponent implements OnInit, OnDestroy {
       .currentUserDisplayName()
       .subscribe((userData: any) => {
         this.userDetails = userData;
-        if (!userData.bank) {
-          this.acctNumbVerified = false;
-          this.userBankName = '';
-          this.userBankAccountNumber = '';
-          this.userBankCode = '';
-        } else {
-          this.acctNumbVerified = true;
-          this.userBankName = userData.bank.bankName;
-          this.userBankAccountNumber = userData.bank.accountNumber;
-          this.userBankCode = userData.bank.bankCode;
+        if (userData) {
+          if (!userData.bank) {
+            this.acctNumbVerified = false;
+            this.userBankName = '';
+            this.userBankAccountNumber = '';
+            this.userBankCode = '';
+          } else {
+            this.acctNumbVerified = true;
+            this.userBankName = userData.bank.bankName;
+            this.userBankAccountNumber = userData.bank.accountNumber;
+            this.userBankCode = userData.bank.bankCode;
+          }
         }
       });
   }
