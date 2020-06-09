@@ -18,8 +18,8 @@ steps:
 - script: npm install
   displayName: 'Install Dependencies'
 
-- script: npx ng test --watch=false
-  displayName: 'Tests'
+# - script: npx ng test --watch=false
+#   displayName: 'Tests'
 
 - task: PublishTestResults@2
   condition: succeededOrFailed()
