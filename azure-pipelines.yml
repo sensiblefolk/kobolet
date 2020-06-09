@@ -18,8 +18,16 @@ steps:
 - script: npm install
   displayName: 'Install Dependencies'
 
-# - script: npx ng test --watch=false
-#   displayName: 'Tests'
+- script: npx ng test --watch=false
+  displayName: 'Tests'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFormat: 'JUnit'
+    # Make sure you've changed testResultsFiles to the one below 
+    testResultsFiles: '**/TESTS-*.xml'
+  displayName: 'Publish Test Results'
 
 - script: npx ng build --prod
   displayName: 'Build'
