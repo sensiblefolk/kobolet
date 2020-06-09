@@ -11,7 +11,7 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
       - run:
-          name: Install dependencies
+          name: Install dependencie
           command: npm install
       - run: npm install --save-dev firebase-tools
       - save_cache:
