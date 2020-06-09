@@ -6,12 +6,14 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyBfLwN_YGhwbZ7h0JOeHfJVsSNIxhER8ig',
-    authDomain: 'kobo-let.firebaseapp.com',
-    databaseURL: 'https://kobo-let.firebaseio.com',
-    projectId: 'kobo-let',
-    storageBucket: 'kobo-let.appspot.com',
-    messagingSenderId: '737101680808'
+    apiKey: 'AIzaSyCH4Aplc07pwmc8PosaeZnhCP9Z1_qTCV8',
+    authDomain: 'kobolet-dev.firebaseapp.com',
+    databaseURL: 'https://kobolet-dev.firebaseio.com',
+    projectId: 'kobolet-dev',
+    storageBucket: 'kobolet-dev.appspot.com',
+    messagingSenderId: '152957475724',
+    appId: '1:152957475724:web:a1c8ff51349ad93805d4a9',
+    measurementId: 'G-ZEMF06D27G',
   },
   // rave: 'FLWPUBK-9eaa94ffd5ab74c506554b99386c87c6-X',
   rave: {
@@ -19,10 +21,11 @@ export const environment = {
     secret: 'FLWSECK_TEST-2a12700449b7a55929bc96b71a3d76a6-X',
     encrypt: 'FLWSECK_TESTb3d5a3e0d7b1',
     bvnUrl: 'https://ravesandboxapi.flutterwave.com/v2/kyc/bvn',
-    url: 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js'
+    url:
+      'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js',
   },
   moneyWave: {
     key: 'lv_2KHRK8R27LT2IW41EYJB',
-    secret: 'lv_A0AOSGBA27RIEHLOJ7VZIJML98H265'
-  }
+    secret: 'lv_A0AOSGBA27RIEHLOJ7VZIJML98H265',
+  },
 };

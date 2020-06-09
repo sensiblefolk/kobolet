@@ -23,7 +23,7 @@ const getCryptoPrice = functions.pubsub
           countTracker++;
         }
         if (countTracker == respData.length) {
-          return docRef.update(priceQuery);
+          return docRef.set(priceQuery);
         }
       })
       .catch((err) => {

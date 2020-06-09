@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "kobo-let"
+    "production": "kobolet-prod",
+    "development": "kobolet-dev",
+    "default": "kobolet-dev"
   }
 }
