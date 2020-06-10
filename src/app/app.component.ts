@@ -4,6 +4,8 @@ import { MessageService } from './_services/messaging.service';
 import { MatSnackBar } from '@angular/material';
 import { Helpers } from './helpers';
 
+import { ConfigService } from '../app/_services/config.service';
+
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'body',
@@ -20,8 +22,11 @@ export class AppComponent implements OnInit {
   constructor(
     private _router: Router,
     private messageService: MessageService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private configService: ConfigService
+  ) {
+    console.log('config', configService.config);
+  }
   ngOnInit() {
     this._router.events.subscribe((route) => {
       if (route instanceof NavigationStart) {

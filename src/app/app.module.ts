@@ -23,6 +23,7 @@ import { LoaderComponent } from './loader.component';
 import { environment } from '../environments/environment';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ConfigService } from '../app/_services/config.service';
 
 // import {FirebaseUIModule} from 'firebaseui-angular';
 // import * as firebase from 'firebase/app';
@@ -31,6 +32,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 // - https://github.com/RaphaelJenni/FirebaseUI-Angular/issues/76
 // the plugin exposes the two libraries as well. You can use those:
 import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
+import { APP_INITIALIZER } from '@angular/core';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'redirect',
@@ -44,6 +46,11 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   tosUrl: '<your-tos-link>',
   privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
+};
+
+// azure global enviroment configs
+export const configFactory = (configService: ConfigService) => {
+  return () => configService.loadConfig();
 };
 
 @NgModule({
@@ -69,7 +76,14 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
       enabled: environment.production,
     }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: configFactory,
+      deps: [ConfigService],
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
