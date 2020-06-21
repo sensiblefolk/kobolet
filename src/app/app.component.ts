@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
     private snackBar: MatSnackBar,
     private configService: ConfigService
   ) {
-    console.log('config', configService.config);
+    // console.log('config', configService.config);
   }
   ngOnInit() {
     this._router.events.subscribe((route) => {
@@ -38,19 +38,19 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.messageService.getPermission();
-    this.messageService.receiveMessage();
-    this.message = this.messageService.currentMessage;
-    this.message.subscribe((data) => {
-      if (data) {
-        const message = data.notification.body;
-        const snackbarRef = this.snackBar.open(message, 'Ok', {
-          duration: 30000,
-        });
-        snackbarRef.onAction().subscribe(() => {
-          snackbarRef.dismiss();
-        });
-      }
-    });
+    // this.messageService.getPermission();
+    // this.messageService.receiveMessage();
+    // this.message = this.messageService.currentMessage;
+    // this.message.subscribe((data) => {
+    //   if (data) {
+    //     const message = data.notification.body;
+    //     const snackbarRef = this.snackBar.open(message, 'Ok', {
+    //       duration: 30000,
+    //     });
+    //     snackbarRef.onAction().subscribe(() => {
+    //       snackbarRef.dismiss();
+    //     });
+    //   }
+    // });
   }
 }

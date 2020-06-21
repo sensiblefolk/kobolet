@@ -292,7 +292,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
   updateWallet(type: string) {
     const walletRef = this[`${this.cryptoTypeName}Wallet`];
     const walletObject = this[`${this.cryptoTypeName}Object`];
-    if (type === 'update' && walletObject.balance) {
+    if (type === 'update' && walletObject && walletObject.balance) {
       const newBalance = walletObject.balance + walletObject.temp_held;
       const newHeldBalance = walletObject.heldBalance - walletObject.temp_held;
       return walletRef.update({

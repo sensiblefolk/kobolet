@@ -4,9 +4,7 @@
     <div class="m-portlet">
       <div class="m-portlet__body m-portlet__body--no-padding">
         <div class="row m-row--no-padding">
-          <div
-            class="m--padding-30 m--font-normal m--block-center m--align-center"
-          >
+          <div class="m--padding-30 m--font-normal m--block-center m--align-center">
             <h3 class="m-widget14__title">
               New Crypto Loan
             </h3>
@@ -24,44 +22,23 @@
                   <form class="m-form m-form--fit">
                     <div class="m-portlet__body">
                       <div class="form-group m-form__group row m--padding-20">
-                        <div
-                          class="col-xl-5 col-md-5 col-sm-5 m--padding-bottom-20"
-                        >
-                          <div
-                            class="m--align-left pull-left m--font-bold"
-                            style="font-size: 15.6px; margin: 0px 0px 6.5px;"
-                          >
+                        <div class="col-xl-5 col-md-5 col-sm-5 m--padding-bottom-20">
+                          <div class="m--align-left pull-left m--font-bold"
+                            style="font-size: 15.6px; margin: 0px 0px 6.5px;">
                             Equivalent in Local Currency
                           </div>
-                          <div
-                            class="input-group m-input-icon m-input-icon--left"
-                          >
-                            <input
-                              type="text"
-                              class="form-control form-control-lg m-input m-input--air"
-                              placeholder="1,000"
-                              [(ngModel)]="fiatAmount"
-                              #fiat="ngModel"
-                              name="fiat"
-                              (keyup)="searchFiat(fiatAmount)"
-                            />
-                            <span
-                              class="m-input-icon__icon m-input-icon__icon--left"
-                            >
-                              <span
-                                class="m--font-bold"
-                                style="padding-top: 14px; font-size: 1.3rem;"
-                              >
+                          <div class="input-group m-input-icon m-input-icon--left">
+                            <input type="text" class="form-control form-control-lg m-input m-input--air"
+                              placeholder="1,000" [(ngModel)]="fiatAmount" #fiat="ngModel" name="fiat"
+                              (keyup)="searchFiat(fiatAmount)" />
+                            <span class="m-input-icon__icon m-input-icon__icon--left">
+                              <span class="m--font-bold" style="padding-top: 14px; font-size: 1.3rem;">
                                 &#36;&nbsp;
                               </span>
                             </span>
                             <div class="input-group-append">
-                              <button
-                                type="button"
-                                class="btn btn-lg btn-outline-info btn-secondary"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                              >
+                              <button type="button" class="btn btn-lg btn-outline-info"
+                                aria-haspopup="true" aria-expanded="false">
                                 <span>USD</span>
                               </button>
                             </div>
@@ -69,77 +46,47 @@
                         </div>
 
                         <div class="col-xl-2 col-md-2 col-sm-2">
-                          <div
-                            class="m--align-center m--block-center m--clearfix icon-padded"
-                          >
+                          <div class="m--align-center m--block-center m--clearfix icon-padded">
                             <!--  <i class="flaticon-more-v4" style="font-size: 2.3rem"></i> -->
                           </div>
                         </div>
 
                         <div class="col-xl-5 col-md-5">
-                          <div
-                            class="m--align-left pull-left m--font-bold"
-                            style="font-size: 15.6px; margin: 0px 0px 6.5px;"
-                          >
+                          <div class="m--align-left pull-left m--font-bold"
+                            style="font-size: 15.6px; margin: 0px 0px 6.5px;">
                             {{ cryptoTypeName }} Collateral Amount
                           </div>
-                          <div
-                            class="m--align-right pull-right m--font-bold"
-                            style="font-size: 15.6px; margin: 0px 0px 6.5px;"
-                          >
+                          <div class="m--align-right pull-right m--font-bold"
+                            style="font-size: 15.6px; margin: 0px 0px 6.5px;">
                             <span *ngIf="cryptoCurrency == 'BTC'; else eth">
                               <i class="fa fa-btc m--font-warning"></i>&nbsp;{{
                                 bitcoin | number: "1.0-6"
                               }}
                             </span>
                             <ng-template #eth>
-                              <i class="fab fa-ethereum m--font-primary"></i
-                              >&nbsp;{{ ethereum | number: "1.0-6" }}
+                              <i class="fab fa-ethereum m--font-primary"></i>&nbsp;{{ ethereum | number: "1.0-6" }}
                             </ng-template>
                           </div>
-                          <div
-                            class="input-group m-input-icon m-input-icon--left"
-                          >
-                            <input
-                              type="number"
-                              class="form-control form-control-lg m-input m-input--air"
-                              placeholder="1"
-                              [(ngModel)]="cryptoAmount"
-                              #crypto="ngModel"
-                              name="crypto"
-                              (keyup)="searchCrypto(cryptoAmount)"
-                            />
-                            <span
-                              class="m-input-icon__icon m-input-icon__icon--left"
-                            >
+                          <div class="input-group m-input-icon m-input-icon--left">
+                            <input type="number" class="form-control form-control-lg m-input m-input--air"
+                              placeholder="1" [(ngModel)]="cryptoAmount" #crypto="ngModel" name="crypto"
+                              (keyup)="searchCrypto(cryptoAmount)" />
+                            <span class="m-input-icon__icon m-input-icon__icon--left">
                               <span>
                                 <i class="{{ cryptoCurrencyClass }}"></i>
                               </span>
                             </span>
                             <div class="input-group-append">
-                              <button
-                                type="button"
-                                class="btn btn-lg btn-outline-info btn-secondary dropdown-toggle"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                              >
+                              <button type="button" class="btn btn-lg btn-outline-info dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span>{{ cryptoCurrency }}</span>
                               </button>
                               <div class="dropdown-menu">
-                                <a
-                                  class="dropdown-item"
-                                  href="#"
-                                  (click)="switchCryptoCurrency('BTC')"
-                                >
+                                <a class="dropdown-item" (click)="switchCryptoCurrency('BTC')">
                                   <i class="fa fa-btc"></i>
                                   Bitcoin
                                 </a>
-                                <a
-                                  class="dropdown-item"
-                                  href="#"
-                                  (click)="switchCryptoCurrency('ETH')"
-                                >
+                                <a class="dropdown-item" (click)="switchCryptoCurrency('ETH')">
                                   <i class="fab fa-ethereum"></i>
                                   Ethereum
                                 </a>
@@ -156,27 +103,16 @@
                           <p class="m--font-bold">
                             {{ monthlyInterestRates | percent: "1.0-2" }} in
                             {{ ionSliderValue }} month
-                            <button
-                              mat-icon-button
-                              aria-label="payment duration information"
-                              matTooltip="Total amount of interest to be paid for the loan duration"
-                            >
-                              <mat-icon
-                                fontSet="far"
-                                fontIcon="fa-question-circle"
-                              ></mat-icon>
+                            <button mat-icon-button aria-label="payment duration information"
+                              matTooltip="Total amount of interest to be paid for the loan duration">
+                              <mat-icon fontSet="far" fontIcon="fa-question-circle"></mat-icon>
                             </button>
                           </p>
                         </div>
                         <div class="col-xl-12">
-                          <div
-                            class="m--align-center m--block-center m--padding-10"
-                          >
-                            <ng5-slider
-                              [(value)]="minSliderValue"
-                              [options]="options"
-                              (userChange)="sliderChangeEvent($event)"
-                            ></ng5-slider>
+                          <div class="m--align-center m--block-center m--padding-10">
+                            <ng5-slider [(value)]="minSliderValue" [options]="options"
+                              (userChange)="sliderChangeEvent($event)"></ng5-slider>
                           </div>
                         </div>
                         <div class="col-md-12 m--padding-top-40">
@@ -184,10 +120,7 @@
                             <label style="font-size: 1.2rem; font-weight: 500;">
                               Total Repayments
                             </label>
-                            <h1
-                              class="m--font-info m--font-bold m--padding-top-10"
-                              style="font-weight: 600;"
-                            >
+                            <h1 class="m--font-info m--font-bold m--padding-top-10" style="font-weight: 600;">
                               {{
                                 actualLoanValue
                                   | currency: "USD":"symbol":"1.0-0"
@@ -203,72 +136,38 @@
                         </div>
                         <div class="row m--align-center m--block-center">
                           <div class="col m--padding-15">
-                            <div
-                              class="m--align-center m--font-secondary m--font-bold"
-                              style="font-size: 15.6px; margin: 0px 0px 6.5px;"
-                            >
+                            <div class="m--align-center m--font-secondary m--font-bold"
+                              style="font-size: 15.6px; margin: 0px 0px 6.5px;">
                               Select Local Currency
                             </div>
-                            <div
-                              class="input-group m-input-group--square"
-                              style="padding-left: 4rem;"
-                            >
+                            <div class="input-group m-input-group--square" style="padding-left: 4rem;">
                               <div class="input-group-append">
-                                <button
-                                  type="button"
-                                  class="btn btn-md btn-outline-info btn-secondary dropdown-toggle"
-                                  data-toggle="dropdown"
-                                  aria-haspopup="true"
-                                  aria-expanded="false"
-                                >
+                                <button type="button" class="btn btn-md btn-outline-info dropdown-toggle"
+                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   <span>{{ currency }}</span>
                                 </button>
                                 <div class="dropdown-menu">
-                                  <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    (click)="switchCurrency('USD')"
-                                  >
+                                  <a class="dropdown-item" (click)="switchCurrency('USD')">
                                     <span>&#36; USD</span>
                                   </a>
-                                  <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    (click)="switchCurrency('NGN')"
-                                  >
+                                  <a class="dropdown-item" (click)="switchCurrency('NGN')">
                                     <span>&#8358; NAIRA</span>
                                   </a>
-                                  <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    (click)="switchCurrency('GHS')"
-                                  >
+                                  <a class="dropdown-item" (click)="switchCurrency('GHS')">
                                     <span>&#8373; GHS</span>
                                   </a>
-                                  <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    (click)="switchCurrency('KES')"
-                                  >
+                                  <a class="dropdown-item" (click)="switchCurrency('KES')">
                                     <span>KES SHILLING</span>
                                   </a>
                                 </div>
                               </div>
-                              <button
-                                mat-icon-button
-                                aria-label="payment duration information"
-                                matTooltip="The local currency in which your principal will be paid into your bank account"
-                              >
-                                <mat-icon
-                                  fontSet="far"
-                                  fontIcon="fa-question-circle"
-                                ></mat-icon>
+                              <button mat-icon-button aria-label="payment duration information"
+                                matTooltip="The local currency in which your principal will be paid into your bank account">
+                                <mat-icon fontSet="far" fontIcon="fa-question-circle"></mat-icon>
                               </button>
                             </div>
-                            <div
-                              class="m--align-center m--font-secondary"
-                              style="font-size: 1rem; padding-top: 1.2rem;"
-                            >
+                            <div class="m--align-center m--font-secondary"
+                              style="font-size: 1rem; padding-top: 1.2rem;">
                               You will receive
                               <span class="m--font-bolder">
                                 {{ currency
@@ -281,17 +180,12 @@
                         </div>
                         <div class="col-md-12 m--padding-20">
                           <div class="m-form__actions">
-                            <button
-                              type="button"
-                              class="btn m-btn btn-info btn-lg m-btn--air m-btn--pill"
-                              (click)="onSubmitLoan()"
-                              [ngClass]="{
+                            <button type="button" class="btn m-btn btn-info btn-lg m-btn--air m-btn--pill"
+                              (click)="onSubmitLoan()" [ngClass]="{
                                 'm-loader': validateButtonSpinner,
                                 'm-loader--light': validateButtonSpinner,
                                 'm-loader--right': validateButtonSpinner
-                              }"
-                              [disabled]="submitButtonToggle"
-                            >
+                              }" [disabled]="submitButtonToggle">
                               Request Loan
                             </button>
                           </div>
@@ -309,12 +203,7 @@
         <ng-template #cryptoModal let-c="close" let-d="dismiss">
           <div class="modal-header">
             <h4 class="modal-title">Fund {{ cryptoCurrency }} wallet</h4>
-            <button
-              type="button"
-              class="close"
-              aria-label="Close"
-              (click)="d('Cross click')"
-            >
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -323,42 +212,25 @@
               <div class="col-md-12 m--padding-30">
                 <img [src]="coinbaseApiObject.image_url" class="centered-img" />
               </div>
-              <span
-                class="m--font-normal m--font-metal m--padding-10 m--align-center m--block-center"
-              >
+              <span class="m--font-normal m--font-metal m--padding-10 m--align-center m--block-center">
                 Please send exactly
                 <b>{{ postCryptoApiAmount }}{{ cryptoCurrency }}</b> to the
-                address below </span
-              ><br />
-              <span
-                class="m--font-normal m--font-metal m--padding-20 m--align-center m--block-center"
-                >Please note that deposit sent to wrong address/blockchain are
-                irreversible</span
-              >
+                address below </span><br />
+              <span class="m--font-normal m--font-metal m--padding-20 m--align-center m--block-center">Please note that
+                deposit sent to wrong address/blockchain are
+                irreversible</span>
             </div>
             <div class="form-group">
               <label for="recipient-name" class="form-control-label">
                 Address:
               </label>
               <div class="input-group">
-                <input
-                  type="text"
-                  [(ngModel)]="btcAddress"
-                  class="form-control"
-                  disabled
-                />
+                <input type="text" [(ngModel)]="btcAddress" class="form-control" disabled />
                 <div class="input-group-append">
-                  <a
-                    href="#"
-                    class="btn"
-                    [ngClass]="{
+                  <a class="btn" [ngClass]="{
                       'btn-success': !isCopied1,
                       'btn-secondary': isCopied1
-                    }"
-                    ngxClipboard
-                    [cbContent]="btcAddress"
-                    (cbOnSuccess)="isCopied1 = true"
-                  >
+                    }" ngxClipboard [cbContent]="btcAddress" (cbOnSuccess)="isCopied1 = true">
                     <i class="la la-copy"></i>
                   </a>
                 </div>
@@ -369,39 +241,21 @@
                 Amount:
               </label>
               <div class="input-group">
-                <input
-                  type="number"
-                  [(ngModel)]="postCryptoApiAmount"
-                  class="form-control"
-                  disabled
-                />
+                <input type="number" [(ngModel)]="postCryptoApiAmount" class="form-control" disabled />
                 <div class="input-group-append">
-                  <a
-                    href="#"
-                    class="btn"
-                    [ngClass]="{
+                  <a class="btn" [ngClass]="{
                       'btn-success': !isCopied2,
                       'btn-secondary': isCopied2
-                    }"
-                    ngxClipboard
-                    [cbContent]="postCryptoApiAmount"
-                    (cbOnSuccess)="isCopied2 = true"
-                  >
+                    }" ngxClipboard [cbContent]="postCryptoApiAmount" (cbOnSuccess)="isCopied2 = true">
                     <i class="la la-copy"></i>
                   </a>
                 </div>
               </div>
             </div>
             <div class="form-group m--padding-10">
-              <div
-                class="m--font-normal m--align-center"
-                *ngIf="!expired; else status"
-              >
+              <div class="m--font-normal m--align-center" *ngIf="!expired; else status">
                 Transaction would expire in:
-                <countdown-timer
-                  class="m--font-info"
-                  [end]="coinbaseApiObject.expires_at"
-                ></countdown-timer>
+                <countdown-timer class="m--font-info" [end]="coinbaseApiObject.expires_at"></countdown-timer>
               </div>
               <ng-template #status>
                 <div class="m--font-danger m--align-center" [hidden]="">
@@ -416,11 +270,8 @@
                 </div>
               </div>
               <div class="col m--padding-10 m--align-center m--block-center">
-                <button
-                  type="button"
-                  class="btn btn-accent m-btn m-btn--air"
-                  (click)="nextButtonToggle(acctNumbVerified)"
-                >
+                <button type="button" class="btn btn-accent m-btn m-btn--air"
+                  (click)="nextButtonToggle(acctNumbVerified)">
                   Next
                 </button>
               </div>
@@ -434,61 +285,32 @@
             <h4 class="modal-title" *ngIf="showBankUpdateModal">
               User Details
             </h4>
-            <button
-              type="button"
-              class="close"
-              aria-label="Close"
-              (click)="d('Cross click')"
-            >
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="row">
-              <div
-                class="col-md-12"
-                *ngIf="showBankUpdateModal; else showStatus"
-              >
-                <span
-                  class="alert alert-secondary m-alert--air"
-                  *ngIf="showBankSaveNotification"
-                >
-                  <span class="m--font-success"
-                    >bank details saved successfully</span
-                  >
+              <div class="col-md-12" *ngIf="showBankUpdateModal; else showStatus">
+                <span class="alert alert-secondary m-alert--air" *ngIf="showBankSaveNotification">
+                  <span class="m--font-success">bank details saved successfully</span>
                 </span>
-                <form
-                  (ngSubmit)="onSubmitBank(kobolet)"
-                  #kobolet="ngForm"
-                  class="m-form m-form--label-align-left"
-                >
+                <form (ngSubmit)="onSubmitBank(kobolet)" #kobolet="ngForm" class="m-form m-form--label-align-left">
                   <div class="modal-body">
                     <div class="row m--align-left">
                       <div class="form-group col-md-12">
                         <label for="message-text" class="form-control-label">
                           Bank Name:
                         </label>
-                        <select
-                          class="form-control m-input m-input--pill"
-                          [(ngModel)]="selectedBank"
-                          name="bankName"
-                          #bankName="ngModel"
-                          required
-                        >
-                          <option [value]="selectedBank" selected
-                            >{{ bankName.value }}
+                        <select class="form-control m-input m-input--pill" [(ngModel)]="selectedBank" name="bankName"
+                          #bankName="ngModel" required>
+                          <option [value]="selectedBank" selected>{{ bankName.value }}
                           </option>
-                          <option
-                            *ngFor="let bank of banksArray"
-                            [value]="bank.name"
-                          >
+                          <option *ngFor="let bank of banksArray" [value]="bank.name">
                             {{ bank.name }}
                           </option>
                         </select>
-                        <span
-                          [hidden]="bankName.valid || bankName.pristine"
-                          class="m-form__help m--font-danger"
-                        >
+                        <span [hidden]="bankName.valid || bankName.pristine" class="m-form__help m--font-danger">
                           Please select a bank name
                         </span>
                       </div>
@@ -497,24 +319,13 @@
                           Account Number:
                         </label>
                         <div class="m-input-icon m-input-icon--right">
-                          <input
-                            type="text"
-                            class="form-control m-input m-input--pill"
-                            [(ngModel)]="userBankAccountNumber"
-                            #accountNumber="ngModel"
-                            name="accountNumber"
-                            (input)="verifyAccountNumber(accountNumber.value)"
-                            required
-                          />
-                          <span
-                            class="m-input-icon__icon m-input-icon__icon--right"
-                          >
+                          <input type="text" class="form-control m-input m-input--pill"
+                            [(ngModel)]="userBankAccountNumber" #accountNumber="ngModel" name="accountNumber"
+                            (input)="verifyAccountNumber(accountNumber.value)" required />
+                          <span class="m-input-icon__icon m-input-icon__icon--right">
                             <span>
-                              <div
-                                class="m-loader m-loader--info"
-                                style="width: 30px; display: inline-block;"
-                                *ngIf="acctNumbSpinner"
-                              ></div>
+                              <div class="m-loader m-loader--info" style="width: 30px; display: inline-block;"
+                                *ngIf="acctNumbSpinner"></div>
                             </span>
                           </span>
                         </div>
@@ -522,10 +333,7 @@
                           Please enter your 10 digit account number. e.g.
                           1012345321
                         </span>
-                        <span
-                          [hidden]="!acctNumbError"
-                          class="m-form__help m--font-danger"
-                        >
+                        <span [hidden]="!acctNumbError" class="m-form__help m--font-danger">
                           Invalid Account number
                         </span>
                       </div>
@@ -533,42 +341,25 @@
                         <label class="form-control-label">
                           * Account Name:
                         </label>
-                        <input
-                          type="text"
-                          [(ngModel)]="userBankAccountName"
-                          #accountName="ngModel"
-                          name="accountName"
-                          class="form-control m-input m-input--pill"
-                          required
-                          readonly
-                        />
+                        <input type="text" [(ngModel)]="userBankAccountName" #accountName="ngModel" name="accountName"
+                          class="form-control m-input m-input--pill" required readonly />
                       </div>
                     </div>
                   </div>
                   <div class="modal-footer">
                     <div class="col-md-6 m--align-right m--pull-right">
-                      <button
-                        type="submit"
-                        class="btn m-btn m-btn--outline-2x m-btn--air btn-info"
-                        [disabled]="!kobolet.form.valid"
-                      >
+                      <button type="submit" class="btn m-btn m-btn--outline-2x m-btn--air btn-info"
+                        [disabled]="!kobolet.form.valid">
                         Submit
                       </button>
                     </div>
                     <div class="col-md-6">
-                      <button
-                        *ngIf="acctNumbVerified; else goback"
-                        class="btn btn-accent"
-                        [disabled]="!acctNumbVerified"
-                        (click)="userNextButtonToggle(true)"
-                      >
+                      <button *ngIf="acctNumbVerified; else goback" class="btn btn-accent"
+                        [disabled]="!acctNumbVerified" (click)="userNextButtonToggle(true)">
                         next
                       </button>
                       <ng-template #goback>
-                        <button
-                          class="btn m-btn m-btn--gradient-to-accent"
-                          (click)="userNextButtonToggle(false)"
-                        >
+                        <button class="btn m-btn m-btn--gradient-to-accent" (click)="userNextButtonToggle(false)">
                           back
                         </button>
                       </ng-template>
@@ -578,19 +369,12 @@
               </div>
               <ng-template #showStatus>
                 <div class="col-md-12">
-                  <div
-                    class="m--valign-middle m--align-center m--block-center m--margin-40"
-                  >
-                    <span
-                      class="far fa-check-circle m--font-success"
-                      style="font-size: 9em;"
-                    ></span>
+                  <div class="m--valign-middle m--align-center m--block-center m--margin-40">
+                    <span class="far fa-check-circle m--font-success" style="font-size: 9em;"></span>
                   </div>
                 </div>
                 <div class="col-md-12">
-                  <div
-                    class="m--font-normal m--padding-top-30 m--align-center m--block-center"
-                  >
+                  <div class="m--font-normal m--padding-top-30 m--align-center m--block-center">
                     System is currently confirming your transaction on the
                     blockchain, this may take between 15 minutes to 3 hours.
                     Once confirmed your account with
@@ -598,10 +382,7 @@
                   </div>
                 </div>
                 <div class="col m--align-center m--padding-20 m--block-center">
-                  <button
-                    class="btn m-btn m-btn--gradient-to-accent"
-                    (click)="closeButtonToggle()"
-                  >
+                  <button class="btn m-btn m-btn--gradient-to-accent" (click)="closeButtonToggle()">
                     back
                   </button>
                 </div>
@@ -611,12 +392,8 @@
         </ng-template>
         <!-- End new user detail modal-->
         <!-- Begin new bank Modal-->
-        <app-bank-details
-          [currency]="currency"
-          [country]="userCountry"
-          (bankStatus)="bankUpdateStatus($event)"
-          *ngIf="showBankDetailsModal"
-        ></app-bank-details>
+        <app-bank-details [currency]="currency" [country]="userCountry" (bankStatus)="bankUpdateStatus($event)"
+          *ngIf="showBankDetailsModal"></app-bank-details>
         <!-- End new bank Modal-->
       </div>
     </div>

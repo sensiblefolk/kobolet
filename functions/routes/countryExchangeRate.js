@@ -10,8 +10,10 @@ const countryExchangeRate = functions.https.onRequest(async (req, res) => {
     const result = await axios.default.get(
       `http://data.fixer.io/api/latest?access_key=3f860c4bce55e5bf2f9bc945cf90da8b&symbols=USD,NGN,KES,ZAR,GHS&format=1`
     );
-    const { rates } = result.data;
-    const docRef = db.collection('rates').doc('usd');
+    const {
+      rates
+    } = result.data;
+    const docRef = db.doc('rates/usd')
     const query = {
       USD: 1,
       NGN: rates.NGN / rates.USD,
@@ -19,7 +21,7 @@ const countryExchangeRate = functions.https.onRequest(async (req, res) => {
       ZAR: rates.ZAR / rates.USD,
       GHS: rates.GHS / rates.USD,
     };
-    docRef.update(query);
+    docRef.update(query).then(() => console.log('rates updated')).catch(err => console.error('failed adding rates', err));
     res.sendStatus(200);
   } catch (error) {
     console.error('failed calling country exchange rate api', error);

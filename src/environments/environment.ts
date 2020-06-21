@@ -15,6 +15,7 @@ export const environment = {
     appId: '1:152957475724:web:a1c8ff51349ad93805d4a9',
     measurementId: 'G-ZEMF06D27G',
   },
+  functionsUrl: 'https://us-central1-kobolet-dev.cloudfunctions.net',
   // rave: 'FLWPUBK-9eaa94ffd5ab74c506554b99386c87c6-X',
   rave: {
     key: 'FLWPUBK_TEST-8b163a4b375a47e6f34d3ac8398b5d26-X',
@@ -28,4 +29,5 @@ export const environment = {
     key: 'lv_2KHRK8R27LT2IW41EYJB',
     secret: 'lv_A0AOSGBA27RIEHLOJ7VZIJML98H265',
   },
+  fileStackApi: 'ABqpa1X3SvCTk1KQRyQlwz',
 };
