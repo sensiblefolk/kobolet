@@ -58,6 +58,7 @@ exports.onHedgeLoanExpired = onHedgeLoanExpired;
 exports.onLoanUpdate = onLoanUpdate;
 /* End Kobolet Oracle functions */
 
+
 // send welcome mail for every new user
 exports.onNewUser = functions.auth.user().onCreate((snap, context) => {
   const uid = snap.uid;
@@ -80,10 +81,11 @@ exports.onNewUser = functions.auth.user().onCreate((snap, context) => {
   const query = {
     balance: 0,
     heldBalance: 0,
-    can_withdraw: false,
+    can_withdraw: true,
+    temp_held: 0
   };
-  // batch.set(bitcoinRef, query);
-  // batch.set(ethereumRef, query);
+  batch.set(bitcoinRef, query);
+  batch.set(ethereumRef, query);
   batch.set(countRef, countQuery);
 
   batch

@@ -45,6 +45,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   kycSelectState = true;
   kycValidationState = false;
   disableToggle = false;
+  onSubmitClick = false;
 
   xrateObservable: Subscription;
   userObservable: Subscription;
@@ -133,6 +134,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   onSubmitProfile(form: NgForm) {
     const data = form.value;
+    this.onSubmitClick = true;
     // console.log(form);
     const query = {
       name: data.fullName || '',
@@ -156,6 +158,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .update(query)
       .then((success) => {
         // console.log('updated successfully');
+        this.onSubmitClick = false;
         this.authService.showNotification(
           'top',
           'right',
@@ -165,6 +168,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       })
       .catch((err) => {
         // console.log('error updating data', err);
+        this.onSubmitClick = false;
         this.authService.showNotification(
           'top',
           'right',

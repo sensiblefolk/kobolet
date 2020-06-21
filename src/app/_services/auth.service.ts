@@ -25,7 +25,7 @@ export class AuthService {
   phone: any;
   redirect: string;
   userInfo: any;
-  apikey = 'AjffQujFQgCMyteb5EjaQz';
+  apikey = dev.production ? dev.fileStackApi : prod.fileStackApi;
   client: any = filestack.init(this.apikey);
   modalReference: NgbModalRef;
 
@@ -251,7 +251,7 @@ export class AuthService {
         secret: dev.rave.secret,
         bvnUrl: dev.rave.bvnUrl,
         // functionsUrl: 'http://localhost:5001/kobo-let/us-central1'
-        functionsUrl: 'https://us-central1-kobo-let.cloudfunctions.net',
+        functionsUrl: dev.functionsUrl,
       };
     }
     if (prod.production) {
@@ -260,7 +260,7 @@ export class AuthService {
         id: prod.rave.key,
         secret: prod.rave.secret,
         bvnUrl: dev.rave.bvnUrl,
-        functionsUrl: 'https://us-central1-kobo-let.cloudfunctions.net',
+        functionsUrl: prod.functionsUrl,
       };
     }
   }

@@ -22,7 +22,7 @@ import { LoaderComponent } from './loader.component';
 
 import { environment } from '../environments/environment';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ServiceWorkerModule } from '@angular/service-worker';
+// import { ServiceWorkerModule } from '@angular/service-worker';
 import { ConfigService } from '../app/_services/config.service';
 
 // import {FirebaseUIModule} from 'firebaseui-angular';
@@ -72,9 +72,9 @@ export const configFactory = (configService: ConfigService) => {
     AppRoutingModule,
     ThemeRoutingModule,
     AuthModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', {
-      enabled: environment.production,
-    }),
+    // ServiceWorkerModule.register('/ngsw-worker.js', {
+    //   enabled: environment.production,
+    // }),
   ],
   providers: [
     {
