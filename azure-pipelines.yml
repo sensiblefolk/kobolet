@@ -48,8 +48,8 @@ steps:
   - script: npm install firebase-tools
     displayName: "install firebase"
 
-  - script: './node_modules/.bin/firebase use production'
-    displayName: "deploy to firebase hosting"
+  - script: './node_modules/.bin/firebase use production --token=$(FIREBASE_TOKEN)'
+    displayName: "set enviroment to production"
 
   - script: './node_modules/.bin/firebase deploy --only hosting --token=$(FIREBASE_TOKEN)'
     displayName: "deploy to firebase hosting"
