@@ -48,9 +48,15 @@ steps:
   - script: npm install firebase-tools
     displayName: "install firebase"
 
+  - script: yarn use:prod
+    displayName: "set firebase enviroment to production"
+
+  - script: firebase deploy --token $(FIREBASE_TOKEN) --except functions
+    displayName: "deploy to firebase hosting"
+
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: "dist/kobolet"
+      PathtoPublish: "dist/kobolet-web"
       ArtifactName: "web-app"
       publishLocation: "Container"
     displayName: "Publish Artifacts"
