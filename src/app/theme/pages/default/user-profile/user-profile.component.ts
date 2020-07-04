@@ -1,17 +1,16 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
-declare var $: any ;
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  encapsulation: ViewEncapsulation.None,
+  styles: [
+  ]
 })
 export class UserProfileComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

@@ -14,9 +14,9 @@ export class HrefPreventDefaultDirective implements AfterViewInit {
   @Input() href: string;
 
   constructor(private el: ElementRef) {}
-  ngAfterViewInit() {}
+  ngAfterViewInit(): void {}
 
-  @HostListener('click') preventDefault(event) {
+  @HostListener('click') preventDefault(event): any {
     if (this.href.length === 0 || this.href === '#') {
       event.preventDefault();
     }

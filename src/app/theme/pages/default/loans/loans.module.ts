@@ -11,44 +11,37 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-// tslint:disable-next-line:max-line-length
-import {
-  MatSortModule,
-  MatPaginatorModule,
-  MatTableModule,
-  MatSnackBarModule,
-  MatTooltipModule,
-  MatButtonModule,
-  MatDividerModule,
-} from '@angular/material';
-import { Ng5SliderModule } from 'ng5-slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { NgxSliderModule } from '@m0t0r/ngx-slider';
 
-import { ClipboardModule } from 'ngx-clipboard';
-import { CountdownTimerModule } from 'ngx-countdown-timer';
 import { SharedModule } from '../../../../shared/shared.module';
 
 @NgModule({
+  declarations: [LoansComponent, AssetComponent, NewLoanComponent],
   imports: [
     CommonModule,
-    LayoutModule,
     FormsModule,
+    LayoutModule,
+    LoansRoutingModule,
+    NgxSliderModule,
     MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatTableModule,
-    MatDividerModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatSnackBarModule,
     MatExpansionModule,
     MatListModule,
     MatProgressSpinnerModule,
-    Ng5SliderModule,
-    ClipboardModule,
+    MatTooltipModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatDividerModule,
     SharedModule,
-    LoansRoutingModule,
-    CountdownTimerModule.forRoot(),
   ],
-  declarations: [LoansComponent, AssetComponent, NewLoanComponent],
 })
 export class LoansModule {}

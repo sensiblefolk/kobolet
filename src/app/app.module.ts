@@ -1,38 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { ThemeComponent } from './theme/theme.component';
-import { LayoutModule } from './theme/layouts/layout.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ScriptLoaderService } from './_services/script-loader.service';
-import { ThemeRoutingModule } from './theme/theme-routing.module';
-import { AuthModule } from './auth/auth.module';
-import { LoaderComponent } from './loader.component';
+import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { environment } from '../environments/environment';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-// import { ServiceWorkerModule } from '@angular/service-worker';
-import { ConfigService } from '../app/_services/config.service';
-
-// import {FirebaseUIModule} from 'firebaseui-angular';
-// import * as firebase from 'firebase/app';
-// import * as firebaseui from 'firebaseui';
-// currently there is a bug while building the app with --prod
-// - https://github.com/RaphaelJenni/FirebaseUI-Angular/issues/76
-// the plugin exposes the two libraries as well. You can use those:
-import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
-import { APP_INITIALIZER } from '@angular/core';
+import { AppComponent } from './app.component';
+import { AuthModule } from './auth/auth.module';
+import { ThemeComponent } from './theme/theme.component';
+import { LayoutModule } from './theme/layouts/layout.module';
+import { ThemeRoutingModule } from './theme/theme-routing.module';
+// import { LoaderComponent } from './loader.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'redirect',
@@ -48,42 +35,29 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
 };
 
-// azure global enviroment configs
-export const configFactory = (configService: ConfigService) => {
-  return () => configService.loadConfig();
-};
-
 @NgModule({
-  declarations: [LoaderComponent, ThemeComponent, AppComponent],
+  declarations: [AppComponent, ThemeComponent],
   imports: [
-    LayoutModule,
     BrowserModule,
-    FormsModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    MatSnackBarModule,
+    NgbModule,
+    AngularFireAuthModule,
+    AngularFireModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireFunctionsModule,
     AngularFireModule.initializeApp(environment.firebase),
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
-    NgbModule,
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AngularFireStorageModule, // imports firebase/storage only needed for storage features
-    AngularFireFunctionsModule, // import firebase/functions
+    LayoutModule,
+    MatSnackBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
     AppRoutingModule,
     ThemeRoutingModule,
     AuthModule,
-    // ServiceWorkerModule.register('/ngsw-worker.js', {
-    //   enabled: environment.production,
-    // }),
   ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: configFactory,
-      deps: [ConfigService],
-      multi: true,
-    },
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

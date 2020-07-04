@@ -1,0 +1,81 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+.m-widget1 {
+  padding: 1.1rem 1.5rem;
+}
+.m-widget1 .m-widget1__item {
+  padding: 1.56rem 0;
+}
+
+.m-portlet {
+  border-radius: 20px 15px
+}
+
+.m-widget1 .m-widget1__item .m-widget1__title {
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.m-widget14 .m-widget14__legend .m-widget14__legend-bullet {
+  width: 0.9rem;
+  height: 0.45rem;
+  display: inline-block;
+  border-radius: 1.1rem;
+  margin-bottom: 0.12rem;
+  margin-right: 0.8rem;
+}
+
+.m-widget14 {
+  padding: 1.2rem 1rem 3.2rem 1.5rem;
+}
+
+.m-widget14__legend-text {
+  color: #080808;
+}
+
+.m-portlet.m-portlet--creative .m-portlet__head .m-portlet__head-caption .m-portlet__head-label {
+  -webkit-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.25);
+  -moz-box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.25);
+  box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.25);
+  border-radius: 10px 10px;
+}
+
+.table th, .table td {
+  padding: 1.0rem;
+  vertical-align: top;
+  border-top: 1px solid #f4f5f8;
+}
+
+@media only screen and (min-width: 800px) {
+  .asset_value_padding {
+    padding-top: 45px !important;
+    padding-left: 80px !important;
+  }
+
+  td, th {
+    width: 43%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .asset_value_padding {
+    padding-top: 15px !important;
+    padding-left: 60px !important;
+  }
+
+  td, th {
+    width: 0%;
+  }
+}

@@ -4,47 +4,53 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- master
+  - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "12.x"
+    displayName: "Install Node.js"
 
-- script: npm install
-  displayName: 'Install Dependencies'
+  - script: npm install yarn
+    displayName: "Install yarn"
 
-- script: npx ng lint
-  displayName: 'Code Analysis'
+  - script: yarn
+    displayName: "Install Dependencies"
 
-# - script: npx ng test --watch=false --codeCoverage=true
-#   displayName: 'Tests'
+  - script: yarn lint
+    displayName: "Code Analysis"
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit'
-    # Make sure you've changed testResultsFiles to the one below 
-    testResultsFiles: '**/TESTS-*.xml'
-  displayName: 'Publish Test Results'
+  # - script: npx ng test --watch=false --codeCoverage=true
+  #   displayName: 'Tests'
 
-- task: PublishCodeCoverageResults@1
-  condition: succeededOrFailed()
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
-  displayName: 'Publish Code Coverage Results'
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: "JUnit"
+      # Make sure you've changed testResultsFiles to the one below
+      testResultsFiles: "**/TESTS-*.xml"
+    displayName: "Publish Test Results"
 
-- script: npx ng build --prod
-  displayName: 'Build'
+  - task: PublishCodeCoverageResults@1
+    condition: succeededOrFailed()
+    inputs:
+      codeCoverageTool: "Cobertura"
+      summaryFileLocation: "$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml"
+    displayName: "Publish Code Coverage Results"
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'dist/kobolet'
-    ArtifactName: 'web-app'
-    publishLocation: 'Container'
-  displayName: 'Publish Artifacts'
+  - script: yarn build --prod
+    displayName: "Build"
+
+  - script: npm install firebase-tools
+    displayName: "install firebase"
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: "dist/kobolet"
+      ArtifactName: "web-app"
+      publishLocation: "Container"
+    displayName: "Publish Artifacts"

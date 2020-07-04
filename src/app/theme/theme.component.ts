@@ -1,66 +1,78 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { Helpers } from '../helpers';
 import { ScriptLoaderService } from '../_services/script-loader.service';
 // import { SwUpdate } from '@angular/service-worker';
-import { MatSnackBar } from '@angular/material';
+// import { MatSnackBar } from '@angular/material';
 
 declare let mApp: any;
 declare let mUtil: any;
 declare let mLayout: any;
+declare const $: any;
 
-/* tslint:disable:component-selector */
 @Component({
-  selector: '.m-grid.m-grid--hor.m-grid--root.m-page',
+  selector: 'app-theme',
   templateUrl: './theme.component.html',
+  styles: [
+    `
+      #page-container {
+        position: relative;
+        min-height: 100vh;
+      }
+
+      #content-wrap {
+        padding-bottom: 2.5rem;
+        /* Footer height */
+      }
+
+      @media only screen and (max-width: 840px) {
+        #page-container {
+          padding-bottom: 3rem;
+        }
+      }
+    `,
+  ],
   encapsulation: ViewEncapsulation.None,
 })
-export class ThemeComponent implements OnInit, AfterViewInit {
-  constructor(
-    private _script: ScriptLoaderService,
-    private _router: Router,
-    private snackBar: MatSnackBar
-  ) {}
-  ngOnInit() {
-    this._script
+export class ThemeComponent implements OnInit {
+  constructor(private script: ScriptLoaderService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.script
       .loadScripts(
         'body',
         [
-          'assets/vendors/base/vendors.bundle.js',
-          'assets/demo/demo6/base/scripts.bundle.js',
+          'assets/vendors/base/vendors.bundle.min.js',
+          'assets/demo/demo6/base/scripts.bundle.min.js',
         ],
         true
       )
-      .then((result) => {
+      .then(() => {
         Helpers.setLoading(false);
         // optional js to be loaded once
-        // this._script.loadScripts('head', ['assets/vendors/custom/fullcalendar/fullcalendar.bundle.js']);
+        // this.script.loadScripts('head', ['assets/vendors/custom/fullcalendar/fullcalendar.bundle.js']);
       });
-    this._router.events.subscribe((route) => {
+    this.router.events.subscribe((route) => {
       if (route instanceof NavigationStart) {
-        (<any>mLayout).closeMobileAsideMenuOffcanvas();
-        (<any>mLayout).closeMobileHorMenuOffcanvas();
-        (<any>mApp).scrollTop();
+        (mLayout as any).closeMobileAsideMenuOffcanvas();
+        (mLayout as any).closeMobileHorMenuOffcanvas();
+        (mApp as any).scrollTop();
         Helpers.setLoading(true);
         // hide visible popover
-        (<any>$("[data-toggle='m-popover']")).popover('hide');
+        // tslint:disable-next-line: quotemark
+        ($("[data-toggle='m-popover']") as any).popover('hide');
       }
       if (route instanceof NavigationEnd) {
         // init required js
-        (<any>mApp).init();
-        (<any>mUtil).init();
+        (mApp as any).init();
+        (mUtil as any).init();
         Helpers.setLoading(false);
         // content m-wrapper animation
         const animation = 'm-animate-fade-in-up';
         $('.m-wrapper')
           .one(
             'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
-            function (e) {
+            (e) => {
               $('.m-wrapper').removeClass(animation);
             }
           )
@@ -69,33 +81,4 @@ export class ThemeComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
-  ngAfterViewInit() {}
-
-  /*openSnackBar() {
-
-	console.log('lets see new worker');
-				// service worker
-				this.swUpdate.available.subscribe(event => {
-					console.log('lets see in service worker');
-					console.log(event);
-					if (event.available) {
-						console.log(event)
-						this.openSnackBar()
-					}
-				});
-	// Simple message with an action.
-	let snackBarRef = this.snackBar.open('A new version of the app is availabe', 'Click to Reload', {
-		duration: 900000,
-	  });
-
-	  snackBarRef.afterDismissed().subscribe(() => {
-		this.swUpdate.activateUpdate().then(() => document.location.reload());
-	  });
-
-
-	  snackBarRef.onAction().subscribe(() => {
-		this.swUpdate.activateUpdate().then(() => document.location.reload());
-	  });
-} */
 }

@@ -26,7 +26,7 @@ export class ChartService {
 
   // == Daily Sales chart.
   // ** Based on Chartjs plugin - http://www.chartjs.org/
-  getChartJs() {
+  getChartJs(): any {
     const chartContainer = $('#m_chart_daily_sales');
     if (chartContainer.length === 0) {
       return;
@@ -150,8 +150,10 @@ export class ChartService {
 
   // == Profit Share Chart.
   // ** Based on Chartist plugin - https://gionkunz.github.io/chartist-js/index.html
-  getUnpaidChartist(bitcoin: any, ethereum: any) {
-    let totalSum, btcPercent, ethPercent;
+  getUnpaidChartist(bitcoin: any, ethereum: any): void {
+    let totalSum: any;
+    let btcPercent: any;
+    let ethPercent: any;
 
     if ($('#m_chart_profit_share').length === 0) {
       return;
@@ -174,14 +176,14 @@ export class ChartService {
             value: btcPercent,
             className: 'custom',
             meta: {
-              color: this.colors['warning'],
+              color: this.colors.warning,
             },
           },
           {
             value: ethPercent,
             className: 'custom',
             meta: {
-              color: this.colors['info'],
+              color: this.colors.info,
             },
           },
         ],
@@ -194,7 +196,7 @@ export class ChartService {
       }
     );
 
-    chart.on('draw', function (data) {
+    chart.on('draw', (data) => {
       if (data.type === 'slice') {
         // Get the total path length in order to use for dash array animation
         const pathLength = data.element._node.getTotalLength();
@@ -248,8 +250,8 @@ export class ChartService {
         }); */
   }
 
-  round(number: number, precision?: number) {
+  round(digit: number, precision?: number): number {
     const factor = Math.pow(10, precision);
-    return Math.round(number * factor) / factor;
+    return Math.round(digit * factor) / factor;
   }
 }

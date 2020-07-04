@@ -72,6 +72,7 @@ export const country = [
   },
   { name: 'Cook Islands', flag: '🇨🇰', code: 'CK', dial_code: '+682' },
   { name: 'Costa Rica', flag: '🇨🇷', code: 'CR', dial_code: '+506' },
+  // tslint:disable-next-line: quotemark
   { name: "Cote d'Ivoire", flag: '🇨🇮', code: 'CI', dial_code: '+225' },
   { name: 'Croatia', flag: '🇭🇷', code: 'HR', dial_code: '+385' },
   { name: 'Cuba', flag: '🇨🇺', code: 'CU', dial_code: '+53' },
@@ -160,6 +161,7 @@ export const country = [
   { name: 'Kenya', flag: '🇰🇪', code: 'KE', dial_code: '+254' },
   { name: 'Kiribati', flag: '🇰🇮', code: 'KI', dial_code: '+686' },
   {
+    // tslint:disable-next-line: quotemark
     name: "Korea, Democratic People's Republic of Korea",
     flag: '🇰🇵',
     code: 'KP',

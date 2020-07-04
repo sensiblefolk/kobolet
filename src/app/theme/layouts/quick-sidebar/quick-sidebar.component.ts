@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Helpers } from '../../../helpers';
 
 @Component({
   selector: 'app-quick-sidebar',
@@ -8,5 +7,5 @@ import { Helpers } from '../../../helpers';
 })
 export class QuickSidebarComponent implements OnInit {
   constructor() {}
-  ngOnInit() {}
+  ngOnInit(): void {}
 }

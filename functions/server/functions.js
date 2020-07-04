@@ -133,13 +133,13 @@ module.exports = {
         countValue = countData.data();
         if (countValue) {
           const newAmount = countValue.amount + amount;
-          return countDoc.update({
+          return countRef.update({
             loanCount: countValue.loanCount + 1,
             total: countValue.total + 1,
             amount: newAmount
-          }).then(() => this.countObservable.unsubscribe());
+          }).then(() => console.info('count updated successfully'));
         } else {
-          return countDoc.set({
+          return countRef.set({
             loanCount: 1,
             total: 1,
             amount: newAmount

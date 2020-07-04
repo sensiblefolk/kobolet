@@ -37,8 +37,8 @@
                               </span>
                             </span>
                             <div class="input-group-append">
-                              <button type="button" class="btn btn-lg btn-outline-info"
-                                aria-haspopup="true" aria-expanded="false">
+                              <button type="button" class="btn btn-lg btn-outline-info" aria-haspopup="true"
+                                aria-expanded="false">
                                 <span>USD</span>
                               </button>
                             </div>
@@ -60,11 +60,11 @@
                             style="font-size: 15.6px; margin: 0px 0px 6.5px;">
                             <span *ngIf="cryptoCurrency == 'BTC'; else eth">
                               <i class="fa fa-btc m--font-warning"></i>&nbsp;{{
-                                bitcoin | number: "1.0-6"
+                                cryptoBalance | number: "1.0-6"
                               }}
                             </span>
                             <ng-template #eth>
-                              <i class="fab fa-ethereum m--font-primary"></i>&nbsp;{{ ethereum | number: "1.0-6" }}
+                              <i class="fab fa-ethereum m--font-primary"></i>&nbsp;{{ cryptoBalance | number: "1.0-6" }}
                             </ng-template>
                           </div>
                           <div class="input-group m-input-icon m-input-icon--left">
@@ -111,8 +111,8 @@
                         </div>
                         <div class="col-xl-12">
                           <div class="m--align-center m--block-center m--padding-10">
-                            <ng5-slider [(value)]="minSliderValue" [options]="options"
-                              (userChange)="sliderChangeEvent($event)"></ng5-slider>
+                            <ngx-slider [(value)]="minSliderValue" [options]="options"
+                              (userChange)="sliderChangeEvent($event)"></ngx-slider>
                           </div>
                         </div>
                         <div class="col-md-12 m--padding-top-40">
@@ -123,7 +123,7 @@
                             <h1 class="m--font-info m--font-bold m--padding-top-10" style="font-weight: 600;">
                               {{
                                 actualLoanValue
-                                  | currency: "USD":"symbol":"1.0-0"
+                                  | currency: "USD":"symbol":"1.0-2"
                               }}
                             </h1>
                             <h5 class="m--font-info m--font-thin">
@@ -185,7 +185,7 @@
                                 'm-loader': validateButtonSpinner,
                                 'm-loader--light': validateButtonSpinner,
                                 'm-loader--right': validateButtonSpinner
-                              }" [disabled]="submitButtonToggle">
+                              }" [disabled]="validateButtonSpinner">
                               Request Loan
                             </button>
                           </div>
@@ -200,200 +200,17 @@
           </div>
         </div>
         <!-- Begin crypto wallet Modal-->
-        <ng-template #cryptoModal let-c="close" let-d="dismiss">
-          <div class="modal-header">
-            <h4 class="modal-title">Fund {{ cryptoCurrency }} wallet</h4>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-12 m--padding-30">
-                <img [src]="coinbaseApiObject.image_url" class="centered-img" />
-              </div>
-              <span class="m--font-normal m--font-metal m--padding-10 m--align-center m--block-center">
-                Please send exactly
-                <b>{{ postCryptoApiAmount }}{{ cryptoCurrency }}</b> to the
-                address below </span><br />
-              <span class="m--font-normal m--font-metal m--padding-20 m--align-center m--block-center">Please note that
-                deposit sent to wrong address/blockchain are
-                irreversible</span>
-            </div>
-            <div class="form-group">
-              <label for="recipient-name" class="form-control-label">
-                Address:
-              </label>
-              <div class="input-group">
-                <input type="text" [(ngModel)]="btcAddress" class="form-control" disabled />
-                <div class="input-group-append">
-                  <a class="btn" [ngClass]="{
-                      'btn-success': !isCopied1,
-                      'btn-secondary': isCopied1
-                    }" ngxClipboard [cbContent]="btcAddress" (cbOnSuccess)="isCopied1 = true">
-                    <i class="la la-copy"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="recipient-name" class="form-control-label">
-                Amount:
-              </label>
-              <div class="input-group">
-                <input type="number" [(ngModel)]="postCryptoApiAmount" class="form-control" disabled />
-                <div class="input-group-append">
-                  <a class="btn" [ngClass]="{
-                      'btn-success': !isCopied2,
-                      'btn-secondary': isCopied2
-                    }" ngxClipboard [cbContent]="postCryptoApiAmount" (cbOnSuccess)="isCopied2 = true">
-                    <i class="la la-copy"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="form-group m--padding-10">
-              <div class="m--font-normal m--align-center" *ngIf="!expired; else status">
-                Transaction would expire in:
-                <countdown-timer class="m--font-info" [end]="coinbaseApiObject.expires_at"></countdown-timer>
-              </div>
-              <ng-template #status>
-                <div class="m--font-danger m--align-center" [hidden]="">
-                  Transaction expired!!!
-                </div>
-              </ng-template>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="m--padding-10 m--align-center m--block-center">
-                  Click next if you have made a deposit
-                </div>
-              </div>
-              <div class="col m--padding-10 m--align-center m--block-center">
-                <button type="button" class="btn btn-accent m-btn m-btn--air"
-                  (click)="nextButtonToggle(acctNumbVerified)">
-                  Next
-                </button>
-              </div>
-            </div>
-          </div>
-        </ng-template>
+        <app-crypto-deposit [currency]="currency" [cryptoCurrency]="cryptoCurrency"
+          [extraCryptoAmount]="extraCryptoAmount" [fiatLocalCurrencyAmount]="fiatLocalCurrencyAmount"
+          [fiatAmount]="fiatAmount" [actualLoanLocalCurrencyValue]="actualLoanLocalCurrencyValue"
+          [cryptoRate]="cryptoRate" [userDetails]="userDetails" [rates]="rates" [duration]="ionSliderValue"
+          [cryptoTypeName]="cryptoTypeName" [$MAX_WITHOUT_VERIFICATION]="$MAX_WITHOUT_VERIFICATION"
+          [wallet]="walletObject" (validateButtonSpinner)="setSubmitButtonSpinner($event)"></app-crypto-deposit>
         <!-- End crypto wallet modal-->
-        <!-- Begin new user detail modal-->
-        <ng-template #userBankUpdate let-c="close" let-d="dismiss">
-          <div class="modal-header">
-            <h4 class="modal-title" *ngIf="showBankUpdateModal">
-              User Details
-            </h4>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-12" *ngIf="showBankUpdateModal; else showStatus">
-                <span class="alert alert-secondary m-alert--air" *ngIf="showBankSaveNotification">
-                  <span class="m--font-success">bank details saved successfully</span>
-                </span>
-                <form (ngSubmit)="onSubmitBank(kobolet)" #kobolet="ngForm" class="m-form m-form--label-align-left">
-                  <div class="modal-body">
-                    <div class="row m--align-left">
-                      <div class="form-group col-md-12">
-                        <label for="message-text" class="form-control-label">
-                          Bank Name:
-                        </label>
-                        <select class="form-control m-input m-input--pill" [(ngModel)]="selectedBank" name="bankName"
-                          #bankName="ngModel" required>
-                          <option [value]="selectedBank" selected>{{ bankName.value }}
-                          </option>
-                          <option *ngFor="let bank of banksArray" [value]="bank.name">
-                            {{ bank.name }}
-                          </option>
-                        </select>
-                        <span [hidden]="bankName.valid || bankName.pristine" class="m-form__help m--font-danger">
-                          Please select a bank name
-                        </span>
-                      </div>
-                      <div class="form-group col-md-12">
-                        <label for="recipient-name" class="form-control-label">
-                          Account Number:
-                        </label>
-                        <div class="m-input-icon m-input-icon--right">
-                          <input type="text" class="form-control m-input m-input--pill"
-                            [(ngModel)]="userBankAccountNumber" #accountNumber="ngModel" name="accountNumber"
-                            (input)="verifyAccountNumber(accountNumber.value)" required />
-                          <span class="m-input-icon__icon m-input-icon__icon--right">
-                            <span>
-                              <div class="m-loader m-loader--info" style="width: 30px; display: inline-block;"
-                                *ngIf="acctNumbSpinner"></div>
-                            </span>
-                          </span>
-                        </div>
-                        <span [hidden]="acctNumbVerified" class="m-form__help">
-                          Please enter your 10 digit account number. e.g.
-                          1012345321
-                        </span>
-                        <span [hidden]="!acctNumbError" class="m-form__help m--font-danger">
-                          Invalid Account number
-                        </span>
-                      </div>
-                      <div class="form-group col-md-12">
-                        <label class="form-control-label">
-                          * Account Name:
-                        </label>
-                        <input type="text" [(ngModel)]="userBankAccountName" #accountName="ngModel" name="accountName"
-                          class="form-control m-input m-input--pill" required readonly />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <div class="col-md-6 m--align-right m--pull-right">
-                      <button type="submit" class="btn m-btn m-btn--outline-2x m-btn--air btn-info"
-                        [disabled]="!kobolet.form.valid">
-                        Submit
-                      </button>
-                    </div>
-                    <div class="col-md-6">
-                      <button *ngIf="acctNumbVerified; else goback" class="btn btn-accent"
-                        [disabled]="!acctNumbVerified" (click)="userNextButtonToggle(true)">
-                        next
-                      </button>
-                      <ng-template #goback>
-                        <button class="btn m-btn m-btn--gradient-to-accent" (click)="userNextButtonToggle(false)">
-                          back
-                        </button>
-                      </ng-template>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <ng-template #showStatus>
-                <div class="col-md-12">
-                  <div class="m--valign-middle m--align-center m--block-center m--margin-40">
-                    <span class="far fa-check-circle m--font-success" style="font-size: 9em;"></span>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="m--font-normal m--padding-top-30 m--align-center m--block-center">
-                    System is currently confirming your transaction on the
-                    blockchain, this may take between 15 minutes to 3 hours.
-                    Once confirmed your account with
-                    <b>{{ userBankName }}</b> will be credited within 24 hours.
-                  </div>
-                </div>
-                <div class="col m--align-center m--padding-20 m--block-center">
-                  <button class="btn m-btn m-btn--gradient-to-accent" (click)="closeButtonToggle()">
-                    back
-                  </button>
-                </div>
-              </ng-template>
-            </div>
-          </div>
-        </ng-template>
-        <!-- End new user detail modal-->
+
         <!-- Begin new bank Modal-->
-        <app-bank-details [currency]="currency" [country]="userCountry" (bankStatus)="bankUpdateStatus($event)"
-          *ngIf="showBankDetailsModal"></app-bank-details>
+        <app-bank-details [currency]="currency" [country]="userCountry" [name]="userDetails?.name"
+          (bankStatus)="bankUpdateStatus($event)"></app-bank-details>
         <!-- End new bank Modal-->
       </div>
     </div>

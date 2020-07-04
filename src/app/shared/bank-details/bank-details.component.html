@@ -16,8 +16,9 @@
                           <label for="message-text" class="form-control-label">
                           Bank Name:
                           </label>
-                          <select class="form-control m-input m-input--pill" [(ngModel)]="selectedBank" name="bankName" #bankName="ngModel" required>
-                            <option [value]="selectedBank" selected>{{bankName.value}}
+                          <select class="form-control m-input m-input--pill" [(ngModel)]="selectedBank"
+                            #bankName="ngModel" name="bankName">
+                            <option [value]="selectedBank" selected>{{selectedBank}}
                             </option>
                             <option *ngFor="let bank of banksArray" [value]="bank.name">
                               {{bank.name}}
@@ -57,7 +58,12 @@
                     </div>
                     <div class="modal-footer">
                         <div class="col-md-6 m--align-right m--pull-right">
-                            <button type="submit" class="btn m-btn m-btn--outline-2x m-btn--air btn-info" [disabled]="!kobolet.form.valid">
+                            <button type="submit" class="btn m-btn m-btn--outline-2x m-btn--air btn-info"
+                               [ngClass]="{
+                                'm-loader': validateButtonSpinner,
+                                'm-loader--light': validateButtonSpinner,
+                                'm-loader--right': validateButtonSpinner
+                              }" [disabled]="!kobolet.form.valid || validateButtonSpinner">
                                 Submit
                             </button>
                         </div>

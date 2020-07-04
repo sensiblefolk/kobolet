@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/kobolet",
+    "public": "dist/kobolet-web",
     "ignore": [
       "firebase.json",
       "**/.*",

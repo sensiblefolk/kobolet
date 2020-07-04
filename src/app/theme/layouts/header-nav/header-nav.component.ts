@@ -2,8 +2,8 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  ViewEncapsulation,
   AfterViewInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   AngularFirestore,
@@ -56,22 +56,22 @@ export class HeaderNavComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private _router: Router,
+    private router: Router,
     private afs: AngularFirestore
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getNotification();
     this.getProfileDetails();
-    this.getCryptoWalletDetails();
+    // this.getCryptoWalletDetails();
     this.isMobileView = this.authService.isMobileDevice();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     mLayout.initHeader();
   }
 
-  getNotification() {
+  getNotification(): any {
     // tslint:disable-next-line:max-line-length
     const notiRef = this.afs.collection(
       `notifications/user/${this.authService.currentUserId}`,
@@ -98,16 +98,16 @@ export class HeaderNavComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  toggleReadStatus(id: any) {
+  toggleReadStatus(id: any): void {
     const notiRef = this.afs.doc(`notifications/user/${this.uid}/${id}`);
     notiRef.update({ read: true });
   }
 
-  navigateToWallet(type: string) {
-    this._router.navigate([`wallet/${type}`]);
+  navigateToWallet(type: string): void {
+    this.router.navigate([`wallet/${type}`]);
   }
 
-  getProfileDetails() {
+  getProfileDetails(): void {
     const data = this.authService;
     // console.log('header data', data);
 
@@ -130,11 +130,11 @@ export class HeaderNavComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  logout() {
+  logout(): void {
     this.authService.logOut();
   }
 
-  getCryptoWalletDetails() {
+  getCryptoWalletDetails(): void {
     this.bitcoinWallet = this.afs.doc(`wallet/${this.uid}/bitcoin/holding`);
     this.ethereumWallet = this.afs.doc(`wallet/${this.uid}/ethereum/holding`);
     this.btcwalletObservable = this.bitcoinWallet
@@ -162,10 +162,10 @@ export class HeaderNavComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-    /*  if (this.userObservable) {
-            this.userObservable.unsubscribe();
-        } */
+  ngOnDestroy(): void {
+    if (this.userObservable) {
+      this.userObservable.unsubscribe();
+    }
     if (this.btcwalletObservable) {
       this.btcwalletObservable.unsubscribe();
     }

@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
-  styles: []
+  styles: [
+  ]
 })
 export class WalletComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

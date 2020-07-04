@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../../../_services/auth.service';
 import { ApiService } from '../../../../../_services/api.service';
 import { country } from '../../../../../utility/country';
-import { Nigeria } from '../../../../../utility/banks';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
@@ -29,7 +28,6 @@ import { levenschteinDistance } from '../../../../../utility/levenschteinDistanc
 export class NewUserComponent implements OnInit, AfterViewInit {
   userPhotoUrl: string;
   userName: string;
-  userEmail: string;
   userOccupation: string;
   userPhone: number;
   userDateOfBirth = '';
@@ -44,10 +42,10 @@ export class NewUserComponent implements OnInit, AfterViewInit {
   userBankName: string;
   userBankSwiftCode: number;
   bankBvn: number;
-  terms_cond: boolean;
+  termsCond: boolean;
   countryLocation: Array<any> = country;
   banksArray: Array<any> = [];
-  selectedBank: String;
+  selectedBank: string;
   loading: boolean;
   bvnSpinner: boolean;
   acctNumbSpinner: boolean;
@@ -58,6 +56,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
   bvnVerified = false;
   bvnUnverified = false;
   acctNumbVerified = false;
+  submitStatus = false;
   userDoc: AngularFirestoreDocument<any>;
   User: Observable<any>;
   kycUrlObject: any = {};
@@ -75,10 +74,11 @@ export class NewUserComponent implements OnInit, AfterViewInit {
   supportedCountry = true;
   minCountryAccountNumberDigit = 10;
   isMatchError = false;
+  options: object;
 
   @ViewChild('content') private content: ElementRef;
   constructor(
-    private _script: ScriptLoaderService,
+    private script: ScriptLoaderService,
     private router: Router,
     private authService: AuthService,
     private apiService: ApiService,
@@ -86,20 +86,21 @@ export class NewUserComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getCountryDetails();
   }
 
-  ngAfterViewInit() {
-    this._script.loadScripts('app-new-user', [
+  ngAfterViewInit(): void {
+    this.script.loadScripts('app-new-user', [
       'assets/demo/demo6/default/component/forms/wizard/wizard.js',
       'assets/demo/demo6/default/component/portlets/tools.js',
     ]);
     // this.modalOpen(this.content);
     this.getBankList('NG');
+    this.options = this.authService.fileStackOption;
   }
 
-  isMatching(str1, str2) {
+  isMatching(str1, str2): boolean {
     str2 = str2.toLowerCase();
     for (
       let i = 0, words = str1.toLowerCase().match(/\w+/g);
@@ -115,7 +116,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  verifyAccountNumber(account: string) {
+  verifyAccountNumber(account: string): void {
     const acctNumb = account != null ? account : '';
     if (
       acctNumb.length < this.minCountryAccountNumberDigit ||
@@ -174,7 +175,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
     );
   }
 
-  bvnCheck(input: number) {
+  bvnCheck(input: number): void {
     const bvn = input != null ? input.toString() : '';
     if (bvn.length < 11 || this.bvnVerified) {
       this.bvnSpinner = false;
@@ -204,6 +205,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
           this.bvnSpinner = false;
         }
       },
+      // tslint:disable-next-line: variable-name
       (_error) => {
         this.bvnSpinner = false;
         this.authService.showNotification(
@@ -216,15 +218,15 @@ export class NewUserComponent implements OnInit, AfterViewInit {
     );
   }
 
-  modalOpen(content) {
+  modalOpen(content): void {
     this.modalReference = this.modalService.open(content, { centered: true });
   }
 
-  closeModal() {
+  closeModal(): void {
     this.modalReference.close();
   }
 
-  getCountryDetails() {
+  getCountryDetails(): void {
     const location = this.countryLocation.find(
       (data) => data.name === 'Nigeria'
     );
@@ -232,12 +234,12 @@ export class NewUserComponent implements OnInit, AfterViewInit {
     this.countryCode = location.dial_code;
   }
 
-  getBankList(code: string) {
+  getBankList(code: string): void {
     this.apiService.postBankList$(code).subscribe((message) => {
       const newData = message.data;
 
-      const data = Object.keys(newData).map((k) => {
-        return { code: k, name: newData[k] };
+      const data = Object.keys(newData).map((key) => {
+        return { code: key, name: newData[key] };
       });
       // console.log(data);
       this.banksArray = data;
@@ -245,14 +247,14 @@ export class NewUserComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getCountryCode(query: string) {
+  getCountryCode(query: string): void {
     const locationCode = this.countryLocation.find(
       (data) => data.name === query
     );
     this.countryCode = locationCode.dial_code;
   }
 
-  getCurrency(location: string) {
+  getCurrency(location: string): void {
     switch (location) {
       case 'Nigeria':
         this.userCurrency = 'NGN';
@@ -280,7 +282,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm): void {
     const data = form.value;
     // console.log(data);
     if (
@@ -320,16 +322,16 @@ export class NewUserComponent implements OnInit, AfterViewInit {
     }
   }
 
-  submitFormData(form: any, code: any) {
+  submitFormData(form: any, code: any): void {
+    this.submitStatus = true;
     const data = form.value;
     // console.log(data);
     const phone = `${this.countryCode}${data.phone}`;
     const query = {
       name: this.userName,
       occupation: data.occupation,
-      phone: phone,
+      phone,
       dateOfBirth: this.userDateOfBirth || '',
-      email: data.email,
       city: data.city,
       country: data.country,
       currency: this.userCurrency,
@@ -351,7 +353,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
         passport: data.passportId || false,
         national: data.nationalId || false,
       },
-      terms_cond: data.accept,
+      termsCond: data.accept,
     };
     //  console.log(query)
     this.userDoc = this.afs.doc(`/users/${this.authService.currentUserId}`);
@@ -365,12 +367,14 @@ export class NewUserComponent implements OnInit, AfterViewInit {
           'profile created successfully',
           'success'
         );
+        this.submitStatus = false;
         setTimeout(() => {
           this.router.navigate(['/loans/new']);
         }, 2000);
       })
       .catch((err) => {
         // console.log("error updating data")
+        this.submitStatus = false;
         this.authService.showNotification(
           'top',
           'right',
@@ -380,8 +384,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
       });
   }
 
-  inputStatus() {
-    const kycButtonState = true;
+  inputStatus(): boolean {
     const p = this.passport;
     const n = this.national;
     const l = this.license;
@@ -406,22 +409,27 @@ export class NewUserComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getFileStack() {
-    const urlObject = {};
-    this.authService.getKycUpload().then((res) => {
-      this.authService.showNotification(
-        'top',
-        'center',
-        'KYC details uploaded successfully',
-        'success'
-      );
-      this.pending = true;
-      const data = res.filesUploaded;
-      // console.log(res.filesFailed)
-      data.forEach((entry, index) => {
-        this.kycUrlObject[index] = entry.url;
-      });
-      // console.log(this.kycUrlObject);
+  onUploadSuccess(res: any): void {
+    this.authService.showNotification(
+      'top',
+      'center',
+      'KYC details uploaded successfully',
+      'success'
+    );
+    this.pending = true;
+    const data = res.filesUploaded;
+    // console.log(res.filesFailed)
+    data.forEach((entry, index) => {
+      this.kycUrlObject[index] = entry.url;
     });
+  }
+
+  onUploadError(err: any): void {
+    this.authService.showNotification(
+      'top',
+      'center',
+      'failed uploading KYC detail',
+      'danger'
+    );
   }
 }

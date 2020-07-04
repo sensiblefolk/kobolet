@@ -1,5 +1,10 @@
-<app-header-nav></app-header-nav>
-<!-- begin::Body -->
-<router-outlet></router-outlet>
-<!-- end:: Body -->
-<app-footer></app-footer>
+<div id="page-container">
+  <app-header-nav></app-header-nav>
+  <div id="content-wrap">
+    <!-- all other page content -->
+    <!-- begin::Body -->
+    <router-outlet></router-outlet>
+    <!-- end:: Body -->
+  </div>
+  <app-footer></app-footer>
+</div>

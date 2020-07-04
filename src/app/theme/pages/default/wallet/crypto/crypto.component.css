@@ -1,4 +1,5 @@
-td, th {
+td,
+th {
   width: 40%;
   /* text-align: center; */
 }
@@ -6,12 +7,14 @@ td, th {
 .m-portlet .m-portlet__body {
   padding: 0.6rem 0.5rem;
 }
-.row.m-row--no-padding > div {
-    padding-left: 40;
-    padding-right: 0;
+
+.row.m-row--no-padding>div {
+  padding-left: 40;
+  padding-right: 0;
 }
+
 .mat-expansion-panel:not([class*=mat-elevation-z]) {
-  box-shadow: 0 0px 0px 0px rgba(0,0,0,.2), 0 0px 0px 0 rgba(0,0,0,.14), 0 0px 0px 0 rgba(0,0,0,.12);
+  box-shadow: 0 0px 0px 0px rgba(0, 0, 0, .2), 0 0px 0px 0 rgba(0, 0, 0, .14), 0 0px 0px 0 rgba(0, 0, 0, .12);
 }
 
 .m-portlet {

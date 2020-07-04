@@ -7,11 +7,11 @@ interface IRaveOptions {
   currency: string;
   country: string;
   customer_email: string;
-  customer_firstname: string;
-  customer_lastname: string;
-  custom_title: string;
-  custom_description: string;
-  custom_logo: string;
+  customerFirstname: string;
+  customerLastname: string;
+  customTitle: string;
+  customDescription: string;
+  customLogo: string;
   meta?: any;
   callback: (response: object) => void;
   onclose: () => void;
@@ -32,7 +32,7 @@ export class RaveComponent implements OnInit {
   @Input() style: object;
   @Input() className: string;
   @Output() callback = new EventEmitter<object>();
-  @Output() close = new EventEmitter();
+  @Output() closeModal = new EventEmitter<boolean>();
   @Input() key: string;
   @Input() email: string;
   @Input() amount: number;
@@ -40,19 +40,19 @@ export class RaveComponent implements OnInit {
   @Input() meta: any;
   @Input() currency: string;
   @Input() country: string;
-  @Input() customer_firstname: string;
-  @Input() customer_lastname: string;
-  @Input() custom_title: string;
-  @Input() custom_description: string;
-  @Input() custom_logo: string;
+  @Input() customerFirstname: string;
+  @Input() customerLastname: string;
+  @Input() customTitle: string;
+  @Input() customDescription: string;
+  @Input() customLogo: string;
   @Input() lock: boolean;
 
   private raveOptions: IRaveOptions;
 
   constructor() {}
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  madePayment() {
+  madePayment(): any {
     this.prepRaveOptions();
     window.getpaidSetup(this.raveOptions);
   }
@@ -63,15 +63,15 @@ export class RaveComponent implements OnInit {
       txref: this.reference,
       amount: this.amount,
       customer_email: this.email,
-      onclose: () => this.close.emit(),
+      onclose: () => this.closeModal.emit(),
       callback: (response: object) => this.callback.emit(response),
       currency: this.currency || 'NGN',
       country: this.country || 'NG',
-      customer_firstname: this.customer_firstname || '',
-      customer_lastname: this.customer_lastname || '',
-      custom_title: this.custom_title || '',
-      custom_description: this.custom_description || '',
-      custom_logo: this.custom_logo || '',
+      customerFirstname: this.customerFirstname || '',
+      customerLastname: this.customerLastname || '',
+      customTitle: this.customTitle || '',
+      customDescription: this.customDescription || '',
+      customLogo: this.customLogo || '',
       meta: this.meta || {},
     };
   }

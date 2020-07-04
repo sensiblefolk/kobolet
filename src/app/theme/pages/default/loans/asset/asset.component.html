@@ -1,6 +1,6 @@
 <div [hidden]="loading">
-<!-- BEGIN: Subheader -->
-<div class="m-subheader" appunwraptag="">
+  <!-- BEGIN: Subheader -->
+  <div class="m-subheader" appunwraptag="">
     <div class="d-flex align-items-center">
       <div class="mr-auto">
         <h3 class="m-subheader__title">
@@ -8,7 +8,7 @@
         </h3>
       </div>
       <div>
-          <app-tooltips></app-tooltips>
+        <app-tooltips></app-tooltips>
       </div>
     </div>
   </div>
@@ -24,41 +24,42 @@
               <div class="row">
                 <div class="col-4">
                   <div class="row" *ngIf="loan.type == 'bitcoin'; else ethereum">
-                      <div class="col-1 m--padding-top-5">
-                          <span class="m--font-warning">
-                              <i class="fab fa-bitcoin" style="font-size: 2rem"></i>
-                          </span>
-                      </div>
-                      <div class="col">
-                          <ul style="list-style-type:none; padding-inline-start: 0px">
-                              <li style="font-size: 1rem; font-weight: bold">BTC</li>
-                              <li style="font-size: 0.8rem">Bitcoin</li>
-                          </ul>
-                      </div>
+                    <div class="col-1 m--padding-top-5">
+                      <span class="m--font-warning">
+                        <i class="fab fa-bitcoin" style="font-size: 2rem"></i>
+                      </span>
+                    </div>
+                    <div class="col">
+                      <ul style="list-style-type:none; padding-inline-start: 0px">
+                        <li style="font-size: 1rem; font-weight: bold">BTC</li>
+                        <li style="font-size: 0.8rem">Bitcoin</li>
+                      </ul>
+                    </div>
                   </div>
                   <ng-template #ethereum>
-                      <div class="row">
-                          <div class="col-1 m--padding-top-5">
-                              <span class="">
-                                  <i class="fab fa-ethereum" style="font-size: 2rem"></i>
-                              </span>
-                          </div>
-                          <div class="col">
-                              <ul style="list-style-type:none; padding-inline-start: 0px">
-                                  <li style="font-size: 1rem; font-weight: bold">ETH</li>
-                                  <li style="font-size: 0.8rem">Ethereum</li>
-                              </ul>
-                          </div>
+                    <div class="row">
+                      <div class="col-1 m--padding-top-5">
+                        <span class="">
+                          <i class="fab fa-ethereum" style="font-size: 2rem"></i>
+                        </span>
                       </div>
+                      <div class="col">
+                        <ul style="list-style-type:none; padding-inline-start: 0px">
+                          <li style="font-size: 1rem; font-weight: bold">ETH</li>
+                          <li style="font-size: 0.8rem">Ethereum</li>
+                        </ul>
+                      </div>
+                    </div>
                   </ng-template>
 
                 </div>
                 <div class="col-4 m--align-center">
-                    <div class="m--font-secondary">Maturity</div>
-                    <div class="m--font-bolder">{{loan?.expires_at | date: 'mediumDate'}}</div>
+                  <div class="m--font-secondary">Maturity</div>
+                  <div class="m--font-bolder">{{loan?.expires_at | date: 'mediumDate'}}</div>
                 </div>
                 <div class="col-4 m--align-right">
-                  <button type="button" class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--air m-btn--pill" (click)="newDepositModal(loan)">
+                  <button type="button" class="btn btn-brand btn-sm m-btn m-btn--icon m-btn--air m-btn--pill"
+                    (click)="newDepositModal(loan)">
                     <span>
                       <span>
                         Pay now
@@ -72,61 +73,69 @@
               <mat-divider></mat-divider>
               <div class="row" style="padding: 1.2rem 2rem">
                 <div class="col">
-                    <div class="m--font-secondary m--font-normal">Collateral</div>
-                    <span class="m--font-boldest m--regular-font-size-lg4">{{loan.heldCrypto | number:'1.0-4'}}</span>&nbsp;
-                    <span class="m--font-secondary m--font-bold m--regular-font-size-sm1">({{loan?.marketPrice | currency:loan?.currency: 'symbol': '1.0-0'}})</span>
+                  <div class="m--font-secondary m--font-normal">Collateral</div>
+                  <span
+                    class="m--font-boldest m--regular-font-size-lg4">{{loan.heldCrypto | number:'1.0-4'}}</span>&nbsp;
+                  <span
+                    class="m--font-secondary m--font-bold m--regular-font-size-sm1">({{loan?.marketPrice | currency:loan?.currency: 'symbol': '1.0-0'}})</span>
                 </div>
                 <div class="col m--align-center">
-                    <div class="m--font-secondary m--font-normal">Borrowed</div>
-                    <span class="m--font-boldest m--regular-font-size-lg4">&#36;&nbsp;{{loan.amount | number: '1.0-0'}}</span>&nbsp;
-                    <span class="m--font-secondary m--font-bold m--regular-font-size-sm1">({{loan.amount * rates | currency: loan?.currency: 'symbol': '1.0-0'}})</span>&nbsp;
-                    <span class="m--font-secondary m--regular-font-size-sm1">on {{loan.created_at | date: 'MMMM d'}}</span>
+                  <div class="m--font-secondary m--font-normal">Borrowed</div>
+                  <span
+                    class="m--font-boldest m--regular-font-size-lg4">&#36;&nbsp;{{loan.amount | number: '1.0-0'}}</span>&nbsp;
+                  <span
+                    class="m--font-secondary m--font-bold m--regular-font-size-sm1">({{loan.amount * rates | currency: loan?.currency: 'symbol': '1.0-0'}})</span>&nbsp;
+                  <span class="m--font-secondary m--regular-font-size-sm1">on
+                    {{loan.created_at | date: 'MMMM d'}}</span>
                 </div>
                 <div class="col m--align-right">
-                    <div class="m--font-secondary m--font-normal">Balance left</div>
-                    <span class="m--font-boldest m--regular-font-size-lg4">&#36;&nbsp;{{(loan.currentLoanAmountAndInterest - loan.paidBack) | number: '1.0-1'}}</span>&nbsp;
-                    <span class="m--font-secondary m--font-bold m--regular-font-size-sm1">({{(loan?.currentLoanAmountAndInterest - loan.paidBack) * rates | currency:loan?.currency: 'symbol': '1.0-0'}})</span>
+                  <div class="m--font-secondary m--font-normal">Balance left</div>
+                  <span
+                    class="m--font-boldest m--regular-font-size-lg4">&#36;&nbsp;{{(loan.currentLoanAmountAndInterest - loan.paidBack) | number: '1.0-1'}}</span>&nbsp;
+                  <span
+                    class="m--font-secondary m--font-bold m--regular-font-size-sm1">({{(loan?.currentLoanAmountAndInterest - loan.paidBack) * rates | currency:loan?.currency: 'symbol': '1.0-0'}})</span>
                 </div>
               </div>
               <div class="row" style="padding: 0.6rem 1rem" *ngIf="loan.anchorButtonStatus">
                 <div class="col-12">
-                   <!--begin::Portlet-->
+                  <!--begin::Portlet-->
                   <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
-                      <div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                          <div class="m-portlet__head-title">
-                            <h3 class="m-portlet__head-text" *ngIf="loan.transactionLength == 0">
-                              You have no transactions
-                            </h3>
-                            <h4 class="m-portlet__head-label m-portlet__head-label--accent">
-                              <span style="font-size: 1rem">
-                                Transactions
-                              </span>
-                            </h4>
-                          </div>
+                    <div class="m-portlet__head">
+                      <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                          <h3 class="m-portlet__head-text" *ngIf="loan.transactionLength == 0">
+                            You have no transactions
+                          </h3>
+                          <h4 class="m-portlet__head-label m-portlet__head-label--accent">
+                            <span style="font-size: 1rem">
+                              Transactions
+                            </span>
+                          </h4>
                         </div>
                       </div>
-                      <div class="m-portlet__body" *ngIf="loan.transactionLength > 0">
-                          <div class="mat-elevation-z0">
-                              <table mat-table [dataSource]="dataSource" matSort>
+                    </div>
+                    <div class="m-portlet__body" *ngIf="loan.transactionLength > 0">
+                      <div class="mat-elevation-z0">
+                        <table mat-table [dataSource]="dataSource" matSort>
 
-                                <!-- Amount Column -->
-                                <ng-container matColumnDef="amount">
-                                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
-                                  <td mat-cell *matCellDef="let row"> {{row?.amount | currency:row?.currency: 'symbol': '1.0-0'}} </td>
-                                </ng-container>
+                          <!-- Amount Column -->
+                          <ng-container matColumnDef="amount">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+                            <td mat-cell *matCellDef="let row">
+                              {{row?.amount | currency:row?.currency: 'symbol': '1.0-0'}} </td>
+                          </ng-container>
 
-                                <!-- Time Column -->
-                                <ng-container matColumnDef="time">
-                                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
-                                  <td mat-cell *matCellDef="let row"> {{row?.timestamp | date:'medium'}} </td>
-                                </ng-container>
+                          <!-- Time Column -->
+                          <ng-container matColumnDef="time">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
+                            <td mat-cell *matCellDef="let row"> {{row?.timestamp | date:'medium'}} </td>
+                          </ng-container>
 
-                                <!-- Type Column -->
-                                <ng-container matColumnDef="type">
-                                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
-                                  <td mat-cell *matCellDef="let row">
-                                  <!-- <span class="m-nav__link-icon m--font-success" *ngIf="row.type === 'deposit'">
+                          <!-- Type Column -->
+                          <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                            <td mat-cell *matCellDef="let row">
+                              <!-- <span class="m-nav__link-icon m--font-success" *ngIf="row.type === 'deposit'">
                                         <span class="">
                                             <i class="material-icons">
                                                 arrow_back
@@ -149,93 +158,85 @@
                                         </span>
                                     </span> -->
 
-                                    <span class="m-badge m-badge--danger m-badge--wide" *ngIf="row.type=='withdrawal'">
-                                        withdrawal
-                                    </span>
-                                    <span class="m-badge m-badge--success m-badge--wide" *ngIf="row.type=='deposit';">
-                                        deposit
-                                    </span>
-                                    <span class="m-badge m-badge--warning m-badge--wide" *ngIf="row.type=='liquidation';">
-                                        liquidation
-                                    </span>
-                                    <span class="m-badge m-badge--primary m-badge--wide" *ngIf="row.type=='pending';">
-                                        pending
-                                    </span>
-                                  </td>
-                                </ng-container>
+                              <span class="m-badge m-badge--danger m-badge--wide" *ngIf="row.type=='withdrawal'">
+                                withdrawal
+                              </span>
+                              <span class="m-badge m-badge--success m-badge--wide" *ngIf="row.type=='deposit';">
+                                deposit
+                              </span>
+                              <span class="m-badge m-badge--warning m-badge--wide" *ngIf="row.type=='liquidation';">
+                                liquidation
+                              </span>
+                              <span class="m-badge m-badge--primary m-badge--wide" *ngIf="row.type=='pending';">
+                                pending
+                              </span>
+                            </td>
+                          </ng-container>
 
-                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-                                </tr>
-                              </table>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                          </tr>
+                        </table>
 
-                              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5"></mat-paginator>
-                            </div>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5"></mat-paginator>
                       </div>
                     </div>
-                    <!--end::Portlet-->
+                  </div>
+                  <!--end::Portlet-->
                 </div>
               </div>
               <div class="row">
-                  <div class="col-12 m--align-right pull-right" *ngIf="!loan.anchorButtonStatus; else showTransaction">
-                      <span style="cursor: pointer" (click)="toggleAnchorButton(loan, true, i)">
-                          <i class="la la-angle-down"></i>
-                      </span>
+                <div class="col-12 m--align-right pull-right" *ngIf="!loan.anchorButtonStatus; else showTransaction">
+                  <span style="cursor: pointer" (click)="toggleAnchorButton(loan, true, i)">
+                    <i class="la la-angle-down"></i>
+                  </span>
+                </div>
+                <ng-template #showTransaction>
+                  <div class="col-12 m--align-right pull-right">
+                    <span style="cursor: pointer" (click)="toggleAnchorButton(loan, false, i)">
+                      <i class="la la-angle-up"></i>
+                    </span>
                   </div>
-                  <ng-template #showTransaction>
-                      <div class="col-12 m--align-right pull-right" >
-                          <span style="cursor: pointer" (click)="toggleAnchorButton(loan, false, i)">
-                              <i class="la la-angle-up"></i>
-                          </span>
-                      </div>
-                  </ng-template>
+                </ng-template>
 
               </div>
             </div>
             <!-- End bitcoin portlet-->
           </div>
-           <!-- Begin new detail modal-->
+          <!-- Begin new detail modal-->
           <ng-template #newDeposit let-c="close" let-d="dismiss">
-              <div class="modal-header">
-                  <h4 class="modal-title">Loan Payment</h4>
-                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <div class="row">
-                      <div class="col-12">
-                      <!--<span class="alert alert-secondary m-alert--air" *ngIf="showBankSaveNotification">
+            <div class="modal-header">
+              <h4 class="modal-title">Loan Payment</h4>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12">
+                  <!--<span class="alert alert-secondary m-alert--air" *ngIf="showBankSaveNotification">
                           <span class="m--font-success">bank details saved successfully</span>
                         </span> -->
 
-                        <div class="form-group">
-                            <label class="m--align-left">Enter Amount</label>
-                            <div class="m--align-right pull-right m--font-bold m--font-danger">
-                              Max: {{(loanDataObject?.currentLoanAmountAndInterest - loanDataObject?.paidBack) * rates | currency:loanDataObject?.currency: 'symbol': '1.0-0'}}
-                            </div>
-                            <input type="text" class="form-control m-input m-input--air" #amount (input)="metaDetail(amount.value)" (keyup)="maxAmount(amount.value)">
-                        </div>
-                      </div>
-                      <div class="col m--align-center">
-                          <app-rave-pay
-                          [text]="'Pay now'"
-                          [className]="'btn btn-air btn-info'"
-                          (callback)="confirmPayment($event)"
-                          (close)="cancelledPayment()"
-                          [key]="id"
-                          [reference]="txRef"
-                          [amount]="payBackAmount"
-                          [email]="userDetails.email"
-                          [country]="userCountry"
-                          [currency]="loan.currency"
-                          [customer_firstname]="userDetails.name"
-                          [lock]="raveButtonStatus"
-                          [meta]="metaData"
-                          ></app-rave-pay>
-                        </div>
+                  <div class="form-group">
+                    <label class="m--align-left">Enter Amount</label>
+                    <div class="m--align-right pull-right m--font-bold m--font-danger">
+                      Max:
+                      {{(loanDataObject?.currentLoanAmountAndInterest - loanDataObject?.paidBack) * rates | currency:loanDataObject?.currency: 'symbol': '1.0-0'}}
                     </div>
+                    <input type="text" class="form-control m-input m-input--air" #amount
+                      (input)="metaDetail(amount.value)" (keyup)="maxAmount(amount.value)">
+                  </div>
+                </div>
+                <div class="col m--align-center">
+                  <app-rave-pay [text]="'Pay now'" [className]="'btn btn-air btn-info'"
+                    (callback)="confirmPayment($event)" (closeModal)="cancelledPayment()" [key]="id" [reference]="txRef"
+                    [amount]="payBackAmount" [email]="userDetails.email" [country]="userCountry"
+                    [currency]="loan.currency" [customerFirstname]="userDetails.name" [lock]="raveButtonStatus"
+                    [meta]="metaData"></app-rave-pay>
+                </div>
               </div>
+            </div>
           </ng-template>
           <!-- End new deposit modal-->
         </div>
@@ -244,6 +245,5 @@
   </div>
 </div>
 <div class="loaded" [hidden]="!loading">
-    <div class="m-spinner m-spinner--info m-spinner--lg"></div>
+  <div class="m-spinner m-spinner--info m-spinner--lg"></div>
 </div>
-

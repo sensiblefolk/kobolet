@@ -1,27 +1,28 @@
-
 .m-portlet .m-portlet__body {
   padding: 0.6rem 0.5rem;
 }
-.row.m-row--no-padding > div {
-    padding-left: 40;
-    padding-right: 0;
+
+.row.m-row--no-padding>div {
+  padding-left: 40;
+  padding-right: 0;
 }
+
 .m-widget1 .m-widget1__item .m-widget1__number {
-    font-size: 1.2rem;
-    font-weight: 400;
+  font-size: 1.2rem;
+  font-weight: 400;
 }
 
 .m-widget1 .m-widget1__item .m-widget1__title {
-    font-size: 1.2rem;
-    font-weight: 400;
-    margin-bottom: 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 0;
 }
 
 .right {
-    position: absolute;
-    right: 0px;
-    width: 75px;
-    padding: 10px;
+  position: absolute;
+  right: 0px;
+  width: 75px;
+  padding: 10px;
 }
 
 .example-headers-align .mat-expansion-panel-header-title,
@@ -39,7 +40,7 @@ mat-form-field {
 }
 
 .mat-expansion-panel:not([class*=mat-elevation-z]) {
-  box-shadow: 0 0px 0px 0px rgba(0,0,0,.2), 0 0px 0px 0 rgba(0,0,0,.14), 0 0px 0px 0 rgba(0,0,0,.12);
+  box-shadow: 0 0px 0px 0px rgba(0, 0, 0, .2), 0 0px 0px 0 rgba(0, 0, 0, .14), 0 0px 0px 0 rgba(0, 0, 0, .12);
 }
 
 .m-portlet {
@@ -52,5 +53,3 @@ mat-form-field {
   box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.25);
   border-radius: 10px 10px;
 }
-
-

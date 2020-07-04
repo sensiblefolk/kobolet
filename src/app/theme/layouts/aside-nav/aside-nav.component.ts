@@ -1,8 +1,8 @@
 import {
   Component,
   OnInit,
-  ViewEncapsulation,
   AfterViewInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { AuthService } from '../../../_services/auth.service';
 // import { Helpers } from '../../../helpers';
@@ -15,12 +15,12 @@ declare let mLayout: any;
 })
 export class AsideNavComponent implements OnInit, AfterViewInit {
   constructor(private authService: AuthService) {}
-  ngOnInit() {}
-  ngAfterViewInit() {
+  ngOnInit(): void {}
+  ngAfterViewInit(): void {
     mLayout.initAside();
   }
 
-  logout() {
+  logout(): void {
     this.authService.logOut();
   }
 }

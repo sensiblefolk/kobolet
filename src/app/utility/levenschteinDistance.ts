@@ -2,11 +2,12 @@ export const trimString = (text: string) => {
   const splitString = text.toLowerCase().split('');
   const trimArray = [];
   let wordCount = 0;
-  for (let i = 0; i < splitString.length; i++) {
-    if (splitString[i] === ' ') {
+
+  for (const char of splitString) {
+    if (splitString[char] === ' ') {
       continue;
     }
-    trimArray.push(splitString[i]);
+    trimArray.push(splitString[char]);
     wordCount += 1;
   }
   trimArray.sort();
@@ -28,7 +29,9 @@ export const levenschteinDistance = (string1: string, string2: string) => {
     evenEdits.push(j);
   }
   for (let i = 1; i < big.length + 1; i++) {
-    let currentEdits, previousEdits;
+    let currentEdits: any[];
+    let previousEdits;
+
     if (i % 2 === 1) {
       currentEdits = oddEdits;
       previousEdits = evenEdits;

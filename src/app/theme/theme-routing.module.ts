@@ -11,21 +11,29 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren:
-          './pages/subheader-type-search/index/index.module#IndexModule',
+        loadChildren: () =>
+          import('./pages/home/index/index.module').then((m) => m.IndexModule),
       },
       {
         path: 'user',
-        loadChildren:
-          './pages/default/user-profile/user-profile.module#UserProfileModule',
+        loadChildren: () =>
+          import('./pages/default/user-profile/user-profile.module').then(
+            (m) => m.UserProfileModule
+          ),
       },
       {
         path: 'wallet',
-        loadChildren: './pages/default/wallet/wallet.module#WalletModule',
+        loadChildren: () =>
+          import('./pages/default/wallet/wallet.module').then(
+            (m) => m.WalletModule
+          ),
       },
       {
         path: 'loans',
-        loadChildren: './pages/default/loans/loans.module#LoansModule',
+        loadChildren: () =>
+          import('./pages/default/loans/loans.module').then(
+            (m) => m.LoansModule
+          ),
       },
       {
         path: '404',
