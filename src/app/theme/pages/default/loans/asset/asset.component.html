@@ -230,9 +230,9 @@
                 </div>
                 <div class="col m--align-center">
                   <app-rave-pay [text]="'Pay now'" [className]="'btn btn-air btn-info'"
-                    (callback)="confirmPayment($event)" (close)="cancelledPayment()" [key]="id" [reference]="txRef"
+                    (callback)="confirmPayment($event)" (closeModal)="cancelledPayment()" [key]="id" [reference]="txRef"
                     [amount]="payBackAmount" [email]="userDetails.email" [country]="userCountry"
-                    [currency]="loan.currency" [customer_firstname]="userDetails.name" [lock]="raveButtonStatus"
+                    [currency]="loan.currency" [customerFirstname]="userDetails.name" [lock]="raveButtonStatus"
                     [meta]="metaData"></app-rave-pay>
                 </div>
               </div>

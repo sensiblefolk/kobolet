@@ -10,14 +10,14 @@ import { Helpers } from '../../helpers';
 })
 export class LogoutComponent implements OnInit {
   constructor(
-    private _router: Router,
-    private _authService: AuthenticationService
+    private router: Router,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     Helpers.setLoading(true);
     // reset login status
-    this._authService.logout();
-    this._router.navigate(['/login']);
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

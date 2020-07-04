@@ -15,7 +15,7 @@ import { take, map, tap } from 'rxjs/operators';
 export class AuthGuard implements CanActivate {
   user: Observable<firebase.User>;
 
-  constructor(private _router: Router, private auth: AngularFireAuth) {
+  constructor(private router: Router, private auth: AngularFireAuth) {
     this.user = auth.authState;
   }
 
@@ -24,28 +24,13 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    /*	return this._userService.verify().map(
-			data => {
-				if (data !== null) {
-					// logged in so return true
-					return true;
-				}
-				// error when verify so redirect to login page with the return url
-				this._router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
-				return false;
-			},
-			error => {
-				// error when verify so redirect to login page with the return url
-				this._router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
-				return false;
-			}); */
 
     return from(this.user).pipe(
       take(1),
       map((currentState) => !!currentState),
       tap((authenticated) => {
         if (!authenticated) {
-          this._router.navigate(['/login'], {
+          this.router.navigate(['/login'], {
             queryParams: { returnUrl: state.url },
           });
         }

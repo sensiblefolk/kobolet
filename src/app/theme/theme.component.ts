@@ -59,6 +59,7 @@ export class ThemeComponent implements OnInit {
         (mApp as any).scrollTop();
         Helpers.setLoading(true);
         // hide visible popover
+        // tslint:disable-next-line: quotemark
         ($("[data-toggle='m-popover']") as any).popover('hide');
       }
       if (route instanceof NavigationEnd) {

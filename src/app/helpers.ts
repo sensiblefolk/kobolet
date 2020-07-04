@@ -1,9 +1,9 @@
 import * as $ from 'jquery';
 
 export class Helpers {
-  static loadStyles(tag, src) {
+  static loadStyles(tag, src): void {
     if (Array.isArray(src)) {
-      $.each(src, function (k, s) {
+      $.each(src, (k, s) => {
         $(tag).append(
           $('<link/>')
             .attr('href', s)
@@ -21,23 +21,23 @@ export class Helpers {
     }
   }
 
-  static unwrapTag(element) {
+  static unwrapTag(element): void {
     $(element).removeAttr('appunwraptag').unwrap();
   }
 
   /**
    * Set title markup
-   * @param title
+   * @param 'title'
    */
-  static setTitle(title) {
+  static setTitle(title): void {
     $('.m-subheader__title').text(title);
   }
 
   /**
    * Breadcrumbs markup
-   * @param breadcrumbs
+   * @param 'breadcrumbs'
    */
-  static setBreadcrumbs(breadcrumbs) {
+  static setBreadcrumbs(breadcrumbs): void {
     if (breadcrumbs) {
       $('.m-subheader__title').addClass('m-subheader__title--separator');
     }
@@ -59,7 +59,7 @@ export class Helpers {
     }
 
     $(ul).find('li:not(:first-child)').remove();
-    $.each(breadcrumbs, function (k, v) {
+    $.each(breadcrumbs, (k, v) => {
       const li = $('<li/>')
         .addClass('m-nav__item')
         .append(
@@ -76,7 +76,7 @@ export class Helpers {
     $('.m-subheader .m-stack__item:first-child').append(ul);
   }
 
-  static setLoading(enable) {
+  static setLoading(enable): void {
     const body = $('body');
     if (enable) {
       $(body).addClass('m-page--loading-non-block');
@@ -85,7 +85,7 @@ export class Helpers {
     }
   }
 
-  static bodyClass(strClass) {
+  static bodyClass(strClass): void {
     $('body').attr('class', strClass);
   }
 }

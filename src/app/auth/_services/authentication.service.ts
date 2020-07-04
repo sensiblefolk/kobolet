@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<any> {
     return this.http
-      .post(
-        '/api/authenticate',
-        JSON.stringify({ email: email, password: password })
-      )
+      .post('/api/authenticate', JSON.stringify({ email, password }))
       .pipe(
         map((response: any) => {
           // login successful if there's a jwt token in the response
@@ -24,7 +22,7 @@ export class AuthenticationService {
       );
   }
 
-  logout() {
+  logout(): void {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
   }

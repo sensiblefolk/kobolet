@@ -16,7 +16,7 @@ import { environment } from '../../environments/environment.prod';
 })
 export class ApiService {
   error: any;
-  base_url: any = 'https://live.moneywaveapi.co/v1';
+  baseUrl: any = 'https://live.moneywaveapi.co/v1';
   activeEnv: any = this.authService.getRavePayEnv;
   id: string = this.activeEnv.id;
 
@@ -28,7 +28,9 @@ export class ApiService {
         'Access-Control-Allow-Origin': 'http://localhost:4200',
       }),
     };
-    return this.http.get(`${environment.coinbase.priceUrl}/prices/${ticker}/spot`);
+    return this.http.get(
+      `${environment.coinbase.priceUrl}/prices/${ticker}/spot`
+    );
   }
 
   qrCodeGenerator(
@@ -50,7 +52,7 @@ export class ApiService {
       }),
     };
 
-    return this.http.post(`${this.base_url}/banks/${query}`, {}, httpOptions);
+    return this.http.post(`${this.baseUrl}/banks/${query}`, {}, httpOptions);
   }
 
   // POST withdrawal data to gateway provider
@@ -121,7 +123,7 @@ export class ApiService {
     };
 
     return this.http.post(
-      `${this.base_url}/merchant/verify`,
+      `${this.baseUrl}/merchant/verify`,
       query,
       httpOptions
     );
@@ -137,14 +139,14 @@ export class ApiService {
     };
 
     return this.http.post(
-      `${this.base_url}/resolve/account`,
+      `${this.baseUrl}/resolve/account`,
       query,
       httpOptions
     );
   }
   /* End moneywave inner handlers */
 
-  private _handleError(err: HttpErrorResponse | any) {
+  private _handleError(err: HttpErrorResponse | any): Observable<Error> {
     const errorMsg = err.message || 'Error: Unable to complete request.';
     if (!err.ok) {
       this.error = 'error processing transaction, please try again';

@@ -10,18 +10,18 @@ interface Script {
   providedIn: 'root',
 })
 export class ScriptLoaderService {
-  public _scripts: Script[] = [];
+  public scripts: Script[] = [];
 
   /**
    * @deprecated
-   * @param tag
-   * @param {string} scripts
-   * @returns {Promise<any[]>}
+   * @param 'tag'
+   * @param '{string} scripts'
+   * @returns '{Promise<any[]>}'
    */
-  load(tag: any, ...scripts: string[]) {
+  load(tag: any, ...scripts: string[]): Promise<any> {
     scripts.forEach((src: string) => {
-      if (!this._scripts[src]) {
-        this._scripts[src] = { src: src, loaded: false };
+      if (!this.scripts[src]) {
+        this.scripts[src] = { src, loaded: false };
       }
     });
 
@@ -33,17 +33,17 @@ export class ScriptLoaderService {
 
   /**
    * Lazy load list of scripts
-   * @param tag
-   * @param scripts
-   * @param loadOnce
-   * @returns {Promise<any[]>}
+   * @param 'tag'
+   * @param 'scripts'
+   * @param 'loadOnce'
+   * @returns '{Promise<any[]>}'
    */
-  loadScripts(tag: string, scripts: any[], loadOnce?: boolean) {
+  loadScripts(tag: string, scripts: any[], loadOnce?: boolean): Promise<any> {
     loadOnce = loadOnce || false;
 
     scripts.forEach((script: string) => {
-      if (!this._scripts[script]) {
-        this._scripts[script] = { src: script, loaded: false };
+      if (!this.scripts[script]) {
+        this.scripts[script] = { src: script, loaded: false };
       }
     });
 
@@ -57,32 +57,32 @@ export class ScriptLoaderService {
 
   /**
    * Lazy load a single script
-   * @param tag
-   * @param {string} src
-   * @param loadOnce
-   * @returns {Promise<any>}
+   * @param 'tag'
+   * @param '{string} src'
+   * @param 'loadOnce'
+   * @returns '{Promise<any>}'
    */
-  loadScript(tag: any, src: string, loadOnce?: boolean) {
+  loadScript(tag: any, src: string, loadOnce?: boolean): Promise<any> {
     loadOnce = loadOnce || false;
 
-    if (!this._scripts[src]) {
-      this._scripts[src] = { src: src, loaded: false };
+    if (!this.scripts[src]) {
+      this.scripts[src] = { src, loaded: false };
     }
 
     return new Promise((resolve, reject) => {
       // resolve if already loaded
-      if (this._scripts[src].loaded && loadOnce) {
-        resolve({ src: src, loaded: true });
+      if (this.scripts[src].loaded && loadOnce) {
+        resolve({ src, loaded: true });
       } else {
         // load script tag
         const scriptTag = $('<script/>')
           .attr('type', 'text/javascript')
-          .attr('src', this._scripts[src].src);
+          .attr('src', this.scripts[src].src);
 
         $(tag).append(scriptTag);
 
-        this._scripts[src] = { src: src, loaded: true };
-        resolve({ src: src, loaded: true });
+        this.scripts[src] = { src, loaded: true };
+        resolve({ src, loaded: true });
       }
     });
   }
