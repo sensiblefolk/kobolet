@@ -48,7 +48,7 @@ steps:
   - script: npm install firebase-tools
     displayName: "install firebase"
 
-  - script: firebase deploy --token $(FIREBASE_TOKEN) --except functions
+  - script: './node_modules/.bin/firebase deploy --only hosting --token=$(FIREBASE_TOKEN)'
     displayName: "deploy to firebase hosting"
 
   - task: PublishBuildArtifacts@1
