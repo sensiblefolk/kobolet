@@ -2,6 +2,6 @@
   "projects": {
     "production": "kobolet-prod",
     "development": "kobolet-dev",
-    "default": "kobolet-dev"
+    "default": "kobolet-production"
   }
 }
