@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { DefaultComponent } from '../pages/default/default.component';
 import { HeaderNavComponent } from './header-nav/header-nav.component';
-import { SubheaderTypeSearchComponent } from '../pages/subheader-type-search/subheader-type-search.component';
+import { HomeComponent } from '../pages/home/home.component';
 import { AsideNavComponent } from './aside-nav/aside-nav.component';
 import { FooterComponent } from './footer/footer.component';
 import { QuickSidebarComponent } from './quick-sidebar/quick-sidebar.component';
@@ -16,7 +16,7 @@ import { UnwrapTagDirective } from '../../_directives/unwrap-tag.directive';
   declarations: [
     DefaultComponent,
     HeaderNavComponent,
-    SubheaderTypeSearchComponent,
+    HomeComponent,
     AsideNavComponent,
     FooterComponent,
     QuickSidebarComponent,
@@ -28,7 +28,7 @@ import { UnwrapTagDirective } from '../../_directives/unwrap-tag.directive';
   exports: [
     DefaultComponent,
     HeaderNavComponent,
-    SubheaderTypeSearchComponent,
+    HomeComponent,
     AsideNavComponent,
     FooterComponent,
     QuickSidebarComponent,

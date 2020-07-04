@@ -22,4 +22,9 @@ export const environment = {
     secret: 'lv_A0AOSGBA27RIEHLOJ7VZIJML98H265',
   },
   fileStackApi: 'ABqpa1X3SvCTk1KQRyQlwz',
+  coinbase: {
+    priceUrl: 'https://api.coinbase.com/v2',
+    commerce: 'https://api.commerce.coinbase.com'
+  },
+  qrserverUrl: 'https://api.qrserver.com/v1/create-qr-code',
 };

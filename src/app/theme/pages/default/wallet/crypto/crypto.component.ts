@@ -18,7 +18,9 @@ import { Subscription } from 'rxjs';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import { NgForm } from '@angular/forms';
 
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -99,26 +101,26 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
   pendingTransactionObservable: Subscription;
 
   constructor(
-    private _script: ScriptLoaderService,
+    private script: ScriptLoaderService,
     private authService: AuthService,
     private apiService: ApiService,
     private modalService: NgbModal,
     private afs: AngularFirestore
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     // this.getTransactions();
     // this.getPendingTransactions();
     this.getWallet();
   }
 
-  ngAfterViewInit() {
-    this._script.loadScripts('app-crypto', [
+  ngAfterViewInit(): void {
+    this.script.loadScripts('app-crypto', [
       'assets/demo/demo6/default/component/portlets/tools.js',
     ]);
   }
 
-  getWallet() {
+  getWallet(): void {
     /* Begin bitcoin wallet */
     this.btcWalletRef = this.afs.doc(
       `wallet/${this.authService.currentUserId}/bitcoin/holding`
@@ -159,7 +161,7 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
     /* End ethereum wallet */
   }
 
-  getTransactions(crypto: string) {
+  getTransactions(crypto: string): void {
     // tslint:disable-next-line:max-line-length
     const transRef = this.afs.collection(
       `transactions/${this.authService.currentUserId}/${crypto}`
@@ -179,7 +181,7 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  getPendingTransactions(crypto: string) {
+  getPendingTransactions(crypto: string): void {
     // tslint:disable-next-line:max-line-length
     const transRef = this.afs.collection(
       `transactions/${this.authService.currentUserId}/deposit`,
@@ -210,15 +212,15 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
     return sortArray;
   }
 
-  toggleAnchorButton(type: string, status: boolean) {
+  toggleAnchorButton(type: string, status: boolean): void {
     if (type === 'bitcoin' && status) {
       this.anchorToggleObject[type] = status;
-      this.anchorToggleObject['ethereum'] = !status;
+      this.anchorToggleObject.ethereum = !status;
       this.getTransactions('bitcoin');
       this.getPendingTransactions('bitcoin');
     } else if (type === 'ethereum' && status) {
       this.anchorToggleObject[type] = status;
-      this.anchorToggleObject['bitcoin'] = !status;
+      this.anchorToggleObject.bitcoin = !status;
       this.getTransactions('ethereum');
       this.getPendingTransactions('ethereum');
     } else {
@@ -227,7 +229,7 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // opens withdral modal once first withdraw button is clicked
-  onWithdrawModal(type: string) {
+  onWithdrawModal(type: string): void {
     if (type === 'bitcoin') {
       this.crypto = this.cryptoType.find((data) => data.name === type);
       this.walletBalance = this.btcWalletBalance;
@@ -256,19 +258,19 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // changes withdraw summary state button
-  withdrawSummary(confirm: boolean, back: boolean) {
-    this.inputSummary['confirm'] = confirm;
-    this.inputSummary['back'] = back;
-    this.inputSummary['show'] = false;
+  withdrawSummary(confirm: boolean, back: boolean): void {
+    this.inputSummary.confirm = confirm;
+    this.inputSummary.back = back;
+    this.inputSummary.show = false;
     if (back) {
-      this.inputSummary['confirm'] = false;
+      this.inputSummary.confirm = false;
       this.validateButtonSpinner = false;
     } else if (confirm) {
       this.processWithdrawal(this.formValue);
     }
   }
 
-  maxCheck(amount: number) {
+  maxCheck(amount: number): void {
     const payable = this.maxWithdraw;
     if (payable === 0) {
       this.maximum = false;
@@ -282,9 +284,9 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm): void {
     this.validateButtonSpinner = true;
-    this.inputSummary['show'] = true;
+    this.inputSummary.show = true;
     const formValue = form.value;
     this.formValue = form.value;
 
@@ -293,18 +295,18 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  processWithdrawal(formValue: any) {
+  processWithdrawal(formValue: any): void {
     const amount = formValue.amount;
 
     if (
       this.walletAddress !== formValue.adderess &&
       this.walletAmount !== amount
     ) {
-      this.inputSummary['confirm'] = false;
+      this.inputSummary.confirm = false;
       return;
     }
     const query = {
-      amount: amount,
+      amount,
       currency: this.crypto.name,
       address: formValue.address,
     };
@@ -318,7 +320,7 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
           'success'
         );
         this.modalReference.close();
-        this.inputSummary['show'] = false;
+        this.inputSummary.show = false;
         const message = `${amount + this.crypto.fee}${
           this.crypto.symbol
         } withdrawn successfully`;
@@ -352,7 +354,7 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.btcWalletObservable) {
       this.btcWalletObservable.unsubscribe();
     }

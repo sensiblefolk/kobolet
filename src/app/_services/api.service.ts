@@ -28,7 +28,7 @@ export class ApiService {
         'Access-Control-Allow-Origin': 'http://localhost:4200',
       }),
     };
-    return this.http.get(`https://api.coinbase.com/v2/prices/${ticker}/spot`);
+    return this.http.get(`${environment.coinbase.priceUrl}/prices/${ticker}/spot`);
   }
 
   qrCodeGenerator(
@@ -74,17 +74,6 @@ export class ApiService {
     );
   }
 
-  // POST withdrawal data to gateway provider
-  postLocalFiatTransfer$(balance): Observable<any> {
-    return this.http.post(
-      `${this.activeEnv.functionsUrl}/api/withdrawal/fiat`,
-      balance,
-      {
-        params: new HttpParams().set('id', this.authService.currentUserId),
-      }
-    );
-  }
-
   postWalletFunding(postData): Observable<any> {
     return this.http.post(
       `${this.activeEnv.functionsUrl}/api/crypto/payment/new`,
@@ -119,7 +108,6 @@ export class ApiService {
   }
 
   /* Beginning moneywave inner handlers */
-  // POST withdrawal data to gateway provider
   getAuthentication(): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({

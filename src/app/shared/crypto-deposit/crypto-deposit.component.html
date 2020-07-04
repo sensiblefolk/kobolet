@@ -1,0 +1,92 @@
+  <ng-template #cryptoModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Fund {{ cryptoCurrency }} wallet</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="!pendingStatus; else pending">
+        <div class="row">
+          <div class="col-md-12 m--padding-30">
+            <img [src]="coinbaseApiObject.image_url" class="centered-img" />
+          </div>
+          <span class="m--font-normal m--font-metal m--padding-10 m--align-center m--block-center">
+            Please send exactly
+            <b>{{ postCryptoApiAmount }}{{ cryptoCurrency }}</b> to the
+            address below </span><br />
+          <span class="m--font-normal m--font-metal m--padding-20 m--align-center m--block-center">Please note that
+            deposit sent to wrong address/blockchain are
+            irreversible</span>
+        </div>
+        <div class="form-group">
+          <label for="recipient-name" class="form-control-label">
+            Address:
+          </label>
+          <div class="input-group">
+            <input type="text" [(ngModel)]="cryptoAddress" class="form-control" disabled />
+            <div class="input-group-append">
+              <a class="btn" [ngClass]="{
+                      'btn-success': !isCopied1,
+                      'btn-secondary': isCopied1
+                    }" (click)="copyToClipboard(cryptoAddress)">
+                <i class="la la-copy"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="recipient-name" class="form-control-label">
+            Amount:
+          </label>
+          <div class="input-group">
+            <input type="number" [(ngModel)]="postCryptoApiAmount" class="form-control" disabled />
+            <div class="input-group-append">
+              <a class="btn" [ngClass]="{
+                      'btn-success': !isCopied2,
+                      'btn-secondary': isCopied2
+                    }" (click)="copyToClipboard(postCryptoApiAmount)">
+                <i class="la la-copy"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="form-group m--padding-10">
+          <div class="m--font-normal m--align-center" *ngIf="!expired; else status">
+            Transaction would expire in:
+            <!-- <countdown-timer class="m--font-info" [end]="coinbaseApiObject.expires_at"></countdown-timer> -->
+            <countdown [config]="{ stopTime: expiryDate }" (event)="handleDepositExpiredEvent($event)"></countdown>
+          </div>
+          <ng-template #status>
+            <div class="m--font-danger m--align-center" [hidden]="">
+              Transaction expired!!!
+            </div>
+          </ng-template>
+        </div>
+      </div>
+      <ng-template #pending>
+        <div class="form-group m--padding-40">
+          <div class="m--font-normal m--align-center">
+            <h5>
+              Deposit received, pending confirmation
+            </h5>
+            <div class="m-loader m-loader--lg m-loader--primary m-loader--center m--padding-50">
+            </div>
+            <div class="m--padding-20"><a class="m--font-accent" [href]="transactionHash" target="blank">Click here</a>
+              to view on the
+              blockchain</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 m--padding-10">
+            <div class="m--font-normal m--padding-top-20 m--align-center m--block-center">
+              System is currently confirming your transaction on the
+              blockchain, this may take between 15 minutes to 3 hours.
+              Once confirmed your account with
+              <b>{{ userDetails?.bank?.bankName }}</b> will be credited within 24 hours.
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>

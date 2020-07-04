@@ -20,7 +20,9 @@ import { map } from 'rxjs/operators';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
 import * as moment from 'moment';
 
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -81,10 +83,8 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
   userObservable: Subscription;
 
   constructor(
-    private _script: ScriptLoaderService,
-    private router: Router,
+    private script: ScriptLoaderService,
     private authService: AuthService,
-    private apiService: ApiService,
     private modalService: NgbModal,
     private afs: AngularFirestore
   ) {}
@@ -98,41 +98,41 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getTransaction();
   }
 
-  ngAfterViewInit() {
-    this._script.loadScripts('app-asset', [
+  ngAfterViewInit(): void {
+    this.script.loadScripts('app-asset', [
       'assets/demo/demo6/default/component/portlets/tools.js',
       this.paymentEnv.url,
     ]);
     // this.createLoan();
   }
 
-  createLoan() {
-    const loanRef = this.afs.doc(
-      `loan/${this.authService.currentUserId}/asset/kobolet${Date.now()}`
-    );
-    loanRef
-      .set({
-        amount: 45,
-        interestAmount: 53,
-        paidBack: 0,
-        price: 9990,
-        liquidationPrice: 4952,
-        liquidationDateTracker: Date.now(),
-        heldCrypto: 0.0042,
-        monthlyInterest: 45 * 0.03,
-        currency: 'NGN',
-        duration: 7,
-        totalDuration: 7,
-        created_at: Date.now(),
-        expires_at: moment().add(180, 'days').valueOf(),
-        paid: false,
-        type: 'bitcoin',
-      })
-      .then(() => console.log('loan added'))
-      .catch((err) => console.log(err));
-  }
+  // createLoan(): void {
+  //   const loanRef = this.afs.doc(
+  //     `loan/${this.authService.currentUserId}/asset/kobolet${Date.now()}`
+  //   );
+  //   loanRef
+  //     .set({
+  //       amount: 45,
+  //       interestAmount: 53,
+  //       paidBack: 0,
+  //       price: 9990,
+  //       liquidationPrice: 4952,
+  //       liquidationDateTracker: Date.now(),
+  //       heldCrypto: 0.0042,
+  //       monthlyInterest: 45 * 0.03,
+  //       currency: 'NGN',
+  //       duration: 7,
+  //       totalDuration: 7,
+  //       created_at: Date.now(),
+  //       expires_at: moment().add(180, 'days').valueOf(),
+  //       paid: false,
+  //       type: 'bitcoin',
+  //     })
+  //     .then(() => console.log('loan added'))
+  //     .catch((err) => console.log(err));
+  // }
 
-  getTransaction() {
+  getTransaction(): void {
     // tslint:disable-next-line:max-line-length
     const fiatRef = this.afs.collection(
       `transactions/${this.authService.currentUserId}/fiat`
@@ -147,7 +147,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  sortTransaction(loanId, index) {
+  sortTransaction(loanId, index): void {
     const transFilter = this.fiatTransaction.filter(
       (data) => loanId === data.loanId
     );
@@ -163,7 +163,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Toggle active anchor button transaction display status
-  toggleAnchorButton(loanObject: any, status: boolean, index: number) {
+  toggleAnchorButton(loanObject: any, status: boolean, index: number): void {
     if (status) {
       for (let i = 0; i < this.unpaidLoan.length; i++) {
         if (i === index) {
@@ -178,7 +178,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  getExchangeRates() {
+  getExchangeRates(): void {
     this.xrateObservable = this.afs
       .doc('rates/usd')
       .valueChanges()
@@ -188,7 +188,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  getWallet() {
+  getWallet(): void {
     this.walletRef = this.afs.doc(
       `wallet/${this.authService.currentUserId}/${this.cryptoSelect}/holding`
     );
@@ -199,7 +199,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  getCountRef() {
+  getCountRef(): void {
     this.countRef = this.afs.doc(`count/${this.authService.currentUserId}`);
     this.counterObservable = this.countRef
       .valueChanges()
@@ -212,18 +212,18 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
   cryptoPriceToggle(symbol: string): number {
     switch (symbol) {
       case 'bitcoin':
-        this.cryptoPrice = this.exchangeRate['tBTCUSD'];
+        this.cryptoPrice = this.exchangeRate.tBTCUSD;
         break;
       case 'ethereum':
-        this.cryptoPrice = this.exchangeRate['tETHUSD'];
+        this.cryptoPrice = this.exchangeRate.tETHUSD;
         break;
       default:
-        this.cryptoPrice = this.exchangeRate['tBTCUSD'];
+        this.cryptoPrice = this.exchangeRate.tBTCUSD;
     }
     return this.cryptoPrice;
   }
 
-  getLoans() {
+  getLoans(): any {
     this.loading = true;
     // tslint:disable-next-line:max-line-length
     const unpaidloanDoc = this.afs.collection(
@@ -302,7 +302,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
     return sortArray;
   }
 
-  getUserDetails() {
+  getUserDetails(): void {
     this.userObservable = this.authService
       .currentUserDisplayName()
       .subscribe((userData) => {
@@ -329,11 +329,11 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  convertDate(date: any) {
+  convertDate(date: any): any {
     return moment().to(date);
   }
 
-  metaDetail(value: any) {
+  metaDetail(value: any): void {
     const amount = parseFloat(value);
     const loan = this.loanDataObject;
     this.amountWithoutFee = amount;
@@ -351,7 +351,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  maxAmount(value: any) {
+  maxAmount(value: any): void {
     const amount = parseFloat(value);
     const loan = this.loanDataObject;
     if (amount <= loan.balance) {
@@ -362,7 +362,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // new payment modal toggle
-  newDepositModal(loan: any) {
+  newDepositModal(loan: any): void {
     this.loanDataObject = loan;
     this.newDepositModalReference = this.modalService.open(
       this.newDepositContent,
@@ -391,7 +391,6 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
       this.paymentStatus = true;
       const message = `${response.tx.currency}${this.amountWithoutFee} deposited successfully`;
       this.authService.newNotification(message);
-      const usdAmount = this.amountWithoutFee / this.rates;
 
       // tslint:disable-next-line:max-line-length
       const fiatDoc: AngularFirestoreCollection<any> = this.afs.collection(
@@ -404,7 +403,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
           type: 'deposit',
           cryptoCurrency: 'bitcoin',
           crypto: true,
-          loanId: loanId,
+          loanId,
           currency: response.tx.currency,
           provider: 'rave',
           timestamp: Date.now(),
@@ -448,6 +447,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
           newBalance >= this.loanDataObject.currentLoanAmountAndInterest
             ? true
             : false;
+        // tslint:disable-next-line: variable-name
         const completed_at =
           newBalance >= this.loanDataObject.currentLoanAmountAndInterest
             ? Date.now()
@@ -455,7 +455,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
         loanDoc.update({
           paidBack: this.authService.round(newBalance, 3),
           paid: paidStatus,
-          completed_at: completed_at,
+          completed_at,
         });
         return;
       }
@@ -477,7 +477,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.paidObservable) {
       this.paidObservable.unsubscribe();
     }

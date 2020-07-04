@@ -25,11 +25,10 @@
     "firebase-admin": "^8.12.1",
     "firebase-functions": "^3.6.2",
     "flutterwave": "^2.2.8",
+    "flutterwave-node": "^1.1.0",
     "grpc": "^1.24.2",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
-    "moneywave": "^0.1.3",
-    "moneywave-nodejs": "^1.2.12",
     "pm2": "^3.5.0",
     "ravepay": "^1.2.2",
     "unirest": "^0.6.0"

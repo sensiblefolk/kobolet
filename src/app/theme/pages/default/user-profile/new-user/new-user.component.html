@@ -33,7 +33,7 @@
         <div class="m-wizard__nav">
           <div class="m-wizard__steps">
             <div class="m-wizard__step m-wizard__step--current" data-wizard-target="#m_wizard_form_step_1">
-              <a href="#" class="m-wizard__step-number">
+              <a class="m-wizard__step-number">
                 <span>
                   <i class="fa  flaticon-placeholder"></i>
                 </span>
@@ -45,7 +45,7 @@
               </div>
             </div>
             <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_2">
-              <a href="#" class="m-wizard__step-number">
+              <a class="m-wizard__step-number">
                 <span>
                   <i class="fa  flaticon-layers"></i>
                 </span>
@@ -57,7 +57,7 @@
               </div>
             </div>
             <div class="m-wizard__step" data-wizard-target="#m_wizard_form_step_3">
-              <a href="#" class="m-wizard__step-number">
+              <a class="m-wizard__step-number">
                 <span>
                   <i class="fa  flaticon-layers"></i>
                 </span>
@@ -111,18 +111,6 @@
                           class="form-control m-input" required>
                         <span class="m-form__help">
                           Please enter your occupation
-                        </span>
-                      </div>
-                    </div>
-                    <div class="form-group m-form__group row">
-                      <label class="col-xl-3 col-lg-3 col-form-label">
-                        * Email:
-                      </label>
-                      <div class="col-xl-9 col-lg-9">
-                        <input type="email" [(ngModel)]="userEmail" #email="ngModel" name="email"
-                          class="form-control m-input">
-                        <span class="m-form__help">
-                          We'll never share your email with anyone else
                         </span>
                       </div>
                     </div>
@@ -380,7 +368,7 @@
                                     </a>
                                   </li>
                                   <li class="m-portlet__nav-item">
-                                    <a href="#" data-portlet-tool="fullscreen"
+                                    <a data-portlet-tool="fullscreen"
                                       class="m-portlet__nav-link m-portlet__nav-link--icon">
                                       <i class="la la-expand"></i>
                                     </a>
@@ -433,10 +421,12 @@
                                     </label>
                                   </div>
                                   <div class="m--space-20 m--padding-20">
-                                    <button type="button" [disabled]="inputStatus()" (click)="getFileStack()"
-                                      class="btn btn-accent">
-                                      choose files
-                                    </button>
+                                    <ng-picker-overlay [pickerOptions]="options"
+                                      (uploadSuccess)="onUploadSuccess($event)" (uploadError)="onUploadError($event)">
+                                      <button type="button" [disabled]="inputStatus()" class="btn btn-accent">
+                                        choose file
+                                      </button>
+                                    </ng-picker-overlay>
                                     <span class="m--font-danger m--font-normal m--pull-right m--align-right"
                                       [hidden]='!pending'>
                                       KYC verification pending
@@ -507,16 +497,7 @@
                             </span>
                           </div>
                         </div>
-                        <div class="form-group m-form__group m-form__group--sm row">
-                          <label class="col-xl-3 col-lg-3 col-form-label">
-                            Email:
-                          </label>
-                          <div class="col-xl-9 col-lg-9">
-                            <span class="m-form__control-static">
-                              {{userEmail}}
-                            </span>
-                          </div>
-                        </div>
+
                         <div class="form-group m-form__group m-form__group--sm row">
                           <label class="col-xl-3 col-lg-3 col-form-label">
                             Phone
@@ -633,7 +614,7 @@
                     <div class="col-xl-12">
                       <div class="m-checkbox-inline">
                         <label class="m-checkbox m-checkbox--solid m-checkbox--brand">
-                          <input type="checkbox" [(ngModel)]="terms_cond" #accept="ngModel" name="accept" required>
+                          <input type="checkbox" [(ngModel)]="termsCond" #accept="ngModel" name="accept" required>
                           Click here to indicate that you have read and agree to the terms presented in the Terms and
                           Conditions agreement
                           <span></span>
@@ -653,7 +634,7 @@
               <div class="row">
                 <div class="col-lg-2"></div>
                 <div class="col-lg-4 m--align-left">
-                  <a href="#" class="btn btn-secondary m-btn m-btn--custom m-btn--icon" data-wizard-action="prev">
+                  <a class="btn btn-secondary m-btn m-btn--custom m-btn--icon" data-wizard-action="prev">
                     <span>
                       <i class="la la-arrow-left"></i>
                       &nbsp;&nbsp;
@@ -666,7 +647,7 @@
                 <div class="col-lg-4 m--align-right">
                   <div *ngIf="userCountry === 'Nigeria'; else skip">
                     <button type="submit" class="btn btn-accent m-btn m-btn--custom m-btn--icon"
-                      data-wizard-action="submit" [disabled]="!kobolet.form.valid">
+                      data-wizard-action="submit" [disabled]="!kobolet.form.valid || submitStatus">
                       <span>
                         <i class="la la-check"></i>
                         &nbsp;&nbsp;
@@ -678,7 +659,7 @@
                   </div>
                   <ng-template #skip>
                     <button type="submit" class="btn btn-primary m-btn m-btn--custom m-btn--icon"
-                      data-wizard-action="submit" [disabled]="!kobolet.form.valid">
+                      data-wizard-action="submit" [disabled]="!kobolet.form.valid || submitStatus">
                       <span>
                         <i class="la la-check"></i>
                         &nbsp;&nbsp;
@@ -688,7 +669,7 @@
                       </span>
                     </button>
                   </ng-template>
-                  <a href="#" class="btn btn-accent m-btn m-btn--custom m-btn--icon" data-wizard-action="next">
+                  <a class="btn btn-accent m-btn m-btn--custom m-btn--icon" data-wizard-action="next">
                     <span>
                       <span>
                         Continue

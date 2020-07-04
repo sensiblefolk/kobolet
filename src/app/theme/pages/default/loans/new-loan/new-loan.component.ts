@@ -2,29 +2,27 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  ViewEncapsulation,
   ViewChild,
   ElementRef,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 
-import { Router } from '@angular/router';
 import { AuthService } from '../../../../../_services/auth.service';
 import { ApiService } from '../../../../../_services/api.service';
 import { Subject, Subscription } from 'rxjs';
-import { IonRangeSliderComponent } from 'ng2-ion-range-slider';
 import * as moment from 'moment';
 
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { NgForm } from '@angular/forms';
 
 import { Nigeria } from '../../../../../utility/banks';
 import { country } from '../../../../../utility/country';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Options, ChangeContext } from 'ng5-slider';
+import { Options, ChangeContext } from '@m0t0r/ngx-slider';
+import { BankDetailsComponent } from '../../../../../shared/bank-details/bank-details.component';
+import { CryptoDepositComponent } from '../../../../../shared/crypto-deposit/crypto-deposit.component';
 
 @Component({
   selector: 'app-new-loan',
@@ -33,9 +31,9 @@ import { Options, ChangeContext } from 'ng5-slider';
   encapsulation: ViewEncapsulation.None,
 })
 export class NewLoanComponent implements OnInit, OnDestroy {
-  @ViewChild('sliderElement') advancedSliderElement: IonRangeSliderComponent;
   @ViewChild('cryptoModal') private cryptoModal: ElementRef;
-  @ViewChild('userBankUpdate') private userBankUpdate: ElementRef;
+  @ViewChild(BankDetailsComponent) bankComponent: BankDetailsComponent;
+  @ViewChild(CryptoDepositComponent) cryptoComponent: CryptoDepositComponent;
 
   currency = 'NGN';
   cryptoCurrency = 'BTC';
@@ -56,37 +54,19 @@ export class NewLoanComponent implements OnInit, OnDestroy {
   exchangeRates: any = {};
   rates = 1;
   cryptoRate: any;
-  $MIN = 13;
+  $MIN = 2;
   $MAX = 28000;
   $MAX_WITHOUT_VERIFICATION = 800;
   monthlyInterestRates: number;
-  someRange: any;
-  bitcoin: number;
-  ethereum: number;
-  bitcoinObject: any;
-  ethereumObject: any;
-  btcAddress: string;
-  postCryptoApiAmount: any;
-  isCopied1 = false;
-  isCopied2 = false;
-  bitcoinWallet: AngularFirestoreDocument<any>;
-  ethereumWallet: AngularFirestoreDocument<any>;
+  cryptoBalance: number;
+  walletObject: any;
+  cryptoWallet: AngularFirestoreDocument<any>;
   validateButtonSpinner = false;
   coinbaseApiObject: any = {};
   expired = false;
-  uid: string = localStorage.getItem('ff');
   loading = true;
-  minCountryAccountNumberDigit = 10;
   acctNumbVerified = false;
-  acctNumbSpinner = false;
-  acctNumbError = false;
   supportedCountry = true;
-  pendingCryptoDepositStatusn = false;
-  showBankSaveNotification = false;
-  showBankUpdateModal = false;
-  showBankDetailsModal = false;
-  submitButtonToggle = false;
-  // showUserNextButton: boolean = true;
   apiTransCode: string;
   userBankAccountNumber: string;
   userBankCode: string;
@@ -97,9 +77,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
   banksArray: Array<any> = Nigeria;
   userDetails: any;
   countryLocation: Array<any> = country;
-  selectedBank: String = this.banksArray['0'].name;
-  modalReference: NgbModalRef;
-  userModalReference: NgbModalRef;
+  selectedBank: string = this.banksArray['0'].name;
 
   // ng5-slider options setup
   options: Options = {
@@ -117,27 +95,18 @@ export class NewLoanComponent implements OnInit, OnDestroy {
   };
 
   /* Observable params */
-  xticker1Observable: Subscription;
-  xticker2Observable: Subscription;
-  xticker3Observable: Subscription;
-  xticker4Observable: Subscription;
-  btcWalletObservable: Subscription;
-  ethWalletObservable: Subscription;
+  cryptoWalletObservable: Subscription;
   xRateObservable: Subscription;
   countObservable: Subscription;
   userSubscriptionObservable: Subscription;
-  depositObservable: Subscription;
-  apiSubScriptionObservable: Subscription;
 
   constructor(
-    private router: Router,
     private authService: AuthService,
     private apiService: ApiService,
-    private afs: AngularFirestore,
-    private modalService: NgbModal
+    private afs: AngularFirestore
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getCryptoWalletDetails();
     this.getExchangeRate();
     this.getBankInCountry();
@@ -162,7 +131,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
   }
 
   // get current exchang rates
-  getExchangeRate() {
+  getExchangeRate(): void {
     const rateRef = this.afs.doc('rates/usd');
     rateRef.valueChanges().subscribe((data) => {
       this.exchangeRates = data;
@@ -185,7 +154,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
   }
 
   // get list of country banks from datastore
-  getBankInCountry() {
+  getBankInCountry(): void {
     const bankRef = this.afs.doc(`bank/${this.currency}`);
     bankRef.valueChanges().subscribe((bankData: any) => {
       this.banksArray = bankData.data;
@@ -194,158 +163,53 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ng-bootstrap modal open event
-  modalOpen(modalContent) {
-    this.modalReference = this.modalService.open(modalContent, {
-      centered: true,
-    });
-    return this.modalReference.result.then(
-      (result) => {
-        const resultReason = result;
-      },
-      (reason) => {
-        this.validateButtonSpinner = false;
-        this.updateWallet('update');
-      }
+  getCryptoWalletDetails(cryptoType: string = 'bitcoin'): void {
+    this.cryptoWallet = this.afs.doc(
+      `wallet/${this.authService.currentUserId}/${cryptoType}/holding`
     );
-  }
-
-  modalUserOpen(modalContent) {
-    this.userModalReference = this.modalService.open(modalContent, {
-      centered: true,
-    });
-    return this.userModalReference.result.then(
-      (result) => {
-        const resultReason = result;
-      },
-      (reason) => {
-        this.validateButtonSpinner = false;
-      }
-    );
-  }
-
-  closeModal() {
-    this.expired = false;
-    this.validateButtonSpinner = false;
-    return this.modalReference.close();
-  }
-
-  // event button toggler
-  nextButtonToggle(event: boolean) {
-    if (!event) {
-      this.modalReference.close();
-      this.showBankUpdateModal = true;
-      this.getCountryCode('Nigeria');
-      return this.modalUserOpen(this.userBankUpdate);
-    }
-    this.modalReference.close();
-    this.showBankUpdateModal = false;
-    this.getCountryCode('Nigeria');
-    return this.modalUserOpen(this.userBankUpdate);
-  }
-
-  userNextButtonToggle(event: boolean) {
-    if (!event) {
-      this.userModalReference.close();
-      return this.modalOpen(this.cryptoModal);
-    }
-    this.modalReference.close();
-    return (this.showBankUpdateModal = false);
-  }
-
-  // event close back button toggler
-  closeButtonToggle() {
-    this.userModalReference.close();
-    return this.modalOpen(this.cryptoModal);
-  }
-
-  getCryptoWalletDetails() {
-    this.bitcoinWallet = this.afs.doc(
-      `wallet/${this.authService.currentUserId}/bitcoin/holding`
-    );
-    this.ethereumWallet = this.afs.doc(
-      `wallet/${this.authService.currentUserId}/ethereum/holding`
-    );
-    this.btcWalletObservable = this.bitcoinWallet
+    this.cryptoWalletObservable = this.cryptoWallet
       .valueChanges()
       .subscribe((result) => {
         if (result && result.balance) {
-          this.bitcoin = result.balance;
-          this.bitcoinObject = result;
+          this.cryptoBalance = result.balance;
+          this.walletObject = result;
         } else {
-          this.bitcoin = 0.0;
+          this.cryptoBalance = 0.0;
         }
       });
-
-    this.ethWalletObservable = this.ethereumWallet
-      .valueChanges()
-      .subscribe((res) => {
-        if (res && res.balance) {
-          this.ethereum = res.balance;
-          this.ethereumObject = res;
-        } else {
-          this.ethereum = 0.0;
-        }
-      });
-  }
-
-  updateWallet(type: string) {
-    const walletRef = this[`${this.cryptoTypeName}Wallet`];
-    const walletObject = this[`${this.cryptoTypeName}Object`];
-    if (type === 'update' && walletObject && walletObject.balance) {
-      const newBalance = walletObject.balance + walletObject.temp_held;
-      const newHeldBalance = walletObject.heldBalance - walletObject.temp_held;
-      return walletRef.update({
-        balance: newBalance,
-        heldBalance: newHeldBalance,
-        temp_held: 0,
-      });
-    } else {
-      if (this.extraCryptoAmount > 0) {
-        const newBalance = walletObject.balance - this.extraCryptoAmount;
-        const newHeldBalance =
-          walletObject.heldBalance + this.extraCryptoAmount;
-        return walletRef.update({
-          balance: newBalance,
-          heldBalance: newHeldBalance,
-          temp_held: this.extraCryptoAmount,
-          code: this.apiTransCode,
-        });
-      }
-    }
   }
 
   // change event handler for ng5-slider component
-  sliderChangeEvent(changeContext: ChangeContext) {
+  sliderChangeEvent(changeContext: ChangeContext): void {
     const data = changeContext.value;
     this.ionSliderValue = data;
     const roundedData = this.interestValue(this.fiatAmount);
-    this.actualLoanValue = this.authService.round(roundedData, 0);
+    this.actualLoanValue = this.authService.round(roundedData, 2);
     const usdAmount = roundedData * this.rates;
-    this.actualLoanLocalCurrencyValue = this.authService.round(usdAmount, 0);
+    this.actualLoanLocalCurrencyValue = this.authService.round(usdAmount, 4);
   }
 
   // calculate loan interest on sliderToggle
-  interestValue(value: any) {
+  interestValue(value: any): number {
     const data = this.authService.stringToNumberFormatter(value);
     // console.log(data);
     this.monthlyInterestRates = ((this.ionSliderValue / 12) * 36) / 100;
     const interest = this.monthlyInterestRates * data;
     const interestPercentage = data + interest;
     // console.log(roundedData);
-    return this.authService.round(interestPercentage, 0);
+    return this.authService.round(interestPercentage, 2);
   }
 
-  toggleActualLoanValue(value: any): any {
+  toggleActualLoanValue(value: any): number {
     const data = this.authService.stringToNumberFormatter(value);
     const interest = (((this.ionSliderValue / 12) * 36) / 100) * data;
     const interestPercentage = data + interest;
-    const roundedData = this.authService.round(interestPercentage, 0);
+    const roundedData = this.authService.round(interestPercentage, 2);
     // console.log(roundedData);
     return roundedData;
   }
 
-  switchCurrency(currency: string) {
+  switchCurrency(currency: string): void {
     switch (currency) {
       case 'USD':
         this.currency = 'USD';
@@ -379,7 +243,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     }
   }
 
-  switchCryptoCurrency(currency: string) {
+  switchCryptoCurrency(currency: string): void {
     switch (currency) {
       case 'BTC':
         this.cryptoCurrency = 'BTC';
@@ -387,6 +251,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
         this.cryptoType = 'tBTCUSD';
         this.cryptoRate = this.exchangeRates[this.cryptoType];
         this.cryptoTypeName = 'bitcoin';
+        this.getCryptoWalletDetails('bitcoin');
         this.onCurrencyChange();
         break;
       case 'ETH':
@@ -395,6 +260,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
         this.cryptoType = 'tETHUSD';
         this.cryptoTypeName = 'ethereum';
         this.cryptoRate = this.exchangeRates[this.cryptoType];
+        this.getCryptoWalletDetails('ethereum');
         this.onCurrencyChange();
         break;
       default:
@@ -402,7 +268,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     }
   }
 
-  searchFiat(amount: any) {
+  searchFiat(amount: any): void {
     const value = this.authService.stringToNumberFormatter(amount);
     this.cryptoSubject.next(value);
     this.cryptoSubject.pipe(debounceTime(500), distinctUntilChanged());
@@ -414,7 +280,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
       const cryptoStringValue = this.authService.digitFractionFormatter(
         this.authService.round(cryptoValue, 4)
       );
-      this.cryptoAmount = cryptoStringValue;
+      this.cryptoAmount = parseFloat(cryptoStringValue);
       this.fiatAmount = this.authService.digitFormatter(usdAmount);
       this.fiatLocalCurrencyAmount = usdAmount * this.rates;
       this.fiatUsdAmount = usdAmount;
@@ -425,7 +291,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     });
   }
 
-  searchCrypto(amount: any) {
+  searchCrypto(amount: any): void {
     const value = this.authService.stringToNumberFormatter(amount);
     this.fiatSubject.next(value);
     this.fiatSubject.pipe(debounceTime(500), distinctUntilChanged());
@@ -446,7 +312,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     });
   }
 
-  onCurrencyChange() {
+  onCurrencyChange(): void {
     // const amount = (res.data.amount / 2) * this.rates;
     const amount = this.cryptoRate / 2;
     const localAmount = (this.cryptoRate / 2) * this.rates;
@@ -465,25 +331,9 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     );
   }
 
-  DepositStatus(query: any, apiObject: any) {
-    const depositDoc = this.afs.doc(
-      `deposit/${this.authService.currentUserId}/${this.cryptoTypeName}/${query.code}`
-    );
-    const depositQuery = {
-      verified: false,
-      pending: false,
-      expired: false,
-      ...query,
-      apiObject: apiObject,
-    };
-    return depositDoc.set(depositQuery);
-  }
-
   // Transfer amount to local customer account
-  transferFund(value: any, type: string) {
-    this.submitButtonToggle = true;
+  transferFund(value: any, type: string): void {
     if (this.cryptoAmount > this[type]) {
-      this.submitButtonToggle = false;
       return;
     }
     const heldCrypto = this.authService.stringToNumberFormatter(
@@ -493,20 +343,6 @@ export class NewLoanComponent implements OnInit, OnDestroy {
       this.authService.stringToNumberFormatter(value),
       0
     );
-    if (!this.acctNumbVerified) {
-      this.submitButtonToggle = false;
-      this.authService.showNotification(
-        'top',
-        'right',
-        'Account details not found',
-        'warning'
-      );
-      if (amount <= this.$MAX_WITHOUT_VERIFICATION * this.rates) {
-        return (this.showBankDetailsModal = true);
-      } else {
-        return this.router.navigate(['/user/new']);
-      }
-    }
     this.validateButtonSpinner = true;
     const ref = `kobolet${Date.now()}`;
     const expiryDuration = this.ionSliderValue * 30;
@@ -517,9 +353,9 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     const userDetails = this.userDetails;
     const name = userDetails.name;
     const query = {
-      name: name,
+      name,
       email: userDetails.email,
-      amount: amount,
+      amount,
       bankCode: userDetails.bank.bankCode,
       bankName: userDetails.bank.bankName,
       accountNumber: userDetails.bank.accountNumber,
@@ -530,14 +366,13 @@ export class NewLoanComponent implements OnInit, OnDestroy {
       cryptoPrice: this.cryptoRate,
       duration: this.ionSliderValue,
       currency: this.currency,
-      ref: ref,
+      ref,
       cryptoType: type,
       cryptoAmount: heldCrypto,
     };
     // call transfer api
     this.apiService.postFiatTransfer(query).subscribe(
       (res) => {
-        this.submitButtonToggle = false;
         // console.log(res);
         // tslint:disable-next-line:max-line-length
         this.authService.showNotification(
@@ -583,9 +418,9 @@ export class NewLoanComponent implements OnInit, OnDestroy {
             }
           });
       },
-      (event) => {
+      // tslint:disable-next-line: variable-name
+      (_event) => {
         // console.log('error event', event);
-        this.submitButtonToggle = false;
         this.authService.showNotification(
           'top',
           'right',
@@ -597,149 +432,18 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     );
   }
 
-  // listen for bankStatus event emitted from child component <app-bank-details>
-  bankUpdateStatus(event) {
+  // listen for bank update Status event emitted from child component <app-bank-details>
+  bankUpdateStatus(event): void {
     if (event) {
-      return this.transferFund(
-        this.fiatLocalCurrencyAmount,
-        this.cryptoTypeName
-      );
-    } else {
-      return (this.showBankDetailsModal = false);
+      this.newCryptoTransaction(this.cryptoBalance, this.cryptoTypeName);
     }
   }
 
-  // Trigger call base API for new crypto transaction
-  newCryptoTransaction(cryptoType: string, amount: any) {
-    this.validateButtonSpinner = true;
-    this.submitButtonToggle = true;
-    let completed = false;
-    const userDetails = this.userDetails;
-    const name = userDetails.name;
-    const query = {
-      name: name,
-      email: userDetails.email,
-      amount: amount,
-      type: cryptoType,
-    };
-    // this.modalOpen(this.cryptoModal);
-    this.apiSubScriptionObservable = this.apiService
-      .postWalletFunding(query)
-      .subscribe(
-        (response) => {
-          // console.log(response);
-          this.submitButtonToggle = false;
-          const data = response.data;
-          const code = data.code;
-          this.apiTransCode = data.code;
-          this.updateWallet('new');
-          const ref = `kobolet${Date.now()}`;
-          // tslint:disable-next-line:max-line-length
-          const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${cryptoType}:${data.addresses[cryptoType]}?amount=${data.pricing[cryptoType].amount}`;
-          const paymentExpired = moment(data.expires_at).valueOf();
-          const paymentCreated = moment(data.created_at).valueOf();
-
-          // this.validateButtonSpinner = false;
-
-          this.coinbaseApiObject = {
-            image_url: qrCodeUrl,
-            transaction_code: data.code,
-            amount: data.pricing[cryptoType].amount + this.extraCryptoAmount,
-            hosted_url: data.hosted_url,
-            created_at: paymentCreated,
-            expires_at: paymentExpired,
-            code: data.code,
-            fiatAmount: this.fiatLocalCurrencyAmount,
-            email: userDetails.email,
-            fiatInterestAmount: this.actualLoanLocalCurrencyValue,
-            cryptoPrice: this.cryptoRate,
-            currency: this.currency,
-            exchangeRate: this.rates,
-            ref: ref,
-            accountNumber: this.userBankAccountNumber,
-            bankCode: this.userBankCode,
-            bankName: this.userBankName,
-            name: userDetails.name,
-            cryptoType: cryptoType,
-            duration: this.ionSliderValue,
-            cryptoAddress: data.addresses[cryptoType],
-          };
-          this.btcAddress = data.addresses[cryptoType];
-          this.postCryptoApiAmount = data.pricing[cryptoType].amount;
-
-          this.DepositStatus(this.coinbaseApiObject, data);
-
-          // console.log(response);
-          this.modalOpen(this.cryptoModal);
-          this.apiSubScriptionObservable.unsubscribe();
-          const depositDoc: AngularFirestoreDocument<any> = this.afs.doc(
-            `deposit/${this.authService.currentUserId}/${cryptoType}/${data.code}`
-          );
-          this.depositObservable = depositDoc
-            .valueChanges()
-            .subscribe((depositValue) => {
-              if (
-                depositValue &&
-                depositValue.verified &&
-                code === depositValue.code
-              ) {
-                this.authService.showNotification(
-                  'top',
-                  'right',
-                  `Wallet funded successfully`,
-                  'success'
-                );
-                const message = `${this.coinbaseApiObject.amount} deposited to ${cryptoType} successfully`;
-                this.authService.newNotification(message);
-                // tslint:disable-next-line:no-unused-expression
-                this.authService.closeModal;
-                this.validateButtonSpinner = false;
-                completed = true;
-                // console.log('verified')
-                // check kyc verification status
-                const currentFiatAmount = parseFloat(this.fiatAmount);
-                if (
-                  !userDetails.kyc.verified &&
-                  currentFiatAmount <= this.$MAX_WITHOUT_VERIFICATION
-                ) {
-                  this.modalReference.close();
-                  this.router.navigate(['/user/new']);
-                } else {
-                  // console.log('payment successful');
-                  this.authService.showNotification(
-                    'top',
-                    'right',
-                    'Your accoun will be credited within the hour',
-                    'success'
-                  );
-                  this.modalReference.close();
-                  // this.transferFund(this.fiatAmount, cryptoType);
-                }
-              } else if (
-                depositValue &&
-                !depositValue.verified &&
-                code === depositValue.code &&
-                depositValue.expired
-              ) {
-                this.expired = true;
-                this.validateButtonSpinner = false;
-                this.closeModal();
-              }
-            });
-        },
-        (eventError) => {
-          this.validateButtonSpinner = false;
-          this.authService.showNotification(
-            'top',
-            'center',
-            'Error! please try again in 5 minutes',
-            'danger'
-          );
-        }
-      );
+  setSubmitButtonSpinner(event): void {
+    this.validateButtonSpinner = event;
   }
 
-  onSubmitLoan() {
+  onSubmitLoan(): void {
     const loanAmount = this.authService.stringToNumberFormatter(
       this.fiatAmount
     );
@@ -768,40 +472,29 @@ export class NewLoanComponent implements OnInit, OnDestroy {
         'danger'
       );
       return;
-    } else if (
-      this.cryptoCurrency === 'BTC' &&
-      this.cryptoAmount > this.bitcoin
-    ) {
-      this.extraCryptoAmount = this.bitcoin;
-      const inputAmount =
-        this.authService.stringToNumberFormatter(this.fiatAmount) * 2;
-      const roundedAmount = inputAmount - this.bitcoin * this.cryptoRate;
-      // console.log(roundedAmount)
-      this.newCryptoTransaction('bitcoin', roundedAmount);
-    } else if (
-      this.cryptoCurrency === 'ETH' &&
-      this.cryptoAmount > this.ethereum
-    ) {
-      this.extraCryptoAmount = this.ethereum;
-      const inputAmount =
-        this.authService.stringToNumberFormatter(this.fiatAmount) * 2;
-      const roundedAmount = inputAmount - this.ethereum * this.cryptoRate;
-      this.newCryptoTransaction('ethereum', roundedAmount);
-    } else if (
-      this.cryptoCurrency === 'BTC' &&
-      this.cryptoAmount < this.bitcoin
-    ) {
-      this.transferFund(this.fiatLocalCurrencyAmount, 'bitcoin');
-    } else if (
-      this.cryptoCurrency === 'ETH' &&
-      this.cryptoAmount < this.ethereum
-    ) {
-      this.transferFund(this.fiatLocalCurrencyAmount, 'ethereum');
+    } else if (this.cryptoAmount > this.cryptoBalance) {
+      this.newCryptoTransaction(this.cryptoBalance, this.cryptoTypeName);
+    } else if (this.cryptoAmount < this.cryptoBalance) {
+      this.transferFund(this.fiatLocalCurrencyAmount, this.cryptoTypeName);
+    }
+  }
+
+  newCryptoTransaction(amount: number, cryptoType: string): void {
+    this.extraCryptoAmount = amount;
+    const inputAmount =
+      this.authService.stringToNumberFormatter(this.fiatAmount) * 2;
+    const roundedAmount = inputAmount - amount * this.cryptoRate;
+    // console.log(roundedAmount)
+    if (!this.acctNumbVerified) {
+      // this.showBankDetailsModal = true;
+      this.bankComponent.modalOpen();
+    } else {
+      this.cryptoComponent.callCryptoApi(cryptoType, roundedAmount);
     }
   }
 
   /* Helper functions for new user */
-  getCountryCode(query: string) {
+  getCountryCode(query: string): void {
     const locationCode = this.countryLocation.find(
       (data) => data.name === query
     );
@@ -810,132 +503,12 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     this.userCountry = locationCode.name;
   }
 
-  verifyAccountNumber(account: string) {
-    const acctNumb = account != null ? account : '';
-    if (
-      acctNumb.length < this.minCountryAccountNumberDigit ||
-      this.acctNumbVerified
-    ) {
-      this.acctNumbSpinner = false;
-      // console.log(acctNumb);
-      return;
-    }
-    if (this.currency === 'kES' || this.currency === 'GHS') {
-      this.acctNumbSpinner = false;
-      return;
-    }
-    this.acctNumbSpinner = true;
-    // console.log(acctNumb);
-    const code = this.banksArray.find(
-      (result) => result.name === this.selectedBank
-    );
-    // console.log(code);
-    this.userBankCode = code.code;
-    const query = {
-      account_number: account,
-      bank_code: code.code,
-      currency: this.currency,
-    };
-    // console.log(query);
-    const authApi = this.apiService.getAuthentication().subscribe(
-      (res) => {
-        if (res.status === 'success') {
-          const verifyApi = this.apiService
-            .verifyAccountNumber(query, res.token)
-            .subscribe(
-              (resp) => {
-                // console.log('response', resp);
-                if (resp.status === 'success') {
-                  // this.acctNumbVerified = true;
-                  this.acctNumbSpinner = false;
-                  this.acctNumbError = false;
-                  this.userBankAccountName = resp.data.account_name;
-                  authApi.unsubscribe();
-                  verifyApi.unsubscribe();
-                  return;
-                } else {
-                  // this.acctNumbVerified = false;
-                  this.acctNumbSpinner = false;
-                  this.acctNumbError = true;
-                  authApi.unsubscribe();
-                  verifyApi.unsubscribe();
-                  return;
-                }
-              },
-              (error) => {
-                this.acctNumbSpinner = false;
-                this.acctNumbError = true;
-              }
-            );
-        }
-      },
-      (error) => {
-        // this.moneyWaveError = true;
-        this.acctNumbSpinner = false;
-      }
-    );
-  }
-
-  onSubmitBank(form: NgForm) {
-    const data = form.value;
-    const userRef = this.afs.doc(`users/${this.authService.currentUserId}`);
-    const depositDoc = this.afs.doc(
-      `deposit/${this.authService.currentUserId}/${this.cryptoTypeName}/${this.coinbaseApiObject.code}`
-    );
-
-    const bankDetail = this.banksArray.find(
-      (bankname) => bankname.name === data.bankName
-    );
-    const bankName = data.bankName;
-    const accountNumber = data.accountNumber;
-
-    // validate user name in firestore
-    const re = /^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    const userSub = userRef.valueChanges().subscribe((userData: any) => {
-      if (!userData) {
-        return userSub.unsubscribe();
-      }
-      const userName = re.test(userData.name)
-        ? data.accountName
-        : userData.name;
-      const query = {
-        bank: {
-          bankName: bankName.trim(),
-          accountName: data.accountName,
-          accountNumber: accountNumber.trim(),
-          bankCode: this.userBankCode,
-        },
-        name: userName,
-        currency: this.currency,
-        country: this.userCountry,
-      };
-      return userRef.update(query).then(() => {
-        depositDoc.update({
-          bankCode: this.userBankCode,
-          accountNumber: data.accountNumber,
-          name: userName,
-          bankName: data.bankName,
-        });
-        userSub.unsubscribe();
-        this.showBankSaveNotification = true;
-      });
-    });
-  }
-  /* Helper functions for new user */
-
-  ngOnDestroy() {
-    if (this.btcWalletObservable) {
-      this.btcWalletObservable.unsubscribe();
-    }
-    if (this.ethWalletObservable) {
-      this.ethWalletObservable.unsubscribe();
+  ngOnDestroy(): void {
+    if (this.cryptoWalletObservable) {
+      this.cryptoWalletObservable.unsubscribe();
     }
     if (this.xRateObservable) {
       this.xRateObservable.unsubscribe();
-    }
-    if (this.depositObservable) {
-      this.depositObservable.unsubscribe();
     }
     if (this.userSubscriptionObservable) {
       this.userSubscriptionObservable.unsubscribe();

@@ -6,9 +6,12 @@ import { CryptoComponent } from './crypto/crypto.component';
 import { WalletRoutingModule } from './wallet.routing.module';
 import { FormsModule } from '@angular/forms';
 
-// tslint:disable-next-line:max-line-length
-import {MatDividerModule, MatSortModule, MatPaginatorModule, MatTableModule, MatDialogModule, MatSnackBarModule, MatChipsModule} from '@angular/material';
-
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -21,11 +24,8 @@ import {MatDividerModule, MatSortModule, MatPaginatorModule, MatTableModule, Mat
     MatPaginatorModule,
     MatSnackBarModule,
     FormsModule,
-    WalletRoutingModule
+    WalletRoutingModule,
   ],
-  declarations: [
-    WalletComponent,
-    CryptoComponent
-  ]
+  declarations: [WalletComponent, CryptoComponent],
 })
-export class WalletModule { }
+export class WalletModule {}

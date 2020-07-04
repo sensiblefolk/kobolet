@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
@@ -11,7 +11,6 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   userPhotoUrl: string;
@@ -43,9 +42,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   national = false;
   license = false;
   kycSelectState = true;
-  kycValidationState = false;
   disableToggle = false;
   onSubmitClick = false;
+  options: object;
 
   xrateObservable: Subscription;
   userObservable: Subscription;
@@ -56,13 +55,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private afs: AngularFirestore
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getExchangeRates();
     this.getCountRef();
     this.getUserDetails();
+    this.options = this.authService.fileStackOption;
   }
 
-  getExchangeRates() {
+  getExchangeRates(): void {
     this.xrateObservable = this.afs
       .doc('rates/usd')
       .valueChanges()
@@ -76,26 +76,34 @@ export class ProfileComponent implements OnInit, OnDestroy {
       );
   }
 
-  getCountRef() {
+  getCountRef(): void {
     const countRef: AngularFirestoreDocument<any> = this.afs.doc(
       `/count/${this.authService.currentUserId}`
     );
     this.counterObservable = countRef.valueChanges().subscribe((countValue) => {
-      const rates = this.exchangeRate[countValue.currency];
-      this.countDoc = {
-        amount: countValue.amount * rates,
-        loanPaid: countValue.loanPaid * rates,
-        currency: countValue.currency,
-      };
+      if (countValue) {
+        const rates = this.exchangeRate[countValue.currency];
+        this.countDoc = {
+          amount: countValue.amount * rates,
+          loanPaid: countValue.loanPaid * rates,
+          currency: countValue.currency,
+        };
+      } else {
+        this.countDoc = {
+          amount: 0,
+          loanPaid: 0,
+          currency: 'NGN',
+        };
+      }
     });
   }
 
-  fancyFormatter(value: number) {
+  fancyFormatter(value: number): string {
     const localAmount = this.authService.digitFancyFormatter(value);
     return this.authService.digitFancyFormatter(value);
   }
 
-  getUserDetails() {
+  getUserDetails(): void {
     // this.loading = false;
     const authData = this.authService;
     this.userDoc = this.afs.doc(`users/${this.authService.currentUserId}`);
@@ -132,7 +140,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmitProfile(form: NgForm) {
+  onSubmitProfile(form: NgForm): void {
     const data = form.value;
     this.onSubmitClick = true;
     // console.log(form);
@@ -178,22 +186,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSubmitKyc(form: NgForm) {}
-
-  inputStatus() {
-    const kycButtonState = true;
+  inputStatus(): boolean {
     const p = this.passport;
     const n = this.national;
     const l = this.license;
-    /* if (p && n && l) {
-          return kycButtonState = true;
-        } else if(p && n || p && l || n && l) {
-          this.kycSelectState = false;
-          return kycButtonState = false;
-        } else {
-          this.kycSelectState = true;
-          return kycButtonState = true;
-        } */
+
     if (p) {
       this.national = false;
       this.license = false;
@@ -215,37 +212,39 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  getFileStack() {
-    this.kycValidationState = true;
-    const urlObject = {};
-    this.authService.getKycUpload().then((res) => {
-      this.authService.showNotification(
-        'top',
-        'center',
-        'KYC details uploaded successfully',
-        'success'
-      );
-      this.pending = true;
-      const data = res.filesUploaded;
-      // console.log(res.filesFailed)
-      data.forEach((entry, index) => {
-        this.kycUrlObject[index] = entry.url;
-      });
-      if (this.kycUrlObject) {
-        this.userDoc.update({
-          kyc: {
-            url: this.kycUrlObject,
-            verified: true,
-          },
-        });
-      }
+  onUploadSuccess(res: any): void {
+    this.authService.showNotification(
+      'top',
+      'center',
+      'KYC details uploaded successfully',
+      'success'
+    );
+    this.pending = true;
+    const fileUpload = res.filesUploaded;
+    // console.log(res.filesFailed)
+    fileUpload.forEach((entry, index) => {
+      this.kycUrlObject[index] = entry.url;
     });
-    setTimeout(() => {
-      this.kycValidationState = false;
-    }, 3000);
+    if (this.kycUrlObject) {
+      this.userDoc.update({
+        kyc: {
+          url: this.kycUrlObject,
+          verified: true,
+        },
+      });
+    }
   }
 
-  ngOnDestroy() {
+  onUploadError(err: any): void {
+    this.authService.showNotification(
+      'top',
+      'center',
+      'failed uploading KYC detail',
+      'danger'
+    );
+  }
+
+  ngOnDestroy(): void {
     if (this.counterObservable) {
       this.counterObservable.unsubscribe();
     }

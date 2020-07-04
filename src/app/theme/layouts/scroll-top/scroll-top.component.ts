@@ -8,5 +8,5 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class ScrollTopComponent implements OnInit {
   constructor() {}
-  ngOnInit() {}
+  ngOnInit(): void {}
 }
