@@ -147,11 +147,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const query = {
       name: data.fullName || '',
       address: data.address || '',
-      bank: {
-        bankName: data.bankName || '',
-        bankAccountName: data.acctName || '',
-        bankAccountNumber: data.acctNumber || '',
-      },
       city: data.city || '',
       country: data.country || '',
       email: data.email || '',
