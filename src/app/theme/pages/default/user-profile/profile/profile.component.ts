@@ -24,9 +24,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   userCurrency: string;
   userCountry: string;
   userPostCode: number;
-  userBankAccountName: string;
-  userBankAccountNumber: number;
-  userBankName: string;
+  userBankAccountName = '';
+  userBankAccountNumber = '';
+  userBankName = '';
   bankBvn: number;
   verified: boolean;
   pending: boolean;
