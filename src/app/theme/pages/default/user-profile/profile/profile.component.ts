@@ -145,15 +145,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.onSubmitClick = true;
     // console.log(form);
     const query = {
-      name: data.fullName || '',
-      address: data.address || '',
-      city: data.city || '',
-      country: data.country || '',
-      email: data.email || '',
+      name: data.fullName || this.userName,
+      address: data.address || this.userAddress,
+      city: data.city || this.userCity,
+      country: data.country || this.userCountry,
+      email: data.email || this.userEmail,
       occupation: data.occupation || '',
-      phone: data.phone || '',
-      postal: data.postal || '',
-      state: data.state || '',
+      phone: data.phone || this.userPhone,
+      postal: data.postal || this.userPostCode,
+      state: data.state || this.userState,
     };
     // console.log(query);
     this.userDoc = this.afs.doc(`/users/${this.authService.currentUserId}`);
