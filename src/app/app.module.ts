@@ -9,6 +9,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -35,6 +36,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
 };
 
+firebase.analytics();
+
 @NgModule({
   declarations: [AppComponent, ThemeComponent],
   imports: [
@@ -46,6 +49,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireFunctionsModule,
+    AngularFireAnalyticsModule,
     AngularFireModule.initializeApp(environment.firebase),
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     LayoutModule,
