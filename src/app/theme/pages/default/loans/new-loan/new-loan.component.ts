@@ -222,8 +222,6 @@ export class NewLoanComponent implements OnInit, OnDestroy {
       case 'NGN':
         this.currency = 'NGN';
         this.rates = this.exchangeRates[this.currency];
-        // this.minimum = this.$MIN * this.rates;
-        // this.maximum = this.$MAX * this.rates;
         this.getCountryCode('Nigeria');
         this.onCurrencyChange();
         break;
@@ -314,9 +312,8 @@ export class NewLoanComponent implements OnInit, OnDestroy {
   }
 
   onCurrencyChange(): void {
-    // const amount = (res.data.amount / 2) * this.rates;
-    const amount = this.cryptoRate / 2;
-    const localAmount = (this.cryptoRate / 2) * this.rates;
+    const amount = (this.cryptoRate / 2) * this.cryptoAmount;
+    const localAmount = amount * this.rates;
     this.fiatAmount = this.authService.digitFormatter(
       this.authService.round(amount, 0)
     );
@@ -325,7 +322,6 @@ export class NewLoanComponent implements OnInit, OnDestroy {
       0
     );
     this.fiatUsdAmount = amount;
-    this.cryptoAmount = 1;
     this.actualLoanValue = this.toggleActualLoanValue(this.fiatUsdAmount);
     this.actualLoanLocalCurrencyValue = this.toggleActualLoanValue(
       this.authService.round(localAmount, 0)
