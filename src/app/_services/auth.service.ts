@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
@@ -36,7 +37,8 @@ export class AuthService {
     private router: Router,
     private modalService: NgbModal,
     private afs: AngularFirestore,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private titleService: Title
   ) {
     this.authState = (async () => {
       const auth = await this.afAuth.currentUser;
@@ -111,6 +113,16 @@ export class AuthService {
     return Math.round(value * multiplier) / multiplier;
   }
 
+  // Get current Page Title
+  get getTitle(): string {
+    return this.titleService.getTitle();
+  }
+
+  // set current Page Title
+  setTitle(title: string): void {
+    this.titleService.setTitle(title);
+  }
+
   /* For blocking modal UI
    * params @id (html ID)
    */
@@ -164,7 +176,6 @@ export class AuthService {
       fromSources: [
         'local_file_system',
         'url',
-        'facebook',
         'googledrive',
         'dropbox',
         'webcam',

@@ -107,6 +107,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.authService.setTitle('New Loan Request');
     this.getCryptoWalletDetails();
     this.getExchangeRate();
     this.getBankInCountry();

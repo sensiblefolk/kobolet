@@ -96,6 +96,7 @@ export class AssetComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getCountRef();
     this.getUserDetails();
     this.getTransaction();
+    this.authService.setTitle('Loan Book');
   }
 
   ngAfterViewInit(): void {

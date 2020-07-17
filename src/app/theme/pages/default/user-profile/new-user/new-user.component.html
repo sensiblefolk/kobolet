@@ -378,7 +378,7 @@
                             </div>
                             <div class="m-portlet__body">
                               <div class="m-scrollable" data-scrollbar-shown="true" data-scrollable="true"
-                                data-max-height="300" style="overflow:hidden; height: 300px">
+                                data-max-height="300" style="overflow:hidden; height: 500px">
                                 One form of identification with photo is required (passport preferred).
 
                                 Identity Cards must have photo with both sides copied. Please provide official English
@@ -403,19 +403,19 @@
                                   <div class="m-checkbox-list">
                                     <label class="m-checkbox m-checkbox--state-accent">
                                       <input type="checkbox" [(ngModel)]="passport" #passportId="ngModel"
-                                        name="passportId" required={{kycSelectState}}>
+                                        name="passportId" (change)="inputStatus(passportId.value, 'passport')">
                                       Passport
                                       <span></span>
                                     </label>
                                     <label class="m-checkbox m-checkbox--state-accent">
                                       <input type="checkbox" [(ngModel)]="national" #nationalId="ngModel"
-                                        name="nationalId" required={{kycSelectState}}>
+                                        name="nationalId" (change)="inputStatus(nationalId.value, 'national')">
                                       National ID Card
                                       <span></span>
                                     </label>
                                     <label class="m-checkbox m-checkbox--state-accent">
                                       <input type="checkbox" [(ngModel)]="license" #licenseId="ngModel" name="licenseId"
-                                        required={{kycSelectState}}>
+                                        (change)="inputStatus(licenseId.value, 'license')">
                                       Driver License
                                       <span></span>
                                     </label>
@@ -423,7 +423,7 @@
                                   <div class="m--space-20 m--padding-20">
                                     <ng-picker-overlay [pickerOptions]="options"
                                       (uploadSuccess)="onUploadSuccess($event)" (uploadError)="onUploadError($event)">
-                                      <button type="button" [disabled]="inputStatus()" class="btn btn-accent">
+                                      <button type="button" [disabled]="canVerify()" class="btn btn-accent">
                                         choose file
                                       </button>
                                     </ng-picker-overlay>

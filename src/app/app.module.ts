@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,6 +9,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -46,6 +47,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireFunctionsModule,
+    AngularFireAnalyticsModule,
     AngularFireModule.initializeApp(environment.firebase),
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     LayoutModule,
@@ -57,7 +59,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     ThemeRoutingModule,
     AuthModule,
   ],
-  providers: [],
+  providers: [Title],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
