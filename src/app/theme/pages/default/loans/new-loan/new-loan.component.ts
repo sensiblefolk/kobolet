@@ -54,8 +54,8 @@ export class NewLoanComponent implements OnInit, OnDestroy {
   exchangeRates: any = {};
   rates = 1;
   cryptoRate: any;
-  $MIN = 2;
-  $MAX = 28000;
+  $MIN = 10;
+  $MAX = 10000;
   $MAX_WITHOUT_VERIFICATION = 800;
   monthlyInterestRates: number;
   cryptoBalance: number;
