@@ -114,25 +114,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.userObservable = userDetails.subscribe((data) => {
       if (data && data.phone) {
         this.userPhotoUrl = authData.currentUserPhoto;
-        this.userName = data.name || '';
-        this.userEmail = data.email || '';
-        this.userOccupation = data.occupation || '';
-        this.userPhone = data.phone || '';
-        this.userAddress = data.address || '';
-        this.userState = data.state || '';
-        this.userCity = data.city || '';
-        this.userPostCode = data.postal || '';
-        this.userCountry = data.country || '';
-        this.userBankAccountName = data.bank.accountName || '';
-        this.userBankAccountNumber = data.bank.accountNumber || '';
-        this.userCurrency = data.currency || '';
-        this.userBankName = data.bank.bankName || '';
-        this.bankBvn = data.bank.bvn || '';
-        this.verified = data.kyc.verified;
-        this.pending = data.kyc.pending;
+        this.userName = data?.name || '';
+        this.userEmail = data?.email || '';
+        this.userOccupation = data?.occupation || '';
+        this.userPhone = data?.phone || '';
+        this.userAddress = data?.address || '';
+        this.userState = data?.state || '';
+        this.userCity = data?.city || '';
+        this.userPostCode = data?.postal || '';
+        this.userCountry = data?.country || '';
+        this.userBankAccountName = data?.bank?.accountName || '';
+        this.userBankAccountNumber = data?.bank?.accountNumber || '';
+        this.userCurrency = data?.currency || '';
+        this.userBankName = data?.bank?.bankName || '';
+        this.bankBvn = data?.bank?.bvn || '';
+        this.verified = data?.kyc?.verified;
+        this.pending = data?.kyc?.pending;
         this.loading = true;
-        this.showKyc = data.kyc.verified;
-        this.disableToggle = data.kyc.verified ? true : false;
+        this.showKyc = data?.kyc?.verified;
+        this.disableToggle = data?.kyc?.verified ? true : false;
       } else {
         this.userPhotoUrl = this.authService.currentUserPhoto;
         this.userEmail = authData.authState.email;
@@ -155,7 +155,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       email: data.email || this.userEmail,
       occupation: data.occupation || '',
       phone: data.phone || this.userPhone,
-      postal: data.postal || this.userPostCode,
+      postal: data.postal || this.userPostCode || '',
       state: data.state || this.userState,
     };
     // console.log(query);
