@@ -4,7 +4,7 @@
     <div class="d-flex align-items-center">
       <div class="mr-auto">
         <h3 class="m-subheader__title">
-          Settings
+          Profile
         </h3>
       </div>
     </div>
@@ -334,7 +334,7 @@
                 </div>
               </form>
             </div>
-            <div class="tab-pane" id="m_user_profile_tab_2">
+            <div class="tab-pane" id="m_user_profile_tab_2" *ngIf="!verified">
               <div class="m-portlet__body">
                 <div class="row">
                   <div class="col-lg-12">
@@ -379,20 +379,19 @@
                             </label>
                             <div class="m-checkbox-list">
                               <label class="m-checkbox m-checkbox--state-accent">
-                                <input type="checkbox" [(ngModel)]="passport" #passportId="ngModel" name="passportId"
-                                  required={{kycSelectState}}>
+                                <input type="checkbox" [(ngModel)]="passport"
+                                  (change)="inputStatus(passport, 'passport')">
                                 Passport
                                 <span></span>
                               </label>
                               <label class="m-checkbox m-checkbox--state-accent">
-                                <input type="checkbox" [(ngModel)]="national" #nationalId="ngModel" name="nationalId"
-                                  required={{kycSelectState}}>
+                                <input type="checkbox" [(ngModel)]="national"
+                                  (change)="inputStatus(national, 'national')">
                                 National ID Card
                                 <span></span>
                               </label>
                               <label class="m-checkbox m-checkbox--state-accent">
-                                <input type="checkbox" [(ngModel)]="license" #licenseId="ngModel" name="licenseId"
-                                  required={{kycSelectState}}>
+                                <input type="checkbox" [(ngModel)]="license" (change)="inputStatus(license, 'license')">
                                 Driver License
                                 <span></span>
                               </label>
@@ -400,7 +399,7 @@
                             <div class="m--space-20 m--padding-20">
                               <ng-picker-overlay [pickerOptions]="options" (uploadSuccess)="onUploadSuccess($event)"
                                 (uploadError)="onUploadError($event)">
-                                <button type="button" [disabled]="inputStatus()" class="btn btn-accent">
+                                <button type="button" [disabled]="canVerify()" class="btn btn-accent">
                                   choose file
                                 </button>
                               </ng-picker-overlay>

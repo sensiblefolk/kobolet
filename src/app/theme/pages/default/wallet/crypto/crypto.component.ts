@@ -112,6 +112,7 @@ export class CryptoComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.getTransactions();
     // this.getPendingTransactions();
     this.getWallet();
+    this.authService.setTitle('Cryptocurrency Wallet');
   }
 
   ngAfterViewInit(): void {

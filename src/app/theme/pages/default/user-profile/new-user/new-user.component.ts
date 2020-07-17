@@ -88,6 +88,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getCountryDetails();
+    this.authService.setTitle('New User Validation');
   }
 
   ngAfterViewInit(): void {
@@ -384,29 +385,29 @@ export class NewUserComponent implements OnInit, AfterViewInit {
       });
   }
 
-  inputStatus(): boolean {
-    const p = this.passport;
-    const n = this.national;
-    const l = this.license;
-    if (p) {
-      this.national = false;
-      this.license = false;
-      this.kycSelectState = false;
-      return false;
-    } else if (n) {
-      this.passport = false;
-      this.license = false;
-      this.kycSelectState = false;
-      return false;
-    } else if (l) {
-      this.passport = false;
-      this.national = false;
-      this.kycSelectState = false;
-      return false;
-    } else {
-      this.kycSelectState = true;
-      return true;
+  inputStatus(event: boolean, kycType: string): void {
+    if (event) {
+      if (kycType === 'passport') {
+        this.passport = event;
+        this.national = !event;
+        this.license = !event;
+      } else if (kycType === 'national') {
+        this.national = event;
+        this.passport = !event;
+        this.license = !event;
+      } else {
+        this.license = event;
+        this.passport = !event;
+        this.national = !event;
+      }
     }
+  }
+
+  canVerify(): boolean {
+    if (this.passport || this.national || this.license) {
+      return false;
+    }
+    return true;
   }
 
   onUploadSuccess(res: any): void {

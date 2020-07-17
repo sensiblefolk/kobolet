@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -36,8 +36,6 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
 };
 
-firebase.analytics();
-
 @NgModule({
   declarations: [AppComponent, ThemeComponent],
   imports: [
@@ -61,7 +59,7 @@ firebase.analytics();
     ThemeRoutingModule,
     AuthModule,
   ],
-  providers: [],
+  providers: [Title],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

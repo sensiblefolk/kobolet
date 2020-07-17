@@ -87,6 +87,7 @@ export class IndexComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getExchangeRates();
     this.getLoanDetails();
     this.getCountRef();
+    this.authService.setTitle('Dashboard');
   }
 
   ngAfterViewInit(): void {

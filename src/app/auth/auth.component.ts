@@ -4,6 +4,7 @@ import { Helpers } from '../helpers';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FirebaseUISignInSuccessWithAuthResult } from 'firebaseui-angular';
+import { AuthService } from '../_services/auth.service';
 import * as moment from 'moment';
 
 @Component({
@@ -20,7 +21,8 @@ export class AuthComponent implements OnInit {
   constructor(
     private router: Router,
     public afAuth: AngularFireAuth,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   // tslint:disable-next-line: typedef
@@ -32,6 +34,7 @@ export class AuthComponent implements OnInit {
     // this.afAuth.authState.subscribe((d) => {
     //   console.log('authlog', d);
     // });
+    this.authService.setTitle('Login');
   }
 
   // tslint:disable-next-line: typedef

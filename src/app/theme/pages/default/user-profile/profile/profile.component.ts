@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
@@ -52,6 +53,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
+    private router: Router,
     private afs: AngularFirestore
   ) {}
 
@@ -60,6 +62,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.getCountRef();
     this.getUserDetails();
     this.options = this.authService.fileStackOption;
+    this.authService.setTitle('User Profile');
   }
 
   getExchangeRates(): void {
@@ -159,7 +162,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.userDoc = this.afs.doc(`/users/${this.authService.currentUserId}`);
     this.userDoc
       .update(query)
-      .then((success) => {
+      .then(() => {
         // console.log('updated successfully');
         this.onSubmitClick = false;
         this.authService.showNotification(
@@ -181,30 +184,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  inputStatus(): boolean {
-    const p = this.passport;
-    const n = this.national;
-    const l = this.license;
-
-    if (p) {
-      this.national = false;
-      this.license = false;
-      this.kycSelectState = false;
-      return false;
-    } else if (n) {
-      this.passport = false;
-      this.license = false;
-      this.kycSelectState = false;
-      return false;
-    } else if (l) {
-      this.passport = false;
-      this.national = false;
-      this.kycSelectState = false;
-      return false;
-    } else {
-      this.kycSelectState = true;
-      return true;
+  inputStatus(event: boolean, kycType: string): void {
+    if (event) {
+      if (kycType === 'passport') {
+        this.passport = event;
+        this.national = !event;
+        this.license = !event;
+      } else if (kycType === 'national') {
+        this.national = event;
+        this.passport = !event;
+        this.license = !event;
+      } else {
+        this.license = event;
+        this.passport = !event;
+        this.national = !event;
+      }
     }
+  }
+
+  canVerify(): boolean {
+    if (this.passport || this.national || this.license) {
+      return false;
+    }
+    return true;
   }
 
   onUploadSuccess(res: any): void {
@@ -225,8 +227,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
         kyc: {
           url: this.kycUrlObject,
           verified: true,
+          pending: false,
+          license: this.license,
+          national: this.national,
+          passport: this.passport,
         },
       });
+      this.router.navigate(['/']);
     }
   }
 
