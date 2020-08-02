@@ -30,7 +30,7 @@
                           <div class="input-group m-input-icon m-input-icon--left">
                             <input type="text" class="form-control form-control-lg m-input m-input--air"
                               placeholder="1,000" [(ngModel)]="fiatAmount" #fiat="ngModel" name="fiat"
-                              (keyup)="searchFiat(fiatAmount)" />
+                              (keyup)="getFiatPrice(fiatAmount)" />
                             <span class="m-input-icon__icon m-input-icon__icon--left">
                               <span class="m--font-bold" style="padding-top: 14px; font-size: 1.3rem;">
                                 &#36;&nbsp;
@@ -42,6 +42,10 @@
                                 <span>USD</span>
                               </button>
                             </div>
+                          </div>
+                          <div class="m--align-left pull-left m--font-danger"
+                            style="font-size: 14px; margin: 0px 0px 6.5px;" *ngIf="fiat.value < $MIN">
+                            Minimum Amount: &#36;{{ $MIN }}
                           </div>
                         </div>
 
@@ -70,7 +74,7 @@
                           <div class="input-group m-input-icon m-input-icon--left">
                             <input type="number" class="form-control form-control-lg m-input m-input--air"
                               placeholder="1" [(ngModel)]="cryptoAmount" #crypto="ngModel" name="crypto"
-                              (keyup)="searchCrypto(cryptoAmount)" />
+                              (keyup)="getCryptoPrice(cryptoAmount)" />
                             <span class="m-input-icon__icon m-input-icon__icon--left">
                               <span>
                                 <i class="{{ cryptoCurrencyClass }}"></i>

@@ -45,7 +45,6 @@ export class AuthComponent implements OnInit {
   // tslint:disable-next-line: typedef
   successCallback(data: FirebaseUISignInSuccessWithAuthResult) {
     const user = data.authResult.user;
-    // console.log('signinsuccess log', data);
     if (data.authResult.credential) {
       localStorage.setItem('pp', data.authResult.credential.signInMethod);
     }
