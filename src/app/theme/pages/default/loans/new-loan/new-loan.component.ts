@@ -267,13 +267,14 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     }
   }
 
-  searchFiat(amount: any): void {
+  // convert cyrpto loan amount into equivalent price and crypto collateral amount
+  getFiatPrice(amount: any): void {
     const value = this.authService.stringToNumberFormatter(amount);
     this.cryptoSubject.next(value);
-    this.cryptoSubject.pipe(debounceTime(500), distinctUntilChanged());
+    this.cryptoSubject.pipe(debounceTime(1000), distinctUntilChanged());
 
-    this.cryptoSubject.subscribe((data) => {
-      const usdAmount = data;
+    this.cryptoSubject.subscribe((price) => {
+      const usdAmount = price;
       this.cryptoRate = this.exchangeRates[this.cryptoType];
       const cryptoValue = (usdAmount / this.cryptoRate) * 2;
       const cryptoStringValue = this.authService.digitFractionFormatter(
@@ -290,7 +291,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     });
   }
 
-  searchCrypto(amount: any): void {
+  getCryptoPrice(amount: any): void {
     const value = this.authService.stringToNumberFormatter(amount);
     this.fiatSubject.next(value);
     this.fiatSubject.pipe(debounceTime(500), distinctUntilChanged());
@@ -420,9 +421,9 @@ export class NewLoanComponent implements OnInit, OnDestroy {
         // console.log('error event', event);
         this.authService.showNotification(
           'top',
-          'right',
-          'transaction failed please try again later',
-          'danger'
+          'center',
+          'Fiat capital exhausted, your loan request has been logged and will be added to the waitlist. You will be notified immediately there is sufficient capital to process your loan request.',
+          'info'
         );
         this.validateButtonSpinner = false;
       }
