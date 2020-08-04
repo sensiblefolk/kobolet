@@ -7,6 +7,15 @@
 
 const admin = require("firebase-admin");
 const functions = require('firebase-functions');
+// server/api.js
+/*
+ |--------------------------------------
+ | Dependencies
+ |--------------------------------------
+ */
+
+const admin = require("firebase-admin");
+const functions = require('firebase-functions');
 const moment = require('moment');
 const unirest = require('unirest');
 const sgMail = require('@sendgrid/mail');
@@ -14,13 +23,7 @@ const Ravepay = require('flutterwave-node');
 const rave = new Ravepay(functions.config().raveprod.key, functions.config().raveprod.secret, true);
 const axios = require('axios')
 
-const coinbase = require('coinbase-commerce-node');
-const Client = coinbase.Client;
-const Charge = coinbase.resources.Charge;
-const Event = coinbase.resources.Event;
-const Webhook = require('coinbase-commerce-node').Webhook;
-
-Client.init(functions.config().coinbase.api_key);
+const newPayment = require('../routes/api/coinbase/newPayment');
 
 /* Beginning sendgrid api config*/
 sgMail.setApiKey(functions.config().sendgrid_api.key);
@@ -28,7 +31,6 @@ sgMail.setSubstitutionWrappers('{{', '}}');
 /* End sendgrid api config */
 
 // Config
-const config = require('../server/config');
 const utilityFunction = require('../server/functions');
 const db = admin.firestore();
 
@@ -77,6 +79,8 @@ module.exports = function (app, config) {
     // console.log('hmac', hmac);
     return next();
   }
+
+  newPayment(app);
 
   /*
    |--------------------------------------
@@ -666,3 +670,128 @@ async function cryptoDepositToWallet(uid, type, amount, code, email, name) {
     /* End deposit confirmation email */
   }).catch(err => console.log('failed updating wallet', err));
 }
+const sgMail = require('@sendgrid/mail');
+
+const newPayment = require('../routes/api/coinbase/newPayment');
+const createPaymentWebhook = require('../routes/api/coinbase/webhook/createPayment');
+const pendingPaymentWebhook = require('../routes/api/coinbase/webhook/pendingPayment');
+const delayedPaymentWebhook = require('../routes/api/coinbase/webhook/delayedPayment');
+const resolvedPaymentWebhook = require('../routes/api/coinbase/webhook/resolvedPayment');
+const confirmPaymentWebhook = require('../routes/api/coinbase/webhook/confirmPayment');
+const failedPaymentWebhook = require('../routes/api/coinbase/webhook/failedPayment');
+const transferRoute = require('../routes/api/flutterwave/transferRoute');
+const depositRoute = require('../routes/api/flutterwave/depositRoute');
+
+/* Beginning sendgrid api config*/
+sgMail.setApiKey(functions.config().sendgrid_api.key);
+sgMail.setSubstitutionWrappers('{{', '}}');
+/* End sendgrid api config */
+
+// Config
+const utilityFunction = require('../server/functions');
+const db = admin.firestore();
+
+const cryptoCurrency = [{
+    name: 'bitcoin',
+    symbol: 'BTC-USD',
+    bfxSymbol: 'tBTCUSD'
+  },
+  {
+    name: 'ethereum',
+    symbol: 'ETH-USD',
+    bfxSymbol: 'tETHUSD'
+  }
+];
+
+/*
+ |--------------------------------------
+ | CMiddleware
+ |--------------------------------------
+ */
+// floating point value precision rounder
+function round(value, precision) {
+  let multiplier = Math.pow(10, precision || 0);
+  return Math.round(value * multiplier) / multiplier;
+}
+
+module.exports = function (app, config) {
+
+  let firebaseMiddleware = (req, res, next) => {
+    admin.auth().getUser(req.query.id)
+      .then(function (userRecord) {
+        if (userRecord) {
+          return next();
+        }
+      })
+      .catch(function (error) {
+        return res.status(500).send({
+          message: "You don't have the necessary credentials to complete this request"
+        });
+      });
+  };
+  /*
+   |--------------------------------------
+   | API Routes
+   |--------------------------------------
+   */
+
+  /*  COINBASE payment API
+   * Begin
+   */
+  newPayment(app);
+  createPaymentWebhook(app);
+  pendingPaymentWebhook(app);
+  delayedPaymentWebhook(app);
+  resolvedPaymentWebhook(app);
+  confirmPaymentWebhook(app);
+  failedPaymentWebhook(app)
+  /*  COINBASE PAYMENT API
+   * END
+   */
+
+  /*  Rave transfet payment API
+   * Begin
+   */
+  transferRoute(app);
+  depositRoute(app);
+
+  /*  Rave transfet payment API
+   * End
+   */
+
+  /* Manual withdraw processing */
+  // POST new payment details to coinbase
+  app.post('/withdrawal', firebaseMiddleware, (req, res) => {
+    const data = req.body;
+    const query = {
+      amount: data.amount,
+      currency: data.currency,
+      address: data.address
+    };
+
+    const id = req.query.id;
+    const amount = req.body.amount;
+    console.log(req.body);
+    const userUrl = `users/${id}`;
+    const userRef = db.doc(userUrl);
+    userRef.get().then(data => {
+      const userValue = data.data();
+      if (userValue) {
+        const currentTime = moment().format("YYYY-MM-DD");
+        const msg = {
+          to: `Kobolet <michael@crypxel.com>`,
+          from: `Kobolet Withdraw <no-reply@kobolet.com>`,
+          subject: 'New withdrawal request',
+          text: `${userValue.name} with ${id} just requested for a withdrawal of ${query.amount} ${query.currency} to address: ${query.address} on ${currentTime}`
+        };
+        return sgMail.send(msg).then(() => {
+          console.log("capital withdrawal request of %d sent successfully", amount);
+          const result = "capital withdrawal request processed successfully";
+          // res.status(200).send(result);
+        });
+      }
+    })
+    res.end();
+  });
+  /* End of Manual withdraw processing */
+};

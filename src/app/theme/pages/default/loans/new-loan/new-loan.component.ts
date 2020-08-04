@@ -331,7 +331,9 @@ export class NewLoanComponent implements OnInit, OnDestroy {
 
   // Transfer amount to local customer account
   transferFund(value: any, type: string): void {
-    if (this.cryptoAmount > this[type]) {
+    if (this.cryptoAmount > this[type] || !this.acctNumbVerified) {
+      this.bankComponent.modalOpen();
+      this.validateButtonSpinner = false;
       return;
     }
     const heldCrypto = this.authService.stringToNumberFormatter(
@@ -343,11 +345,6 @@ export class NewLoanComponent implements OnInit, OnDestroy {
     );
     this.validateButtonSpinner = true;
     const ref = `kobolet${Date.now()}`;
-    const expiryDuration = this.ionSliderValue * 30;
-    const currentTime = moment().valueOf();
-    const expiryDate = moment(currentTime)
-      .add(expiryDuration, 'days')
-      .valueOf();
     const userDetails = this.userDetails;
     const name = userDetails.name;
     const query = {
@@ -432,7 +429,7 @@ export class NewLoanComponent implements OnInit, OnDestroy {
 
   // listen for bank update Status event emitted from child component <app-bank-details>
   bankUpdateStatus(event): void {
-    if (event) {
+    if (event && this.cryptoAmount > this.cryptoBalance) {
       this.newCryptoTransaction(this.cryptoBalance, this.cryptoTypeName);
     }
   }

@@ -2,13 +2,11 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const sgMail = require('@sendgrid/mail');
 const express = require('express');
-const moment = require('moment');
 // const cors = require('cors')({ origin: true });
 const cors = require('cors');
 const config = require('./server/config');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-const axios = require('axios');
 
 require('./utility/firebaseSetup');
 
@@ -39,8 +37,7 @@ app.use(
 );
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-require('./server/api')(app, config);
-const utilityFunction = require('./server/functions');
+require('./routes/api')(app);
 /* End Express config */
 
 const db = admin.firestore();
@@ -100,11 +97,6 @@ exports.onNewUser = functions.auth.user().onCreate((snap, context) => {
   // res.sendStatus(200);
 });
 
-// floating point value precision rounder
-function round(value, precision) {
-  let multiplier = Math.pow(10, precision || 0);
-  return Math.round(value * multiplier) / multiplier;
-}
 
 // Send welcome email to new user
 function sendWelcomeEmail(snap, context) {

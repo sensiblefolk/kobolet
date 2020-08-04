@@ -11,6 +11,7 @@ const {
   newBfxOrder,
   getExchangeRate
 } = require('../../utility/helper');
+const slackOracleNotify = require('../notification/slackOracle');
 
 const db = admin.firestore();
 
@@ -69,6 +70,7 @@ const onHedgeLoanExpired = functions.firestore.document('hedge/bitfinex/expired/
           });
         });
         await addOracleLog(order.orderId, userId, snapValue.type, loanId, true, 'bitfinex', 'expired loan closed successfully', cryptoAmountToLiquidate);
+        await slackOracleNotify(`${cryptoAmountToLiquidate}${cryptoType.bfxSymbol} liquidated on exchange`);
       } else {
         console.error('failed updating expired loan balance')
         await addOracleLog(userId, snapValue.type, loanId, false, 'bitfinex', 'failed closing expired loan', cryptoAmountToLiquidate);
