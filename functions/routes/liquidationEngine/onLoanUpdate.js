@@ -2,6 +2,7 @@ const {
   addOracleLog,
   updateWallet
 } = require('../../utility/store')
+const slackOracleNotify = require('../notification/slackOracle');
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
@@ -68,6 +69,7 @@ const onLoanUpdate = functions.firestore
               userId: snapContext.userId,
             });
             await addOracleLog(hedgeValue.orderId, snapContext.userId, newValue.type, snapContext.ref, true, 'bitfinex', 'order cancelled successfully', hedgeValue.cryptoAmount)
+            await slackOracleNotify(`crypto hedge amount of ${newValue.heldCrypto} ${hedgeValue.cryptoAmount} cancelled successfully`)
             return;
           });
         } else {
@@ -91,7 +93,7 @@ const onLoanUpdate = functions.firestore
             cryptoToReturn,
             snapContext.userId,
             newValue.type
-          ).then(() => {
+          ).then(async () => {
             loanRef.update({
               heldCrypto: cryptoAmountToUpdate,
             });
@@ -104,6 +106,7 @@ const onLoanUpdate = functions.firestore
               type: newValue.type,
               userId: snapContext.userId,
             });
+            await slackOracleNotify(`crypto hedge amount of ${newValue.heldCrypto} ${hedgeValue.cryptoAmount} with order id: ${hedgeValue.orderId} updated to ${cryptoAmountToUpdate}`)
           });
           await addOracleLog(hedgeValue.orderId, snapContext.userId, newValue.type, snapContext.ref, true, 'bitfinex', 'order updated successfully', hedgeValue.cryptoAmount)
         } else {

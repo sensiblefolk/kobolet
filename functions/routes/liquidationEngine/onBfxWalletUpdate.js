@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const moment = require('moment');
+const slackOracleNotify = require('../notification/slackOracle');
 
 const {
   cryptoCurrency,
@@ -15,10 +16,9 @@ const db = admin.firestore();
 // Create new Hedge Transaction on bitfinex once wallet has been updated
 const onBfxWalletUpdate = functions.firestore.document('admin/wallet/exchange/bitfinex').onUpdate(async (snap, context) => {
   const snapValue = snap.after.data();
-  const snapBefore = snap.before.data();
-  const snapContext = context.params;
+  // const snapContext = context.params;
   let hedgeArray = []
-  console.log('jumped in');
+  console.log('jumped into hedge transaction creation');
 
   // firestore reference definition
   const logRef = db.collection('log/oracle/bfx');
@@ -59,11 +59,13 @@ const onBfxWalletUpdate = functions.firestore.document('admin/wallet/exchange/bi
             hedged: true,
             pending: 'completed',
           });
+          await slackOracleNotify(`${hedgeValue.cryptoAmount}${cryptoType.bfxSymbol} hedge transaction created with id:${order} for liquidation at ${hedgeValue.liquidationPrice}`);
 
           // update log store
           await addOracleLog(order.orderId, hedgeValue.userId, hedgeValue.type, hedgeValue.loanId, true, 'bitfinex', 'hedge creation successful', hedgeValue.cryptoAmount);
         } else {
           await addOracleLog(hedgeValue.userId, hedgeValue.type, hedgeValue.loanId, false, 'bitfinex', 'hedge creation failed', hedgeValue.cryptoAmount);
+          await slackOracleNotify(`failed adding ${hedgeValue.cryptoAmount}${cryptoType.bfxSymbol} for liquidation at ${hedgeValue.liquidationPrice}. user id is: ${hedgeValue.userId}`);
         }
       }
     }))
