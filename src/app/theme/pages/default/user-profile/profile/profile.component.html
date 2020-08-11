@@ -418,7 +418,7 @@
                     </div>
                   </div>
                   <ng-template #noBank>
-                    <div class="col-md-12">
+                    <div class="col-md-12" style="padding: 1rem;">
                       <p style="padding-bottom: 1rem;">You have not added any bank account</p>
                       <app-bank-details [currency]="userCurrency" [country]="userCountry" [name]="userName"
                         (bankStatus)="onBankUpdated($event)"></app-bank-details>
