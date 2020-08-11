@@ -12,8 +12,9 @@ require('./utility/firebaseSetup');
 
 // api routes
 const countryExchangeRate = require('./routes/countryExchangeRate');
-const getCryptoPrice = require('./routes/getCryptoPrice');
-const updateBankListScheduler = require('./routes/updateBankListScheduler');
+const getCryptoPrice = require('./routes/schedulers/getCryptoPrice');
+const updateBankListScheduler = require('./routes/schedulers/updateBankListScheduler');
+const scheduledFirestoreExport = require('./routes/schedulers/scheduledFirestoreExport');
 const fcmSend = require('./routes/fcmSend');
 const onFiatTransactionUpdate = require('./routes/onFiatTransactionUpdate');
 const onBfxWalletUpdate = require('./routes/liquidationEngine/onBfxWalletUpdate');
@@ -45,6 +46,7 @@ const db = admin.firestore();
 exports.api = functions.https.onRequest(app);
 exports.countryExchangeRate = countryExchangeRate;
 exports.getCryptoPrice = getCryptoPrice;
+exports.scheduledFirestoreExport = scheduledFirestoreExport;
 exports.updateBankListScheduler = updateBankListScheduler;
 exports.fcmSend = fcmSend;
 /* Begin Kobolet Oracle Functions */

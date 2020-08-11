@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AngularFirestore,
@@ -8,12 +8,15 @@ import { AuthService } from '../../../../../_services/auth.service';
 import { Observable, Subscription } from 'rxjs';
 
 import { NgForm } from '@angular/forms';
+import { BankDetailsComponent } from '../../../../../shared/bank-details/bank-details.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  @ViewChild(BankDetailsComponent) bankComponent: BankDetailsComponent;
+
   userPhotoUrl: string;
   userName: string;
   userEmail: string;
@@ -25,9 +28,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   userCurrency: string;
   userCountry: string;
   userPostCode: number;
-  userBankAccountName = '';
-  userBankAccountNumber = '';
-  userBankName = '';
   bankBvn: number;
   verified: boolean;
   pending: boolean;
@@ -38,6 +38,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   showKyc: boolean;
   kycpending = false;
   kycUrlObject: any = {};
+  userBankDetail: any = null;
   exchangeRate: any;
   passport = false;
   national = false;
@@ -123,10 +124,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.userCity = data?.city || '';
         this.userPostCode = data?.postal || '';
         this.userCountry = data?.country || '';
-        this.userBankAccountName = data?.bank?.accountName || '';
-        this.userBankAccountNumber = data?.bank?.accountNumber || '';
+        this.userBankDetail = data?.bank ?? null;
         this.userCurrency = data?.currency || '';
-        this.userBankName = data?.bank?.bankName || '';
         this.bankBvn = data?.bank?.bvn || '';
         this.verified = data?.kyc?.verified;
         this.pending = data?.kyc?.pending;
@@ -141,6 +140,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.userCurrency = 'NGN';
       }
     });
+  }
+
+  // bank addition update handler
+  onBankUpdated(event: boolean): void {
+    if (event) {
+      this.bankComponent.closeModal();
+    }
   }
 
   onSubmitProfile(form: NgForm): void {

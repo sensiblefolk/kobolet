@@ -135,7 +135,12 @@
                   </a>
                 </li>
                 <li class="nav-item m-tabs__item">
-                  <a class="nav-link m-tabs__link m--hide" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
+                  <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
+                    Bank
+                  </a>
+                </li>
+                <li class="nav-item m-tabs__item">
+                  <a class="nav-link m-tabs__link m--hide" data-toggle="tab" href="#m_user_profile_tab_4" role="tab">
                     Settings
                   </a>
                 </li>
@@ -144,7 +149,7 @@
           </div>
           <div class="tab-content">
             <div class="tab-pane active" id="m_user_profile_tab_1">
-              <form (ngSubmit)="onSubmitProfile(kobolet)" class="m-form m-form--fit m-form--label-align-right"
+              <form (ngSubmit)="onSubmitProfile(kobolet)" class="m-form m-form--fit m-form--label-align-left"
                 #kobolet="ngForm">
                 <div class="m-portlet__body">
                   <div class="form-group m-form__group m--margin-top-10 m--hide">
@@ -161,10 +166,10 @@
                     </div>
                   </div>
                   <div class="form-group m-form__group row">
-                    <label for="example-text-input" class="col-4 col-form-label">
+                    <label for="example-text-input" class="col-md-2 col-form-label">
                       Full Name
                     </label>
-                    <div class="col-8">
+                    <div class="col-md-8">
                       <input class="form-control m-input" type="text" [(ngModel)]="userName" #fullname="ngModel"
                         name="fullName" required [disabled]="disableToggle">
                       <span class="form-control-feedback m--font-warning"
@@ -174,10 +179,10 @@
                     </div>
                   </div>
                   <div class="form-group m-form__group row">
-                    <label for="example-text-input" class="col-4 col-form-label">
+                    <label class="col-md-2 col-form-label">
                       Occupation
                     </label>
-                    <div class="col-8">
+                    <div class="col-md-8">
                       <input class="form-control m-input" type="text" [(ngModel)]="userOccupation" #occupation="ngModel"
                         name="occupation" required>
                       <span class="form-control-feedback m--font-warning"
@@ -187,10 +192,10 @@
                     </div>
                   </div>
                   <div class="form-group m-form__group row">
-                    <label for="example-text-input" class="col-4 col-form-label">
+                    <label for="example-text-input" class="col-md-2 col-form-label">
                       Email
                     </label>
-                    <div class="col-8">
+                    <div class="col-md-8">
                       <input class="form-control m-input" type="text" [(ngModel)]="userEmail" #email="ngModel"
                         name="email" required [disabled]="disableToggle">
                       <span class="form-control-feedback m--font-warning" [hidden]="email.valid || email.pristine">
@@ -199,10 +204,10 @@
                     </div>
                   </div>
                   <div class="form-group m-form__group row">
-                    <label for="example-text-input" class="col-4 col-form-label">
+                    <label for="example-text-input" class="col-md-2 col-form-label">
                       Phone No.
                     </label>
-                    <div class="col-8">
+                    <div class="col-md-8">
                       <input class="form-control m-input" type="string" [(ngModel)]="userPhone" #phone="ngModel"
                         name="phone" [disabled]="disableToggle">
                       <span class="form-control-feedback m--font-warning" [hidden]="phone.valid || phone.pristine">
@@ -219,10 +224,10 @@
                     </div>
                   </div>
                   <div class="form-group m-form__group row">
-                    <label for="example-text-input" class="col-4 col-form-label">
+                    <label for="example-text-input" class="col-md-2 col-form-label">
                       Address
                     </label>
-                    <div class="col-8">
+                    <div class="col-md-8">
                       <input class="form-control m-input" type="text" [(ngModel)]="userAddress" #address="ngModel"
                         name="address" required>
                       <span class="form-control-feedback m--font-warning" [hidden]="address.valid || address.pristine">
@@ -231,10 +236,10 @@
                     </div>
                   </div>
                   <div class="form-group m-form__group row">
-                    <label for="example-text-input" class="col-4 col-form-label">
+                    <label for="example-text-input" class="col-md-2 col-form-label">
                       City
                     </label>
-                    <div class="col-8">
+                    <div class="col-md-8">
                       <input class="form-control m-input" type="text" [(ngModel)]="userCity" #city="ngModel" name="city"
                         required>
                       <span class="form-control-feedback m--font-warning" [hidden]="city.valid || city.pristine">
@@ -243,10 +248,10 @@
                     </div>
                   </div>
                   <div class="form-group m-form__group row">
-                    <label for="example-text-input" class="col-4 col-form-label">
+                    <label for="example-text-input" class="col-md-2 col-form-label">
                       State
                     </label>
-                    <div class="col-8">
+                    <div class="col-md-8">
                       <input class="form-control m-input" type="text" [(ngModel)]="userState" #state="ngModel"
                         name="state" required>
                       <span class="form-control-feedback m--font-warning" [hidden]="state.valid || state.pristine">
@@ -255,10 +260,10 @@
                     </div>
                   </div>
                   <div class="form-group m-form__group row">
-                    <label for="example-text-input" class="col-4 col-form-label">
+                    <label for="example-text-input" class="col-md-2 col-form-label">
                       Country
                     </label>
-                    <div class="col-8">
+                    <div class="col-md-8">
                       <input class="form-control m-input" type="text" [(ngModel)]="userCountry" #country="ngModel"
                         name="country" [disabled]="disableToggle">
                       <span class="form-control-feedback m--font-warning" [hidden]="country.valid || country.pristine">
@@ -266,65 +271,13 @@
                       </span>
                     </div>
                   </div>
-                  <!--	<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
-								<div class="form-group m-form__group row">
-									<div class="col-10 ml-auto">
-										<h3 class="m-form__section">
-											3. Bank Account Details
-										</h3>
-									</div>
-								</div>
-								<div class="form-group m-form__group row">
-									<label for="example-text-input" class="col-2 col-form-label">
-										Account Name
-									</label>
-									<div class="col-7">
-										<input class="form-control m-input" type="text" [(ngModel)]="userBankAccountName" #acctname="ngModel" name="acctname" disabled>
-										<span class="form-control-feedback m--font-warning" [hidden]="acctname.valid || acctname.pristine">
-											Please enter your bank account name
-										</span>
-									</div>
-								</div>
-								<div class="form-group m-form__group row">
-									<label for="example-text-input" class="col-2 col-form-label">
-										Account Number
-									</label>
-									<div class="col-7">
-										<input class="form-control m-input" type="text" [(ngModel)]="userBankAccountNumber" #acctnumber="ngModel" name="acctnumber" disabled>
-										<span class="form-control-feedback m--font-warning" [hidden]="acctnumber.valid || acctnumber.pristine">
-											Please enter your bank account number
-										</span>
-									</div>
-								</div>
-								<div class="form-group m-form__group row">
-									<label for="example-text-input" class="col-2 col-form-label">
-										Bank Name
-									</label>
-									<div class="col-7">
-										<input class="form-control m-input" type="text" [(ngModel)]="userBankName" #bankname="ngModel" name="bankname" disabled>
-										<span class="form-control-feedback m--font-warning" [hidden]="bankname.valid || bankname.pristine">
-											Please enter your bank name
-										</span>
-									</div>
-								</div>
-								<div class="form-group m-form__group row" *ngIf="userCountry === 'Nigeria'">
-									<label for="example-text-input" class="col-2 col-form-label">
-										BVN
-									</label>
-									<div class="col-7">
-										<input class="form-control m-input" type="text" [(ngModel)]="bankBvn" #bvn="ngModel" name="bvn" required disabled="disabled">
-										<span class="form-control-feedback m--font-warning" [hidden]="bvn.valid || bvn.pristine">
-											Please enter your bank BVN number
-										</span>
-									</div>
-								</div> -->
+
                 </div>
                 <div class="m-portlet__foot m-portlet__foot--fit">
                   <div class="m-form__actions">
                     <div class="row">
-                      <div class="col-4"></div>
-                      <div class="col-8">
-                        <button type="submit" class="btn btn-accent m-btn m-btn--air"
+                      <div class="col-md-12 m--align-center">
+                        <button type="submit" class="btn btn-accent m-btn m-btn--air btn-lg" style="width: 100%;"
                           [disabled]="!kobolet.form.valid || onSubmitClick">
                           Save changes
                         </button>
@@ -415,9 +368,66 @@
                     </div>
                     <!--end::Portlet-->
                   </div>
-                  <div class="col-lg-12">
-
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="m_user_profile_tab_3">
+              <div class="m-portlet__body">
+                <div class="row">
+                  <div class="col-md-12" *ngIf="userBankDetail; else noBank">
+                    <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
+                    <div class="form-group m-form__group row">
+                      <div class="col-12 ml-auto">
+                        <h5 class="m-form__section">
+                          Bank Account Details
+                        </h5>
+                      </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                      <label for="example-text-input" class="col-3 col-form-label">
+                        Account Name
+                      </label>
+                      <div class="col-9">
+                        <input class="form-control m-input" type="text" readonly [value]="userBankDetail?.accountName">
+                      </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                      <label for="example-text-input" class="col-3 col-form-label">
+                        Account Number
+                      </label>
+                      <div class="col-9">
+                        <input class="form-control m-input" type="text" [value]="userBankDetail?.accountNumber"
+                          readonly>
+                      </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                      <label for="example-text-input" class="col-3 col-form-label">
+                        Bank Name
+                      </label>
+                      <div class="col-9">
+                        <input class="form-control m-input" type="text" [value]="userBankDetail?.bankName" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group m-form__group row" *ngIf="userCountry === 'Nigeria' && bankBvn">
+                      <label for="example-text-input" class="col-3 col-form-label">
+                        BVN
+                      </label>
+                      <div class="col-9">
+                        <input class="form-control m-input" type="text" [value]="bankBvn" readonly>
+                      </div>
+                    </div>
                   </div>
+                  <ng-template #noBank>
+                    <div class="col-md-12">
+                      <p style="padding-bottom: 1rem;">You have not added any bank account</p>
+                      <app-bank-details [currency]="userCurrency" [country]="userCountry" [name]="userName"
+                        (bankStatus)="onBankUpdated($event)"></app-bank-details>
+                      <button type="button"
+                        class="btn btn-outline-accent m-btn--outline-2x  m-btn--hover-accent m-btn m--align-right m--pull-right"
+                        (click)="bankComponent.modalOpen()">Add
+                        Account</button>
+                    </div>
+                  </ng-template>
                 </div>
               </div>
             </div>

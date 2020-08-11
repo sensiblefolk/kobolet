@@ -1,77 +1,79 @@
 <!-- Begin new user detail modal-->
 <ng-template #bankUpdate let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">Update Bank Details</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-12">
-                <form (ngSubmit)="onSubmitNewBank(kobolet)" #kobolet='ngForm' class="m-form m-form--label-align-left">
-                    <div class="modal-body">
-                      <div class="row m--align-left">
-                        <div class="form-group col-md-12">
-                          <label for="message-text" class="form-control-label">
-                          Bank Name:
-                          </label>
-                          <select class="form-control m-input m-input--pill" [(ngModel)]="selectedBank"
-                            #bankName="ngModel" name="bankName">
-                            <option [value]="selectedBank" selected>{{selectedBank}}
-                            </option>
-                            <option *ngFor="let bank of banksArray" [value]="bank.name">
-                              {{bank.name}}
-                            </option>
-                          </select>
-                          <span [hidden]="bankName.valid || bankName.pristine" class="m-form__help m--font-danger">
-                            Please select a bank name
-                          </span>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label for="recipient-name" class="form-control-label">
-                           Account Number:
-                          </label>
-                          <div class="m-input-icon m-input-icon--right">
-                            <input type="text" class="form-control m-input m-input--pill" [(ngModel)]="userBankAccountNumber" #accountNumber="ngModel"
-                              name="accountNumber" (input)='verifyAccountNumber(accountNumber.value)' required>
-                            <span class="m-input-icon__icon m-input-icon__icon--right">
-                              <span>
-                                <div class="m-loader m-loader--info" style="width: 30px; display: inline-block;" *ngIf="acctNumbSpinner"></div>
-                              </span>
-                            </span>
-                          </div>
-                          <span [hidden]="acctNumbVerified" class="m-form__help">
-                            Please enter your 10 digit account number. e.g. 1012345321
-                          </span>
-                          <span [hidden]="!acctNumbError" class="m-form__help m--font-danger">
-                            Invalid Account number
-                          </span>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label class="form-control-label">
-                            * Account Name:
-                          </label>
-                          <input type="text" [(ngModel)]="userBankAccountName" #accountName="ngModel" name="accountName" class="form-control m-input m-input--pill" required readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-md-6 m--align-right m--pull-right">
-                            <button type="submit" class="btn m-btn m-btn--outline-2x m-btn--air btn-info"
-                               [ngClass]="{
+  <div class="modal-header">
+    <h4 class="modal-title">Update Bank Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <form (ngSubmit)="onSubmitNewBank(kobolet)" #kobolet='ngForm' class="m-form m-form--label-align-left">
+          <div class="modal-body">
+            <div class="row m--align-left">
+              <div class="form-group col-md-12">
+                <label for="message-text" class="form-control-label">
+                  Bank Name:
+                </label>
+                <select class="form-control m-input m-input--pill" [(ngModel)]="selectedBank" #bankName="ngModel"
+                  name="bankName">
+                  <option [value]="selectedBank" selected>{{selectedBank}}
+                  </option>
+                  <option *ngFor="let bank of banksArray" [value]="bank.name">
+                    {{bank.name}}
+                  </option>
+                </select>
+                <span [hidden]="bankName.valid || bankName.pristine" class="m-form__help m--font-danger">
+                  Please select a bank name
+                </span>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="recipient-name" class="form-control-label">
+                  Account Number:
+                </label>
+                <div class="m-input-icon m-input-icon--right">
+                  <input type="text" class="form-control m-input m-input--pill" [(ngModel)]="userBankAccountNumber"
+                    #accountNumber="ngModel" name="accountNumber" (input)='verifyAccountNumber(accountNumber.value)'
+                    required>
+                  <span class="m-input-icon__icon m-input-icon__icon--right">
+                    <span>
+                      <div class="m-loader m-loader--info" style="width: 30px; display: inline-block;"
+                        *ngIf="acctNumbSpinner"></div>
+                    </span>
+                  </span>
+                </div>
+                <span [hidden]="acctNumbVerified" class="m-form__help">
+                  Please enter your 10 digit account number. e.g. 1012345321
+                </span>
+                <span [hidden]="!acctNumbError" class="m-form__help m--font-danger">
+                  Invalid Account number
+                </span>
+              </div>
+              <div class="form-group col-md-12">
+                <label class="form-control-label">
+                  * Account Name:
+                </label>
+                <input type="text" [(ngModel)]="userBankAccountName" #accountName="ngModel" name="accountName"
+                  class="form-control m-input m-input--pill" required readonly>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="col-md-6 m--align-right m--pull-right">
+              <button type="submit" class="btn m-btn m-btn--outline-2x m-btn--air btn-info" [ngClass]="{
                                 'm-loader': validateButtonSpinner,
                                 'm-loader--light': validateButtonSpinner,
                                 'm-loader--right': validateButtonSpinner
-                              }" [disabled]="!kobolet.form.valid || validateButtonSpinner">
-                                Submit
-                            </button>
-                        </div>
-
-                    </div>
-                  </form>
+                              }" [disabled]="!kobolet.form.valid || validateButtonSpinner" style="width: 100%;">
+                Submit
+              </button>
             </div>
+
           </div>
+        </form>
+      </div>
     </div>
+  </div>
 </ng-template>
 <!-- End new user detail modal-->
