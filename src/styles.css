@@ -20,3 +20,16 @@ th {
   width: 50%;
   /* text-align: center */
 }
+
+.mdl-button--raised.mdl-button--colored {
+  background: #65D4FF;
+  color: #fff;
+}
+
+.mdl-button--primary.mdl-button--primary {
+  color: #3f72b5;
+}
+
+.firebaseui-idp-password {
+  background-color: #65D4FF !important;
+}

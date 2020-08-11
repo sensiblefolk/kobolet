@@ -8,6 +8,8 @@ import { LayoutModule } from '../../../layouts/layout.module';
 import { UserProfileRoutingModule } from './user-profile.routing.module';
 import { FilestackModule } from '@filestack/angular';
 
+import { SharedModule } from '../../../../shared/shared.module';
+
 import { environment } from '../../../../../environments/environment';
 
 @NgModule({
@@ -16,6 +18,7 @@ import { environment } from '../../../../../environments/environment';
     FormsModule,
     LayoutModule,
     UserProfileRoutingModule,
+    SharedModule,
     FilestackModule.forRoot({ apikey: environment.fileStackApi }),
   ],
   declarations: [UserProfileComponent, ProfileComponent, NewUserComponent],

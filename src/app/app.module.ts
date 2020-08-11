@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ServiceWorkerModule } from '@angular/service-worker';
+// import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -31,8 +31,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
     },
   ],
-  tosUrl: '<your-tos-link>',
-  privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
+  tosUrl: 'https://kobolet.com/pages/termsconditions.html',
+  privacyPolicyUrl: 'https://kobolet.com/pages/privacypolicy.html',
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
 };
 
@@ -52,9 +52,9 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     LayoutModule,
     MatSnackBarModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-    }),
+    // ServiceWorkerModule.register('ngsw-worker.js', {
+    //   enabled: environment.production,
+    // }),
     AppRoutingModule,
     ThemeRoutingModule,
     AuthModule,
