@@ -9,6 +9,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { NgForm } from '@angular/forms';
 import { BankDetailsComponent } from '../../../../../shared/bank-details/bank-details.component';
+import { country } from '../../../../../utility/country';
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +27,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   userState: string;
   userCity: string;
   userCurrency: string;
+  countryLocation: Array<any> = country;
   userCountry: string;
   userPostCode: number;
   bankBvn: number;
@@ -47,6 +49,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   disableToggle = false;
   onSubmitClick = false;
   options: object;
+  minCountryAccountNumberDigit = 10;
+  countryCode: any;
 
   xrateObservable: Subscription;
   userObservable: Subscription;
@@ -136,8 +140,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.userPhotoUrl = this.authService.currentUserPhoto;
         this.userEmail = authData.authState.email;
         this.userName = authData.authState.displayName;
+        this.userBankDetail = data?.bank ?? null;
         this.loading = true;
-        this.userCurrency = 'NGN';
+        this.userCurrency = data?.currency || 'NGN';
       }
     });
   }
@@ -146,6 +151,34 @@ export class ProfileComponent implements OnInit, OnDestroy {
   onBankUpdated(event: boolean): void {
     if (event) {
       this.bankComponent.closeModal();
+    }
+  }
+
+  getCountryCode(query: string): void {
+    const locationCode = this.countryLocation.find(
+      (data) => data.name === query
+    );
+    this.countryCode = locationCode.dial_code;
+  }
+
+  getCurrency(location: string): void {
+    switch (location) {
+      case 'Nigeria':
+        this.userCurrency = 'NGN';
+        this.minCountryAccountNumberDigit = 10;
+        break;
+      case 'Kenya':
+        this.userCurrency = 'KES';
+        this.minCountryAccountNumberDigit = 11;
+        break;
+      case 'Ghana':
+        this.userCurrency = 'GHS';
+        this.minCountryAccountNumberDigit = 12;
+        break;
+      default:
+        this.userCurrency = 'USD';
+        this.minCountryAccountNumberDigit = 6;
+      // console.log('Country not supported');
     }
   }
 
