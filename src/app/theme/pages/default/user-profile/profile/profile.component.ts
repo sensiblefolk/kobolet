@@ -128,7 +128,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.userCity = data?.city || '';
         this.userPostCode = data?.postal || '';
         this.userCountry = data?.country || '';
-        this.userBankDetail = data?.bank ?? null;
+        this.userBankDetail = data?.bhank ?? null;
         this.userCurrency = data?.currency || '';
         this.bankBvn = data?.bank?.bvn || '';
         this.verified = data?.kyc?.verified;
