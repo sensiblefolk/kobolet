@@ -192,7 +192,7 @@ export class BankDetailsComponent implements OnInit {
         bankCode: bankDetail.code,
       },
       currency: this.currency,
-      country: this.country,
+      country: this.country || 'Nigeria',
       name: userName,
     };
 

@@ -266,6 +266,13 @@
                     <div class="col-md-8">
                       <input class="form-control m-input" type="text" [(ngModel)]="userCountry" #country="ngModel"
                         name="country" [disabled]="disableToggle">
+                      <select [(ngModel)]="userCountry" name="country" #country="ngModel" class="form-control m-input"
+                        (click)="getCountryCode(userCountry)" (click)="getCurrency(userCountry)">
+
+                        <option *ngFor="let location of countryLocation" [value]="location.name">
+                          {{location.name}}
+                        </option>
+                      </select>
                       <span class="form-control-feedback m--font-warning" [hidden]="country.valid || country.pristine">
                         Country is required
                       </span>
@@ -418,7 +425,7 @@
                     </div>
                   </div>
                   <ng-template #noBank>
-                    <div class="col-md-12" style="padding: 1rem;">
+                    <div class="col-md-12" style="padding: 2rem;">
                       <p style="padding-bottom: 1rem;">You have not added any bank account</p>
                       <app-bank-details [currency]="userCurrency" [country]="userCountry" [name]="userName"
                         (bankStatus)="onBankUpdated($event)"></app-bank-details>

@@ -75,6 +75,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
   minCountryAccountNumberDigit = 10;
   isMatchError = false;
   options: object;
+  uid: string;
 
   @ViewChild('content') private content: ElementRef;
   constructor(
@@ -87,6 +88,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    this.uid = this.authService.currentUserId || localStorage.getItem('ff');
     this.getCountryDetails();
     this.authService.setTitle('New User Validation');
   }
@@ -357,7 +359,7 @@ export class NewUserComponent implements OnInit, AfterViewInit {
       termsCond: data.accept,
     };
     //  console.log(query)
-    this.userDoc = this.afs.doc(`/users/${this.authService.currentUserId}`);
+    this.userDoc = this.afs.doc(`/users/${this.uid}`);
     this.userDoc
       .update(query)
       .then((success) => {
