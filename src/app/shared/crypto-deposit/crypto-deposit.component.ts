@@ -145,7 +145,7 @@ export class CryptoDepositComponent implements OnInit, OnDestroy {
   }
 
   // Trigger call base API for new crypto transaction
-  callCryptoApi(cryptoType: string, amount: any): void {
+  callCryptoApi(cryptoType: string, amount: number): void {
     this.validateButtonSpinner.emit(true);
     let completed = false;
     const userDetails = this.userDetails;
@@ -157,8 +157,14 @@ export class CryptoDepositComponent implements OnInit, OnDestroy {
       type: cryptoType,
     };
     // this.modalOpen(this.cryptoModal);
-    if (this.expiryDate && this.expiryDate >= Date.now()) {
+    const previousApiAmount = parseInt(this.coinbaseApiObject?.amountInUsd, 10);
+    if (
+      this.expiryDate &&
+      this.expiryDate >= Date.now() &&
+      previousApiAmount === amount
+    ) {
       this.modalOpen();
+      this.coinbaseApiObject.duration = this.duration;
       return;
     } else {
       this.apiSubScriptionObservable = this.apiService
@@ -179,6 +185,7 @@ export class CryptoDepositComponent implements OnInit, OnDestroy {
               image_url: qrCodeUrl,
               transaction_code: data.code,
               amount: data.pricing[cryptoType].amount + this.extraCryptoAmount,
+              amountInUsd: data.pricing.local.amount,
               hosted_url: data.hosted_url,
               created_at: paymentCreated,
               expires_at: paymentExpired,
