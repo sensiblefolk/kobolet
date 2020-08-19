@@ -1,6 +1,7 @@
 const admin = require("firebase-admin");
 const utilityFunction = require('../../../../utility/functions');
 const CoinbaseHMACValidator = require('../../../../utility/coinbaseHMACValidator');
+const moment = require('moment');
 
 const db = admin.firestore();
 

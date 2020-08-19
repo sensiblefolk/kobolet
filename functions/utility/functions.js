@@ -127,9 +127,9 @@ module.exports = {
         });
     },
 
-    async userCountUpdate(amount, id) {
+    userCountUpdate(amount, id) {
       const countRef = db.doc(`count/${id}`);
-      await countRef.get().then(countData => {
+      countRef.get().then(countData => {
         countValue = countData.data();
         if (countValue) {
           const newAmount = countValue.amount + amount;
@@ -145,7 +145,7 @@ module.exports = {
             amount: newAmount
           });
         }
-      })
+      }).catch(err => console.error('failed updating number of user loan', JSON.stringify(err)))
     },
 
     // send new mail on new deposit
@@ -223,7 +223,7 @@ module.exports = {
         return await sgMail.send(msg);
     },
 
-    async sendNewLoanMail(snap) {
+    sendNewLoanMail(snap) {
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         let userName = re.test(snap.name) ? ' ' : snap.name.split(' ');
@@ -248,6 +248,6 @@ module.exports = {
                 }
             };
 
-         return await sgMail.send(msg);
+         sgMail.send(msg).then(() => console.log('new loan message sent successfully')).catch(err => console.error('failed sending new loan message', err))
     }
 }

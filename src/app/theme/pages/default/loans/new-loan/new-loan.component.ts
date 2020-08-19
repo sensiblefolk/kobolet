@@ -14,7 +14,6 @@ import {
 import { AuthService } from '../../../../../_services/auth.service';
 import { ApiService } from '../../../../../_services/api.service';
 import { Subject, Subscription } from 'rxjs';
-import * as moment from 'moment';
 
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
