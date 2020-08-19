@@ -14,15 +14,18 @@ const onFiatTransactionUpdate = functions.firestore
     const userId = snapContext.userId;
 
     if (snapContext.type == 'fiat') {
-      const response = snapValue.response.tx;
-      /* beging send email query */
-      const query = {
-        name: response.customer.fullName,
-        email: response.customer.email,
-        currency: response.currency,
-        amount: response.charged_amount,
-      };
-      return utilityFunction.sendFiatLoanDepositMail(query);
+      const userRef = db.doc(`users/${userId}`)
+      userRef.get().then(user => {
+        const userData = user.data();
+        /* beging send email query */
+        const query = {
+          name: userData.name,
+          email: userData.email,
+          currency: snapValue.currency,
+          amount: snapValue.amount,
+        };
+        return utilityFunction.sendFiatLoanDepositMail(query);
+      })
       /* End send email query */
     } else if (snapContext.type == ('bitcoin' || 'ethereum')) {}
   });

@@ -62,7 +62,8 @@ export class AuthService {
 
   // Returns current user UID
   get currentUserId(): string {
-    return this.authenticated ? this.authState.uid : '';
+    const uid = this.authState.uid || localStorage.getItem('ff');
+    return this.authenticated ? uid : '';
   }
 
   // Anonymous User

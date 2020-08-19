@@ -37,7 +37,6 @@ export class IndexComponent implements OnInit, AfterViewInit, OnDestroy {
   totalLoanBorrowed = 0;
   loading = true;
   transactionLength = 0;
-  uid: string = localStorage.getItem('ff');
   todayDate = moment().valueOf();
   walletCollection: Array<any> = [];
   rates: number;

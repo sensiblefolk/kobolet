@@ -7,6 +7,7 @@ const transferFund = require('../../flutterwave/transferFund');
 const {
   addNewLoan
 } = require('../../../../models/loans');
+const moment = require('moment');
 
 const db = admin.firestore();
 
@@ -55,7 +56,7 @@ const confirmPayment = (app) => {
         reference: result.data.id,
         type: 'deposit',
         crypto: true,
-        address: result.data.address[type],
+        // address: result.data.address[type],
         hashUrl: statusValue.transactionHash
       });
 
@@ -76,31 +77,33 @@ const confirmPayment = (app) => {
         bankCode: statusValue.bankCode,
         accountNumber: statusValue.accountNumber,
         refId
-      }).then(() => {
-        addNewLoan({
-          uid,
-          type,
-          refId: statusValue.ref,
-          duration: statusValue.duration,
-          cryptoAmount,
-          amount: statusValue.fiatAmount,
-          fiatInterestAmount: statusValue.fiatInterestAmount,
-          exchangeRate: statusValue.exchangeRate,
-          cryptoPrice: statusValue.cryptoPrice,
-          currency: statusValue.currency,
-          name: statusValue.name,
-          email: statusValue.email,
-          bankName: statusValue.bankName
-        }).then(() => {
+      }).then(async () => {
+        try {
+          const loanAdded = await addNewLoan({
+            uid,
+            type,
+            refId: statusValue.ref,
+            duration: statusValue.duration,
+            cryptoAmount,
+            amount: statusValue.fiatAmount,
+            fiatInterestAmount: statusValue.fiatInterestAmount,
+            exchangeRate: statusValue.exchangeRate,
+            cryptoPrice: statusValue.cryptoPrice,
+            currency: statusValue.currency,
+            name: statusValue.name,
+            email: statusValue.email,
+            bankName: statusValue.bankName
+          })
+          console.log('loan', loanAdded);
           return res.status(200).send({
             message: 'success'
           })
-        }).catch(err => {
-          console.error('failed adding loans', JSON.stringify(err));
+        } catch (error) {
+          console.error('failed adding loans', JSON.stringify(error));
           return res.status(500).send({
             message: 'failed'
           })
-        })
+        }
       }).catch(err => {
         console.error('failed transferring funds', JSON.stringify(err));
         return res.status(500).send({

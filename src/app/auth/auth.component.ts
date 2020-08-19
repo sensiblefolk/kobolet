@@ -31,9 +31,11 @@ export class AuthComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
     this.router.navigate([this.returnUrl]);
     Helpers.setLoading(false);
-    // this.afAuth.authState.subscribe((d) => {
-    //   console.log('authlog', d);
-    // });
+    this.afAuth.authState.subscribe((d) => {
+      if (d?.uid) {
+        localStorage.setItem('ff', d.uid);
+      }
+    });
     this.authService.setTitle('Login');
   }
 
@@ -51,7 +53,6 @@ export class AuthComponent implements OnInit {
     localStorage.setItem('ff', user.uid);
     const meta: any = user.metadata;
     const createDate = meta.a;
-    const lastSignedIn = meta.b;
     if (createDate >= this.today) {
       this.router.navigate(['/loans/new']);
     } else {
